@@ -3,14 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!--****테이블 CSS  -->
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!--****테이블 CSS  -->
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>미등록 펀드 내역</title>
+<title>미등록 경매내역</title>
 </head>
 <body>
 
@@ -20,106 +14,78 @@
  	<!-- 관리자 사이드 바 -->
 	<%@ include file="../HostSideBar.jsp" %>
  	
+ 	<section id="main-content">
+          <section class="wrapper">
+          	<h3><i class="fa fa-angle-right"></i> [미등록 경매내역]</h3>
+				<div class="row">
+					<!-- 경매 진행내역 시작 -->
+	                  <div class="col-md-12 mt">
+	                  	<div class="content-panel">
+	                          <table class="table table-hover">
+	                  	  	  <h4><i class="fa fa-angle-right"></i> 미등록 경매내역 (3건)</h4>
+	                  	  	  <hr>
+	                              <thead>
+	                              <tr>
+	                                  <th style="width:5%">번호</th>
+	                                  <th style="width:15%">상품 이미지</th>
+	                                  <th style="width:30%">경매 제목</th>
+	                                  <th style="width:10%">경매 파트너</th>
+	                                  <th style="width:10%">작성일</th>
+	                                  <th style="width:5%">조회 수</th>
+	                              </tr>
+	                              </thead>
+	                              <tbody>
+	                              <tr>
+	                                  <td>1</td>
+	                                  <td><img src="${hostImage}/watermelon.jpg" width="100px"></td>
+	                                  <td>미등록 경매 1</td>
+	                                  <td>문재인</td>
+	                                  <td>2018-07-22</td>
+	                                  <td>1</td>
+	                              </tr>
+	                              <tr>
+	                                  <td>2</td>
+	                                  <td><img src="${hostImage}/watermelon.jpg" width="100px"></td>
+	                                  <td>미등록 경매 2</td>
+	                                  <td>안철수</td>
+	                                  <td>2018-07-22</td>
+	                                  <td>2</td>
+	                              </tr>
+	                              <tr>
+	                                  <td>3</td>
+	                                  <td><img src="${hostImage}/watermelon.jpg" width="100px"></td>
+	                                  <td>미등록 경매 3</td>
+	                                  <td>홍준표</td>
+	                                  <td>2018-07-22</td>
+	                                  <td>3</td>
+	                              </tr>
+	                              </tbody>
+	                          </table>
+	                  	  </div> <!--/content-panel -->
+	                  </div><!-- /col-md-12 -->
+	                  <!-- 미등록 경매내역 끝 -->
+				</div><!-- row -->
+				
+				<div class="clearfix"></div>
+				<ul class="pagination pull-right">
+				  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+				  <li class="active"><a href="#">1</a></li>
+				  <li><a href="#">2</a></li>
+				  <li><a href="#">3</a></li>
+				  <li><a href="#">4</a></li>
+				  <li><a href="#">5</a></li>
+				  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+				</ul>
+	</section>
+	</section>
  	
-<!------ Include the above in your HEAD tag ---------->
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Total</th>
-                        <th> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col-sm-8 col-md-6">
-                        <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#">Product name</a></h4>
-                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
-                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
-                            </div>
-                        </div></td>
-                        <td class="col-sm-1 col-md-1" style="text-align: center">
-                        <input type="email" class="form-control" id="exampleInputEmail1" value="3">
-                        </td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
-                        <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button></td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-6">
-                        <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#">Product name</a></h4>
-                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
-                                <span>Status: </span><span class="text-warning"><strong>Leaves warehouse in 2 - 3 weeks</strong></span>
-                            </div>
-                        </div></td>
-                        <td class="col-md-1" style="text-align: center">
-                        <input type="email" class="form-control" id="exampleInputEmail1" value="2">
-                        </td>
-                        <td class="col-md-1 text-center"><strong>$4.99</strong></td>
-                        <td class="col-md-1 text-center"><strong>$9.98</strong></td>
-                        <td class="col-md-1">
-                        <button type="button" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h5>Subtotal</h5></td>
-                        <td class="text-right"><h5><strong>$24.59</strong></h5></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h5>Estimated shipping</h5></td>
-                        <td class="text-right"><h5><strong>$6.94</strong></h5></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h3>Total</h3></td>
-                        <td class="text-right"><h3><strong>$31.53</strong></h3></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                        </button></td>
-                        <td>
-                        <button type="button" class="btn btn-success">
-                            Checkout <span class="glyphicon glyphicon-play"></span>
-                        </button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+ 	<!-- 관리자 푸터 -->
+	<footer> <%@ include file="../HostFooter.jsp"%>
+	</footer>
+ 	
  	<!-- 푸터 -->
 	<footer>
-<%@include file="../Footer.jsp" %>
-</footer>
- 	
+		<%@ include file="../Footer.jsp" %>
+ 	</footer>
 </body>
 </html>

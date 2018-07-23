@@ -1,5 +1,6 @@
 package spring.mvc.farmfarm.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class FarmerServiceImpl implements FarmerService {
 	/**
 	 * 장렬
 	 */
-	// (농부에게)받은 쪽지함 보기
+	// (농부에게)보낸 쪽지함 보기 / 회원에게서 받은 쪽지함
 	@Override
 	public void LetterList(HttpServletRequest req, Model model) {
 		
@@ -120,7 +121,62 @@ public class FarmerServiceImpl implements FarmerService {
 
 	}
 
-
+	// 쪽지함 상세 페이지 확인 (농부/ 회원 공통)
+	@Override
+	public void LTContentsForm(HttpServletRequest req, Model model) {
+		int letternum = 0;
+		int pageNum = 0;
+		
+		letternum = Integer.parseInt(req.getParameter("letternum"));
+		pageNum = Integer.parseInt(req.getParameter("pageNum"));
+	
+		LettersDTO dto = dao.getArticle(letternum);
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("pageNum", pageNum);
+		
+	}
+	
+	// 작성 한 쪽지 처리
+	@Override
+	public void LTWritePro(HttpServletRequest req, Model model) {
+		// 화면으로부터 받아온 값을 처리
+		int letternum = 0;
+		letternum=Integer.parseInt(req.getParameter("letternum"));
+		LettersDTO dto = new LettersDTO();
+		
+		// 시퀀스 번호인 쪽지번호를 기준으로 화면에 전송
+		dto.setLetternum(letternum);
+		
+		//폼 전송 입력값 처리
+		dto.setLetterwritter(req.getParameter("letterwritter"));
+		dto.setLettersubject(req.getParameter("lettersubject"));
+		dto.setLettercontent(req.getParameter("lettercontent"));
+		dto.setLetterreg_date(new Timestamp(System.currentTimeMillis()));
+		
+		int insertCnt=dao.insertLetter(dto);
+		
+		//완료된 세션 처리 컨트롤러로 전송
+		req.setAttribute("insertCnt", insertCnt);
+	}
+	
+/*	// 쪽지 선택 삭제
+	@Override
+	public void LTDeletePro(HttpServletRequest req, Model model) {
+		int deleteCnt = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String[] RowCheck = req.getParameterValues("RowCheck");
+		for(String no : RowCheck) {
+			System.out.println("no:" + no);
+		}
+		System.out.println("삭제쪽지");
+		map.put("RowCheck", RowCheck);
+		
+		deleteCnt = dao.LTdelete(map);
+		
+		req.setAttribute("deleteCnt", deleteCnt);
+	}*/
 	
 	
 	
@@ -132,6 +188,13 @@ public class FarmerServiceImpl implements FarmerService {
 	public void Auction_ApplyPro(HttpServletRequest req, Model model) {
 			
 	}
+
+
+
+
+
+
+
 	
 
 	

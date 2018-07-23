@@ -2,7 +2,6 @@ package spring.mvc.farmfarm.persistence;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +34,33 @@ public class FarmDAOImpl implements FarmDAO{
 		dtos = dao.getArticleList(map);
 		return dtos;
 	}
+
+
+	//쪽지 상세페이지 보기
+	@Override
+	public LettersDTO getArticle(int letternum) {
+		FarmDAO dao = SqlSession.getMapper(FarmDAO.class);
+		LettersDTO dto = new LettersDTO();
+		dto = dao.getArticle(letternum);
+		return dto;
+	}
+
+	//쪽지 전송 처리
+	@Override
+	public int insertLetter(LettersDTO dto) {
+		FarmDAO dao = SqlSession.getMapper(FarmDAO.class);
+		int insertCnt=0;
+		insertCnt=dao.insertLetter(dto);
+		return insertCnt;
+	}
+
+/*	//쪽지 삭제 처리
+	@Override
+	public int LTdelete(Map<String, Object> map) {
+		int deleteCnt=0;
+		FarmDAO dao = SqlSession.getMapper(FarmDAO.class);
+		deleteCnt = dao.LTdelete(map);
+		return deleteCnt;
+	}*/
 
 }

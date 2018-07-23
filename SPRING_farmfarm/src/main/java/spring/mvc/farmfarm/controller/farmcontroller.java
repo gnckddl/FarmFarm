@@ -215,7 +215,13 @@ public class farmcontroller {
 		
 		return	"guest/WeekFarmApply";
 	}
-	
+ //도움말
+   @RequestMapping("Help")
+   public String Help(HttpServletRequest req, Model model) {
+   System.out.println("Help");
+   
+   return   "guest/Help";
+   }
 	
 	/////////////////////////////일반회원 메뉴
 	//정보수정페이지

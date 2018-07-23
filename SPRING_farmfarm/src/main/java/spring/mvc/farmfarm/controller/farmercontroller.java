@@ -30,7 +30,7 @@ public class farmercontroller {
 	@RequestMapping("LTContentsForm")
 	public String LTContentsForm(HttpServletRequest req, Model model) {
 		System.out.println("LTContentsForm");
-		
+		farm_service.LTContentsForm(req, model);
 		return "farm/LTContentsForm";
 	}
 	
@@ -39,17 +39,34 @@ public class farmercontroller {
 	public String LTWriteForm(HttpServletRequest req, Model model) {
 		System.out.println("LTWriteForm");
 		
+		int letternum=0;
+		
+		if(req.getParameter("letternum")!=null) {
+			letternum = Integer.parseInt(req.getParameter("letternum"));
+			
+		}
+		req.setAttribute("letternum", letternum);
+
 		return "farm/LTWriteForm";
 	}
 	
-	// 쪽지 삭제
+	// 작성한 쪽지 처리
+	@RequestMapping("LTWritePro")
+	public String LTWritePro(HttpServletRequest req, Model model) {
+		System.out.println("LTWritePro");
+		
+		farm_service.LTWritePro(req, model);
+		return "farm/LTWritePro";
+	}
+	
+/*	// 쪽지 삭제
 	@RequestMapping("LTDeletePro")
 	public String LTDeletePro(HttpServletRequest req, Model model) {
 		System.out.println("LTDeletePro");
 		
-		//서비스와 데이터베이스 연동 작업 필요
+		farm_service.LTDeletePro(req, model);
 		return "farm/LTDeletePro";
-	}
+	}*/
 	
 	
 	

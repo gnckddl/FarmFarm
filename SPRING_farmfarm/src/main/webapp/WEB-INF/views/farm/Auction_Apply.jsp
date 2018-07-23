@@ -17,8 +17,14 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+<script src="http://momentjs.com/downloads/moment-timezone-with-data.js"></script>
+
   <div class="row">
-    <div class="col-md-4 col-md-offset-4" style="margin-bottom:170px; margin-top:150px;">
+    <div class="col-md-5 col-md-offset-4" style="margin-bottom:170px; margin-top:150px;">
       <form class="form-horizontal" role="form">
         <fieldset>
 
@@ -27,9 +33,9 @@
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">상품 번호</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="1" class="form-control">
+            <label class="col-sm-2 control-label" for="textinput">상품 이미지</label>
+            <div class="col-sm-6">
+              <input type="file" name="stock_img" class="form-control">
             </div>
           </div>
 
@@ -37,7 +43,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">상품명</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="상품명" class="form-control">
+              <input type="text" placeholder="상품명" name="sInfo_name" class="form-control">
             </div>
           </div>
 
@@ -45,7 +51,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">상품 특징</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="상품특징" class="form-control">
+              <input type="text" placeholder="상품특징" name="sInfo_detail" class="form-control">
             </div>
           </div>
 
@@ -53,12 +59,12 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">무게</label>
             <div class="col-sm-4">
-              <input type="text" placeholder="무게" class="form-control">
+              <input type="text" placeholder="무게" name="sInfo_kg" class="form-control">
             </div>
 
             <label class="col-sm-2 control-label" for="textinput">수량</label>
             <div class="col-sm-4">
-              <input type="text" placeholder="개수" class="form-control">
+              <input type="text" placeholder="개수" name="sInfo_ea" class="form-control">
             </div>
           </div>
 
@@ -66,21 +72,46 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">상품 가격</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Country" class="form-control">
+              <input type="text" placeholder="Country" name="sInfo_price" class="form-control">
             </div>
           </div>
           
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">등록일</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Country" class="form-control">
+              <input type="text" placeholder="Country" name="sInfo_regDate" class="form-control">
             </div>
           </div>
-          
+
+<div class="container">
+	<div class="row" >
+        <form class="form-horizontal col-sm-7 col-sm-offset-2" action="" method="post">
+            <div class="form-group registration-date">
+                <label class="control-label col-sm-1" for="registration-date">기간 마감</label>
+            	<div class="input-group registration-date-time col-sm-4">
+            		<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+            		<input class="form-control" name="registration_date" id="registration-date" type="date">
+            		<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+            		<input class="form-control" name="registration_time" id="registration-time" type="time">
+            	</div>
+            </div>
+        </form>
+	</div>
+</div>
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">상품 종류</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Country" class="form-control">
+            <div class="col-sm-3">
+              <!-- <input type="text" placeholder="Country" name="sInfo_kind" class="form-control"> -->
+              <select name="sInfo_kind" class="form-control">
+              	<option value="">이벤트</option>
+              	<option value="">농산</option>
+              	<option value="">축산</option>
+              	<option value="">수산</option>
+              	<option value="">건강·유기농</option>
+              	<option value="">주류</option>
+              	<option value="">기타</option>
+              </select>
             </div>
           </div>
 

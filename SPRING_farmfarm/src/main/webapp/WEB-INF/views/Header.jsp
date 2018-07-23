@@ -71,7 +71,7 @@
                    <li><a href="IOT">IOT</a></li>
                  </ul> -->
                  	<li><a href="Notice">공지사항</a></li>
-                   <li><a href="https://farmingfund.co.kr/page/2">도움말</a></li>
+                   <li><a href="Help">도움말</a></li>
                    
             </ul>
             <form class="navbar-form navbar-left" action="">

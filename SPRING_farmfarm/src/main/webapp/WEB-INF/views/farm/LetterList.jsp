@@ -2,9 +2,62 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<!-- 페이지 내 자체 CSS -->
+<style type="text/css">
+@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+	P { 
+		font-family: 'Nanum Pen Script', cursive; 
+		}
+/* 구글 웹 폰트를 페이지 내부에서 사용하겠다고 선언 */
+#insert{
+width: 140px;
+}
+#delete{
+margin-right: 20px;margin-left: 30px;
+width: 140px;
+}
+.btn-login {
+background-color: #59B2E0;
+outline: none;
+color: #fff;
+font-size: 14px;
+height: auto;
+font-weight: normal;
+padding: 14px 0;
+text-transform: uppercase;
+border-color: #59B2E6;
+	}
+	
+.btn-login:hover,
+.btn-login:focus {
+color: #fff;
+background-color: #1CA347;
+border-color: #1CA347;
+}
+
+#reset{
+width: 102px;
+height: 31px;
+padding-bottom: 5px;
+padding-top: 5px;
+}
+
+#button{
+width: 102px;
+height: 31px;
+padding-top: 5px;
+padding-bottom: 5px;
+}
+
+
+</style>
+<!-- 페이지 내 자체 CSS END-->
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -33,31 +86,15 @@
 
 //﻿2. 체크박스 선택된 것 삭제 처리 (N개) 
    function fn_userDel(){
-
-  var userid = "";
-  var memberChk = document.getElementsByName("RowCheck");
-  var chked = false;
-  var indexid = false;
-  for(i=0; i < memberChk.length; i++){
-   if(memberChk[i].checked){
-    if(indexid){
-      userid = userid + '-';
-    }
-    userid = userid + memberChk[i].value;
-    indexid = true;
-   }
-  }
-  if(!indexid){
-   alert("삭제할 사용자를 체크해 주세요");
-   return;
-  }
-  document.userForm.delUserid.value = userid;       // 체크된 사용자 아이디를 '-'로 묶은 userid 를  document.userForm.delUserid 의 value로 저장 
+	var chkFirList = document.getElementByName("RowCheck");
+	var arrFir = new Array();
+	var cnt = 0;
+	for(var idx=chkFirList.length - 1; 0 <= idx; idx--){
+		if(chkFirList[idx].checked){
+			arrF
+		}
+	}
   
-  var agree=confirm("삭제 하시겠습니까?");
-     if (agree){
-   document.userForm.execute.value = "userDel";
-     document.userForm.submit();
-     } 
   } 
 </script>﻿
 <body>
@@ -73,12 +110,13 @@
 <!-- 사이드 메뉴 끝 -->
 
 
-
+<br><br><br><br>
 <!-- 리스트 출력 시작 -->
 <div class="container">
     <table class="table table-board">
+    	<h1><p>&nbsp;&nbsp;농부님께 보낸 쪽지</p></h1>
 	    <tr align="center">
-			<td style="width:7%;"><b>전체선택</b>	<input type="checkbox" name="RowCheck" id="allcheck" onclick="allcheck(this)" value="${dto.letternum}"></td>
+			<td style="width:7%;"><input type="checkbox" name="RowCheck" id="allcheck" onclick="allcheck(this)" value="${dto.letternum}"></td>
 			<td style="width:10%;"><b>번호</b></td>
 			<td style="width:15%;"><b>제목</b></td>
 			<td style="width:15%;"><b>작성자</b></td>
@@ -157,9 +195,21 @@
     
     
     <div class="huge-top">
-        <button class="btn btn-normal pull-right" id="insert" onclick="window.open('LTWriteForm', 'write','top=100px, left=100px, height=500px, width=500px')">쪽지보내기</button>
+    <div style="margin-left:800px; margin-bottom: 10px;">
+    <tr>
+    	<td>
+        <button class="form-control btn btn-login" id="insert" onclick="window.open('LTWriteForm', 'write','top=100px, left=100px, height=500px, width=500px')">쪽지보내기</button>
+        </td>
+        <td>
+        <button class="form-control btn btn-login" id="delete" onclick="javascript:fn_userDel();"style="margin-right: 20px">쪽지 삭제</button>
+        </td>
+        
+    </tr>    
     </div>
-    <button class="btn btn-normal pull-right" id="delete" onclick="wondow.location='LTDeletePro'"style="margin-right: 20px">쪽지 삭제</button>
+    
+    
+    
+	</div>
 	</div>
 
 

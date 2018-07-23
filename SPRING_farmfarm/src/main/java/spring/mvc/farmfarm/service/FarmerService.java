@@ -11,14 +11,17 @@ public interface FarmerService {
 	/**
 	 * 장렬 
 	 */
-	// 받은 쪽지함
+	// 회원 보낸 쪽지함 / 농부 받은 쪽지함
 	public void LetterList(HttpServletRequest req, Model model);
-
 	
+	// 쪽지함 상세 보기
+	public void LTContentsForm(HttpServletRequest req, Model model);
 	
+	// 작성한 쪽지 전송처리
+	public void LTWritePro(HttpServletRequest req, Model model);
 	
-	
-	
+/*	// 쪽지 삭제 처리
+	public void LTDeletePro(HttpServletRequest req, Model model);*/
 	
 	/**
 	 * 민웅

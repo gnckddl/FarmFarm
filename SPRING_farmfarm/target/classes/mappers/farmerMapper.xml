@@ -12,10 +12,27 @@
 	<!-- 2.쪽지 리스트 확인 -->
 	<select id="getArticleList" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.LettersDTO">
 		<![CDATA[ 
-		SELECT * FROM(SELECT letternum, lettersubject, lettercontent, letterwritter, letterref, 
-					  letterref_step, letterref_level, letterreg_date, rownum rNum  
-		         FROM(SELECT * FROM tbl_Letters order by letterref desc, letterref_step ASC)
+		SELECT * FROM(SELECT letternum, lettersubject, lettercontent, letterwritter, letterreg_date, rownum rNum  
+		         FROM(SELECT * FROM tbl_Letters order by letternum desc)
 	 	        )WHERE rNum >= #{start} AND rNum <= #{end}
 		  ]]>
 	</select>
+	
+	<!-- 3.회원 받은 쪽지함 확인/ 농부가 보낸 쪽지함 -->
+	<select id="getArticle" resultType="spring.mvc.farmfarm.dto.LettersDTO">
+		SELECT * FROM tbl_Letters where letternum=#{letternum}
+	</select>
+	
+	
+	<!-- 4.전송한 쪽지 처리 -->
+	<insert id="insertLetter" parameterType="spring.mvc.farmfarm.dto.LettersDTO">
+		INSERT INTO tbl_Letters(letternum, lettersubject, lettercontent, letterwritter, letterreg_date)
+		VALUES(tbl_Letters_seq.NEXTVAL, #{lettersubject}, #{lettercontent, jdbcType=VARCHAR}, #{letterwritter}, #{letterreg_date})
+	</insert>
+	
+	
+	<!-- 5.쪽지 삭제 처리 -->
+	<delete id="LTdelete" parameterType="int">
+		DELETE FROM tbl_Letters WHERE letternum=#{letternum}
+	</delete>
 </mapper>
