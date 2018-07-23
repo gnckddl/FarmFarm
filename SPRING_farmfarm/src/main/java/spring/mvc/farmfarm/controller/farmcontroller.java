@@ -276,6 +276,7 @@ public class farmcontroller {
 		
 		mem_service.guestAdvList(req, model);
 		return	"guest/guestDonateList";
+		
 	}
 	
 }

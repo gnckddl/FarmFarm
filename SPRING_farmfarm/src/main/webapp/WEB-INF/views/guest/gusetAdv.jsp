@@ -30,7 +30,8 @@
 
 
 			<div class="col-md-12">
-				<h1 align="center">회원 점수</h1>
+				<h2 align="center">회원 점수 : ${sumPoint}</h2>
+				<br><br>
 				<div class="table-responsive">
 					<table id="mytable" class="table table-bordred table-striped">
 						<thead>
@@ -63,19 +64,32 @@
 						</tbody>
 
 					</table>
-
-					<div class="clearfix"></div>
-					<ul class="pagination pull-right">
-						<li class="disabled"><a href="#"><span
-								class="glyphicon 	glyphicon-chevron-left"></span></a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span></a></li>
-					</ul>
+					
+					
+					<!-- 페이지 컨트롤 -->
+					<c:if test="${cnt>0 }">
+						<div class="clearfix"></div>
+						<ul class="pagination pull-right">
+						<c:if test="${startPage > pageBlock}">
+							<li class="disabled"><a href="gusetAdv?${startPage - pageBlock}">
+							<span class="glyphicon 	glyphicon-chevron-left"></span></a></li>
+						</c:if>
+									
+							<c:forEach var ="i" begin="${startPage}" end="${endPage}">
+								<c:if test="${i == currentPage}">
+									<li class="active"><a href="#">${i }</a></li>
+								</c:if>
+								
+								<c:if test="${i != currentPage}">
+									<li><a href="gusetAdv?pageNum=${i}">${i}</a></li>
+								</c:if>
+							</c:forEach>
+							<c:if test="${pageCount > endPage}">
+							<li><a href="guestAdv?pageNum=${startPage + pageBlock}"><span
+									class="glyphicon glyphicon-chevron-right"></span></a></li>
+							</c:if>
+						</ul>
+					</c:if>
 
 				</div>
 

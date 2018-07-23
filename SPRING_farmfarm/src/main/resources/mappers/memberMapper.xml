@@ -29,13 +29,13 @@
 		update tbl_member set mem_pwd=#{mem_pwd}, mem_hp=#{mem_hp}, mem_email=#{mem_email}, mem_address=#{mem_address} where mem_id=#{mem_id}
 	</update>
 
-	<select id="getDonateCnt" resultType="int">
+	<select id="getAdvCnt" resultType="int">
 		select count(*) from tbl_advantage where mem_id=#{strId}
 	</select>
 		
-	<select id="getAdv" resultType="spring.mvc.farmfarm.dto.AdvantageDTO">
+	<select id="getAdv" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.AdvantageDTO">
 		<![CDATA[ 
-			select adv_key,mem_id,adv_reason,adv_point,to_char(adv_regDate, 'yyyy-mm-dd hh24:mi:ss') adv_regDate,rownum rNum from (select * from tbl_advantage order by adv_regDate desc) where mem_id=#{strId} and rNum >= #{start} AND rNum <= #{end}
+			select *from (select adv_key,mem_id,adv_reason,adv_point,adv_sumPoint,to_char(adv_regDate, 'yyyy-mm-dd hh24:mi:ss') adv_regDate,rownum rNum from (select * from tbl_advantage order by adv_regDate desc) where mem_id=#{strId}) where rNum >= #{start} AND rNum <=#{end}			
 		]]>
 	</select>
 </mapper>

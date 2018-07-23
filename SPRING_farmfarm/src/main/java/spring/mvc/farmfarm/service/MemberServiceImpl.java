@@ -79,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
 		insertCnt=dao.insertMember(dto);
 		System.out.println("insertCnt:"+insertCnt);
 		//6 전달
-		req.setAttribute("insertCnt", insertCnt);
+		model.addAttribute("insertCnt", insertCnt);
 		System.out.println("service");
 		
 	}
@@ -170,6 +170,8 @@ public class MemberServiceImpl implements MemberService {
 		int startPage = 0;		//시작 페이지
 		int endPage = 0;		//마지막 페이지
 		
+		int sumPoint=0;			//총 점수
+		
 		cnt = dao.getAdvCnt(mem_id);
 		System.out.println("cnt:"+cnt);// 먼저 테이블에 30건을 insert 할것
 		
@@ -210,7 +212,10 @@ public class MemberServiceImpl implements MemberService {
 			map.put("end", end);
 			map.put("strId", mem_id);
 			ArrayList<AdvantageDTO> dtos = dao.getAdv(map);
-			req.setAttribute("dtos",dtos);//큰바구니 : 게시글 목록 넘김
+			model.addAttribute("dtos",dtos);//큰바구니 : 게시글 목록 넘김
+			
+			sumPoint=dtos.get(0).getAdv_sumPoint();
+			model.addAttribute("sumPoint",sumPoint);
 		}
 		
 		//1 = (1 / 3) * 3 + 1
