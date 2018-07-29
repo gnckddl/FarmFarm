@@ -1,28 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	pageEncoding="UTF-8"%>
+<%@ include file="../setting.jsp"%>
+
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="resources/css/bootstrap.css">
-<title>Insert title here</title>
-</head>
+<!-- 부트스트랩 js -->
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
 <body>
-<!-- 헤더시작 -->
-	<%@include file="../Header.jsp" %>
-<!-- 헤더끝 --> 
- 	<img src="resources/images/DonateRanking.png">
- 
- 
-   <!-- 4.푸터 -->
-    <footer >
-	<%@include file="../Footer.jsp" %>
-    </footer>
-   <!--푸터 끝  --> 
-    
-    <!--스크립트 공통부분  -->
-   <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-   <script src="resources/js/bootstrap.js"></script>
+	<header>
+		<%@include file="../Header.jsp"%>
+	</header>
+	<div style="float: left;">
+		<%@include file="../MemberSideBar.jsp"%>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+
+
+			<div class="col-md-12">
+				<h1 align="center">기부 랭킹</h1>
+				<br><br>
+				<div class="table-responsive">
+					<table id="mytable" class="table table-bordred table-striped">
+						<thead>
+							<tr>
+								<td align="center"><b>순위</b></td>
+								<td align="center"><b>기부자 아이디</b></td>
+								<td align="center"><b>이름</b></td>
+								<td align="center"><b>기부 금액</b></td>
+								<td align="center"><b>기부 횟수</b></td>
+							</tr>
+						</thead>
+
+						<tbody>
+							<c:set var="i" value="1"/>
+							<c:forEach var="dto" items="${dtos}">
+								
+								<tr>
+									<td align="center">${i}</td>
+									<td align="center">${dto.farmer_id}</td>
+									<td align="center">${dto.stock_name}</td>
+									<td align="center">${dto.fund_price}</td>									
+									<td align="center">${dto.count} </td>
+								</tr>								
+								<c:set var="i" value="${i+1}"/>
+							</c:forEach>
+
+						</tbody>
+
+					</table>
+					
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<footer>
+		<%@include file="../Footer.jsp"%>
+	</footer>
 
 </body>
 </html>

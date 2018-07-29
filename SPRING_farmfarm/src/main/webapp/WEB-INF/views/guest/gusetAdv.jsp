@@ -54,7 +54,15 @@
 											test="${dto.adv_reason==3}">경매참여</c:if> <c:if
 											test="${dto.adv_reason==4}">경매취소</c:if> <c:if
 											test="${dto.adv_reason==5}">이벤트</c:if></td>
-									<td align="center">${dto.adv_point}</td>
+											
+									<td align="center">
+										<c:if test="${dto.adv_reason%2==0}">
+											-${dto.adv_point}
+										</c:if>
+										<c:if test="${dto.adv_reason%2==1}">
+											+${dto.adv_point}
+										</c:if>
+									</td>
 									<td align="center">${dto.adv_regDate}</td>
 								</tr>
 								<c:set var="total" value="">

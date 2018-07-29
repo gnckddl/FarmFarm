@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import spring.mvc.farmfarm.dto.AdvantageDTO;
 import spring.mvc.farmfarm.dto.MemDoDTO;
 import spring.mvc.farmfarm.dto.MemberDTO;
+import spring.mvc.farmfarm.dto.RankingDTO;
+import spring.mvc.farmfarm.dto.SearchingDTO;
 
 
 @Repository
@@ -85,5 +87,66 @@ public class MemberDAOImpl implements MemberDAO {
 		MemberDAO dao =ss.getMapper(MemberDAO.class);
 		dtos=dao.getAdv(map);
 		return dtos;
-	}	
+	}
+
+	@Override
+	public ArrayList<RankingDTO> getFundJoiner() {
+		ArrayList<RankingDTO> dtos=null;
+		MemberDAO dao =ss.getMapper(MemberDAO.class);
+		dtos=dao.getFundJoiner();
+		return dtos;
+	}
+
+	@Override
+	public ArrayList<RankingDTO> getFundRanking() {
+		ArrayList<RankingDTO> dtos=null;
+		MemberDAO dao =ss.getMapper(MemberDAO.class);
+		dtos=dao.getFundRanking();
+		return dtos;
+	}
+
+	@Override
+	public ArrayList<RankingDTO> getAucJoiner() {
+		ArrayList<RankingDTO> dtos=null;
+		MemberDAO dao =ss.getMapper(MemberDAO.class);
+		dtos=dao.getAucJoiner();
+		return dtos;
+	}
+
+	@Override
+	public ArrayList<RankingDTO> getAucRanking() {
+		ArrayList<RankingDTO> dtos=null;
+		MemberDAO dao =ss.getMapper(MemberDAO.class);
+		dtos=dao.getAucRanking();
+		return dtos;
+	}
+
+	@Override
+	public ArrayList<RankingDTO> getDonateRanking() {
+		ArrayList<RankingDTO> dtos=null;
+		MemberDAO dao =ss.getMapper(MemberDAO.class);
+		dtos=dao.getDonateRanking();
+		return dtos;
+	}
+
+	
+	@Override
+	public int getSearchCnt(String keyword) {
+		int selectCnt=0;
+		MemberDAO dao =ss.getMapper(MemberDAO.class);
+		selectCnt=dao.getSearchCnt(keyword);
+		return selectCnt;
+	}
+	
+	@Override
+	public ArrayList<SearchingDTO> getSearchData(Map<String,Object> map) {
+		ArrayList<SearchingDTO> dtos=null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		
+		dtos=dao.getSearchData(map);
+		return dtos;
+	}
+
+	
+
 }

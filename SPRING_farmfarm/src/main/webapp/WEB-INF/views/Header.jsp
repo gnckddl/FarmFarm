@@ -74,9 +74,9 @@
                    <li><a href="Help">도움말</a></li>
                    
             </ul>
-            <form class="navbar-form navbar-left" action="">
+            <form class="navbar-form navbar-left" method="post" action="searching">
                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="내용을 입력하세요.">
+                  <input type="text" class="form-control" name="keyword" placeholder="내용을 입력하세요." style="padding-top: 10px;">
                   <!-- 힌트 -->
                </div>
                <button type="submit" class="btn btn-default">검색</button>

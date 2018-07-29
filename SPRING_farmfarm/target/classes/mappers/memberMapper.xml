@@ -38,4 +38,50 @@
 			select *from (select adv_key,mem_id,adv_reason,adv_point,adv_sumPoint,to_char(adv_regDate, 'yyyy-mm-dd hh24:mi:ss') adv_regDate,rownum rNum from (select * from tbl_advantage order by adv_regDate desc) where mem_id=#{strId}) where rNum >= #{start} AND rNum <=#{end}			
 		]]>
 	</select>
+	
+	<select id="getFundJoiner" resultType="spring.mvc.farmfarm.dto.RankingDTO">
+		<![CDATA[
+			select * from (select fund_no, count, rownum rNum from (select f.fund_no fund_no,count(j.mem_id) count from tbl_join j join tbl_fund f on j.fund_no=f.fund_no group by f.fund_no order by count desc)) where rNum<=10
+		]]>
+	</select>
+	
+	<select id="getFundRanking" resultType="spring.mvc.farmfarm.dto.RankingDTO">
+			select distinct f.fund_no,fund_title, fund_price, stock_name,stock_price,f.mem_id farmer_id,to_char(fund_endDate, 'yyyy-mm-dd hh24:mi:ss') fund_endDate from tbl_fund f join tbl_join j on f.fund_no=j.fund_no join tbl_stock s on s.stock_no=f.stock_no join tbl_farm f on f.farm_key=s.farm_key
+	</select>
+	
+	<select id="getAucJoiner" resultType="spring.mvc.farmfarm.dto.RankingDTO">
+		<![CDATA[
+			select * from (select fund_no, count, rownum rNum from (select a.auc_no fund_no,count(j.mem_id) count from tbl_join j join tbl_auction a on j.auc_no=a.auc_no group by a.auc_no order by count desc)) where rNum<=10
+		]]>
+	</select>
+	
+	<select id="getAucRanking" resultType="spring.mvc.farmfarm.dto.RankingDTO">
+			select distinct a.auc_no fund_no,auc_title fund_title,auc_nowPrice fund_price, stock_name,stock_price,f.mem_id farmer_id,to_char(auc_term, 'yyyy-mm-dd hh24:mi:ss') fund_endDate from tbl_auction a join tbl_join j on a.auc_no=j.auc_no join tbl_stock s on s.stock_no=a.stock_no join tbl_farm f on f.farm_key=s.farm_key
+	</select>
+	
+	<select id="getDonateRanking" resultType="spring.mvc.farmfarm.dto.RankingDTO">
+			select count(*) count,md.mem_id farmer_id,sum(dona_price) fund_price, mem_name stock_name from tbl_memDo md join tbl_member m on md.mem_id=m.mem_id group by md.mem_id,mem_name order by fund_price desc, count desc
+	</select>
+	
+	
+	<select id="getSearchCnt" resultType="int">
+			select count(*)
+			from tbl_stock s 
+			left join tbl_fund f on s.stock_no=f.stock_no 
+			left join tbl_auction a on s.stock_no=a.stock_no
+			where (f.fund_no is not null or a.auc_no is not null) and s.stock_name=#{keyword}
+	</select>
+	
+	<select id="getSearchData" resultType="spring.mvc.farmfarm.dto.SearchingDTO">
+		<![CDATA[
+			select * from(
+			select s.stock_no,stock_name,stock_kg,stock_ea,stock_image,stock_kind, fund_no,fund_title,fund_price, fund_status,to_char(fund_regDate, 'yyyy-mm-dd HH:mm') fund_regDate,to_char(fund_endDate, 'yyyy-mm-dd hh24:mi') fund_endDate, auc_no, auc_title, auc_nowPrice, auc_status,to_char(auc_regDate, 'yyyy-mm-dd HH:mm') auc_regDate, to_char(auc_term, 'yyyy-mm-dd HH:mm') auc_term, rownum rNum
+			from tbl_stock s 
+			left join tbl_fund f on s.stock_no=f.stock_no 
+			left join tbl_auction a on s.stock_no=a.stock_no
+			where (f.fund_no is not null or a.auc_no is not null) and s.stock_name='참외' order by s.STOCK_REGDATE desc)
+			where rNum>=#{start} and rNum<=#{end}
+		]]>
+	</select>
+	
 </mapper>

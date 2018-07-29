@@ -32,5 +32,21 @@ public class BoardDAOImpl implements BoardDAO{
 		dtos = dao.getArticleList(map);
 		return dtos;
 	}
+	  @Override
+	   public BoardDTO getArticleBoard(int boa_id) {
+	      BoardDAO dao=Sqlsession.getMapper(BoardDAO.class);
+	      BoardDTO dto = new BoardDTO();
+	      
+	      dto=dao.getArticleBoard(boa_id);
+	      return dto;
+	   }
+
+	   @Override
+	   public void addReadCnt(int boa_id) {
+	      BoardDAO dao=Sqlsession.getMapper(BoardDAO.class);
+	      dao.addReadCnt(boa_id);
+	      
+	      
+	   }
 
 }

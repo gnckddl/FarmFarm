@@ -28,4 +28,13 @@
 		  ]]>
 	</select>
 	
+	<update id="addReadCnt" parameterType="int">
+      update tbl_board set boa_readCnt=boa_readCnt+1 where boa_id=#{boa_id}
+    </update>
+   
+    <select id="getArticleBoard" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+      select * from tbl_board where boa_id=#{boa_id}
+    </select>
+	
+	
 </mapper>

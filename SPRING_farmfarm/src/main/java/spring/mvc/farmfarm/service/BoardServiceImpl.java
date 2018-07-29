@@ -109,7 +109,30 @@ public class BoardServiceImpl implements BoardService{
 		//6단계,request나 session에 처리결과 넘기기
 		
 		model.addAttribute("cnt",cnt);
-
-		
+	}
+	//요청게시판상세
+	@Override
+	public void RequestBoardContent(HttpServletRequest req, Model model) {
+		int boa_id = 0;
+		int pageNum = 0;
+		int number = 0;
+		  
+		boa_id = Integer.parseInt(req.getParameter("boa_id"));
+		pageNum = Integer.parseInt(req.getParameter("pageNum"));
+		number = Integer.parseInt(req.getParameter("number"));
+		  
+		  
+		BoardDTO dto=board_dao.getArticleBoard(boa_id);
+		  
+		//조회수 증가
+		board_dao.addReadCnt(boa_id);
+		  
+		//상세페이지 조회
+		  
+		model.addAttribute("dto", dto);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("number", number);
+		      
+	      
 	}
 }

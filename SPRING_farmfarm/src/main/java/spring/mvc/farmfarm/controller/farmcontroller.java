@@ -151,6 +151,21 @@ public class farmcontroller {
 		
 		return	"guest/RequestBoard";
 	}
+	//요청게시판 상세
+   @RequestMapping("RequestBoardContent")
+   public String RequestBoardContent(HttpServletRequest req, Model model) {
+      System.out.println("RequestBoardContent");
+      
+   board_service.RequestBoardContent(req, model);
+   return   "guest/RequestBoardContent";
+   }
+   //요청게시판 글쓰기
+   @RequestMapping("RequestBoardWrite")
+   public String RequestBoardWrite(HttpServletRequest req, Model model) {
+      System.out.println("RequestBoardWrite");
+      
+   return   "guest/RequestBoardWrite";
+   }
 	
 	//주말농장관리
 	@RequestMapping("WeekFarmManagement")
@@ -189,6 +204,7 @@ public class farmcontroller {
 	public String AuctionRanking(HttpServletRequest req, Model model) {
 		System.out.println("AuctionRanking");
 		
+		mem_service.auctionRanking(req, model);
 		return	"guest/AuctionRanking";
 	}
 	
@@ -197,6 +213,7 @@ public class farmcontroller {
 	public String DonateRanking(HttpServletRequest req, Model model) {
 		System.out.println("DonateRanking");
 		
+		mem_service.donateRanking(req, model);
 		return	"guest/DonateRanking";
 	}
 	
@@ -204,6 +221,8 @@ public class farmcontroller {
 	@RequestMapping("FundRanking")
 	public String FundRanking(HttpServletRequest req, Model model) {
 		System.out.println("FundRanking");
+		
+		mem_service.fundRanking(req, model);
 		
 		return	"guest/FundRanking";
 	}
@@ -215,13 +234,13 @@ public class farmcontroller {
 		
 		return	"guest/WeekFarmApply";
 	}
- //도움말
-   @RequestMapping("Help")
-   public String Help(HttpServletRequest req, Model model) {
-   System.out.println("Help");
-   
-   return   "guest/Help";
-   }
+	//도움말
+	@RequestMapping("Help")
+	public String Help(HttpServletRequest req, Model model) {
+		System.out.println("Help");
+	   
+			return   "guest/Help";
+	}
 	
 	/////////////////////////////일반회원 메뉴
 	//정보수정페이지
@@ -284,5 +303,17 @@ public class farmcontroller {
 		return	"guest/guestDonateList";
 		
 	}
+	
+	
+	//검색기능
+	@RequestMapping("searching")
+	public String searching(HttpServletRequest req, Model model) {
+		System.out.println("searching");
+		
+		mem_service.searching(req, model);
+		return	"searching";
+		
+	}
+	
 	
 }

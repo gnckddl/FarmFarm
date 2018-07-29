@@ -23,4 +23,15 @@ public interface MemberService {
 	public void guestAdvList(HttpServletRequest req, Model model);
 	
 	
+	
+	//펀드랭킹
+	public void fundRanking(HttpServletRequest req, Model model);
+	//경매랭킹
+	public void auctionRanking(HttpServletRequest req, Model model);
+	//기부랭킹
+	public void donateRanking(HttpServletRequest req, Model model);
+	
+	
+	//검색기능
+	public void searching(HttpServletRequest req, Model model);
 }
