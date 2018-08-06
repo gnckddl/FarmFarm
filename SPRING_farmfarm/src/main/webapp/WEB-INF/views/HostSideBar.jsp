@@ -166,16 +166,16 @@
 					class="fa fa-desktop"></i> <span>펀드 관리</span>
 			</a>
 				<ul class="sub">
-					<li><a href="FundList.ad">펀드 진행내역</a></li>
 					<li><a href="NoFundList.ad">미등록 펀드내역</a></li>
+					<li><a href="FundList.ad">펀드 진행내역</a></li>
 				</ul></li>
 
 			<li class="sub-menu"><a href="javascript:;"> <i
 					class="fa fa-cogs"></i> <span>경매 관리</span>
 			</a>
 				<ul class="sub">
-					<li><a href="AucList.ad">경매 진행내역</a></li>
 					<li><a href="NoAucList.ad">미등록 경매내역</a></li>
+					<li><a href="AucList.ad">경매 진행내역</a></li>
 				</ul></li>
 			<li class="sub-menu"><a href="javascript:;"> <i
 					class="fa fa-book"></i> <span>회원 관리</span>
@@ -195,7 +195,7 @@
 					class=" fa fa-bar-chart-o"></i> <span>게시판 관리</span>
 			</a>
 				<ul class="sub">
-					<li><a href="NoticeList.ad">공지사항</a></li>
+					<li><a href="Notice">공지사항</a></li>
 					<li><a href="#">문의 게시판[파트너]</a></li>
 					<li><a href="#">문의 게시판[회원]</a></li>
 					<li><a href="#">소식 게시판</a></li>

@@ -2067,6 +2067,10 @@ th {
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
+  text-align: center;
+}
+.table th{
+   text-align: center;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -4139,6 +4143,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
   border-color: #e7e7e7;
+  background-color: #ffffff;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,

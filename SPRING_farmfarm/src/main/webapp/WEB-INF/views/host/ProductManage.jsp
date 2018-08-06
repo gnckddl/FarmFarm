@@ -1,439 +1,319 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en" >
-	<!-- 헤더 -->
-	<%@ include file="../Header.jsp" %>
-	
-	<!-- 관리자 사이드 바 -->
-	<%@ include file="../HostSideBar.jsp" %>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Dashboard">
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+<html>
+<!-- 테이블 아래 이동키  -->
+<link
+   href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+   rel="stylesheet" id="bootstrap-css">
+<script
+   src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-    <title>DASHGUM - FREE Bootstrap Admin Template</title>
+<script
+   src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<!-- 테이블 아래 이동키 끝  -->
 
-    <!-- Bootstrap core CSS -->
-    <link href="resources/css/assets/css/bootstrap.css" rel="stylesheet">
-    <!--external css-->
-    <link href="resources/css/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="resources/css/assets/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="resources/css/assets/lineicons/style.css">    
-    
-    <!-- Custom styles for this template -->
-    <link href="resources/css/assets/css/style.css" rel="stylesheet">
-    <link href="resources/css/assets/css/style-responsive.css" rel="stylesheet">
+<!-- 헤더 -->
+<%@ include file="../Header.jsp"%>
 
-    <script src="resources/css/assets/js/chart-master/Chart.js"></script>
-    
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+<!-- 관리자 사이드 바 -->
+<%@ include file="../HostSideBar.jsp"%>
+<head>
+<meta name="description" content="">
+<meta name="author" content="Dashboard">
+<meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-  <body>
+<title>파트너 관리</title>
+<body>
 
-  <section id="container" >
-      <!-- **********************************************************************************************************************************************************
-      TOP BAR CONTENT & NOTIFICATIONS
-      *********************************************************************************************************************************************************** -->
-      <!--header start-->
-              
-      <!-- **********************************************************************************************************************************************************
+   <section id="container"> <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
-      <!--main content start-->
-      <section id="main-content">
-          <section class="wrapper">
-
-              <div class="row">
-                  <div class="col-lg-9 main-chart">
+   <!--main content start-->
+   <section id="main-content">
+   <section class="wrapper">
+   <h3>
+      <i class="fa fa-angle-right"></i> 파트너 관리
+   </h3>
+   <div class="row">
+      <!-- 차트 시작 -->
+      <div class="tab-pane" id="chartjs">
+         <div class="row mt">
+                        <!-- 분야별 펀드 현황 차트 시작 -->
+            <div class="col-lg-6">
+               <div class="content-panel">
+                  <h4>
+                     <i class="fa fa-angle-right"></i> 분야별 펀드 현황
+                  </h4>
+                  <div class="panel-body text-center">
+                  <!-- 차트에 입력할 값 c:set 작업 -->
+                   <c:set var="event" value="${map['event']}"></c:set>
+                   <c:set var="farm" value="${map['farm']}"></c:set>
+                   <c:set var="animal" value="${map['animal']}"></c:set>
+                   <c:set var="fish" value="${map['fish']}"></c:set>
+                    <c:set var="health" value="${map['health']}"></c:set>
+                   <c:set var="mushroom" value="${map['mushroom']}"></c:set>
+                   <c:set var="alcohol" value="${map['alcohol']}"></c:set>
+                   <c:set var="etc" value="${map['etc']}"></c:set>
                   
-                  	<div class="row mtbox">
-                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
-                  			<div class="box1">
-					  			<span class="li_heart"></span>
-					  			<h3>933</h3>
-                  			</div>
-					  			<p>933 People liked your page the last 24hs. Whoohoo!</p>
-                  		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
-                  			<div class="box1">
-					  			<span class="li_cloud"></span>
-					  			<h3>+48</h3>
-                  			</div>
-					  			<p>48 New files were added in your cloud storage.</p>
-                  		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
-                  			<div class="box1">
-					  			<span class="li_stack"></span>
-					  			<h3>23</h3>
-                  			</div>
-					  			<p>You have 23 unread messages in your inbox.</p>
-                  		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
-                  			<div class="box1">
-					  			<span class="li_news"></span>
-					  			<h3>+10</h3>
-                  			</div>
-					  			<p>More than 10 news were added in your reader.</p>
-                  		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
-                  			<div class="box1">
-					  			<span class="li_data"></span>
-					  			<h3>OK!</h3>
-                  			</div>
-					  			<p>Your server is working perfectly. Relax & enjoy.</p>
-                  		</div>
-                  	
-                  	</div><!-- /row mt -->	
+                      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                      <script type="text/javascript">
+                        google.charts.load('current', {'packages':['bar']});
+                        google.charts.setOnLoadCallback(drawChart);
                   
-                      
-                      <div class="row mt">
-                      <!-- SERVER STATUS PANELS -->
-                      	<div class="col-md-4 col-sm-4 mb">
-                      		<div class="white-panel pn donut-chart">
-                      			<div class="white-header">
-						  			<h5>SERVER LOAD</h5>
-                      			</div>
-								<div class="row">
-									<div class="col-sm-6 col-xs-6 goleft">
-										<p><i class="fa fa-database"></i> 70%</p>
-									</div>
-	                      		</div>
-								<canvas id="serverstatus01" height="120" width="120"></canvas>
-								<script>
-									var doughnutData = [
-											{
-												value: 70,
-												color:"#68dff0"
-											},
-											{
-												value : 30,
-												color : "#fdfdfd"
-											}
-										];
-										var myDoughnut = new Chart(document.getElementById("serverstatus01").getContext("2d")).Doughnut(doughnutData);
-								</script>
-	                      	</div><! --/grey-panel -->
-                      	</div><!-- /col-md-4-->
-                      	
-
-                      	<div class="col-md-4 col-sm-4 mb">
-                      		<div class="white-panel pn">
-                      			<div class="white-header">
-						  			<h5>TOP PRODUCT</h5>
-                      			</div>
-								<div class="row">
-									<div class="col-sm-6 col-xs-6 goleft">
-										<p><i class="fa fa-heart"></i> 122</p>
-									</div>
-									<div class="col-sm-6 col-xs-6"></div>
-	                      		</div>
-	                      		<div class="centered">
-										<img src="resources/css/assets/img/product.png" width="120">
-	                      		</div>
-                      		</div>
-                      	</div><!-- /col-md-4 -->
-                      	
-						<div class="col-md-4 mb">
-							<!-- WHITE PANEL - TOP USER -->
-							<div class="white-panel pn">
-								<div class="white-header">
-									<h5>TOP USER</h5>
-								</div>
-								<p><img src="resources/css/assets/img/ui-zac.jpg" class="img-circle" width="80"></p>
-								<p><b>Zac Snider</b></p>
-								<div class="row">
-									<div class="col-md-6">
-										<p class="small mt">MEMBER SINCE</p>
-										<p>2012</p>
-									</div>
-									<div class="col-md-6">
-										<p class="small mt">TOTAL SPEND</p>
-										<p>$ 47,60</p>
-									</div>
-								</div>
-							</div>
-						</div><!-- /col-md-4 -->
-                      	
-
-                    </div><!-- /row -->
-                    
-                    				
-					<div class="row">
-						<!-- TWITTER PANEL -->
-						<div class="col-md-4 mb">
-                      		<div class="darkblue-panel pn">
-                      			<div class="darkblue-header">
-						  			<h5>DROPBOX STATICS</h5>
-                      			</div>
-								<canvas id="serverstatus02" height="120" width="120"></canvas>
-								<script>
-									var doughnutData = [
-											{
-												value: 60,
-												color:"#68dff0"
-											},
-											{
-												value : 40,
-												color : "#444c57"
-											}
-										];
-										var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
-								</script>
-								<p>April 17, 2014</p>
-								<footer>
-									<div class="pull-left">
-										<h5><i class="fa fa-hdd-o"></i> 17 GB</h5>
-									</div>
-									<div class="pull-right">
-										<h5>60% Used</h5>
-									</div>
-								</footer>
-                      		</div><! -- /darkblue panel -->
-						</div><!-- /col-md-4 -->
-						
-						
-						<div class="col-md-4 mb">
-							<!-- INSTAGRAM PANEL -->
-							<div class="instagram-panel pn">
-								<i class="fa fa-instagram fa-4x"></i>
-								<p>@THISISYOU<br/>
-									5 min. ago
-								</p>
-								<p><i class="fa fa-comment"></i> 18 | <i class="fa fa-heart"></i> 49</p>
-							</div>
-						</div><!-- /col-md-4 -->
-						
-						<div class="col-md-4 col-sm-4 mb">
-							<!-- REVENUE PANEL -->
-							<div class="darkblue-panel pn">
-								<div class="darkblue-header">
-									<h5>REVENUE</h5>
-								</div>
-								<div class="chart mt">
-									<div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
-								</div>
-								<p class="mt"><b>$ 17,980</b><br/>Month Income</p>
-							</div>
-						</div><!-- /col-md-4 -->
-						
-					</div><!-- /row -->
-					
-					<div class="row mt">
-                      <!--CUSTOM CHART START -->
-                      <div class="border-head">
-                          <h3>VISITS</h3>
-                      </div>
-                      <div class="custom-bar-chart">
-                          <ul class="y-axis">
-                              <li><span>10.000</span></li>
-                              <li><span>8.000</span></li>
-                              <li><span>6.000</span></li>
-                              <li><span>4.000</span></li>
-                              <li><span>2.000</span></li>
-                              <li><span>0</span></li>
-                          </ul>
-                          <div class="bar">
-                              <div class="title">JAN</div>
-                              <div class="value tooltips" data-original-title="8.500" data-toggle="tooltip" data-placement="top">85%</div>
-                          </div>
-                          <div class="bar ">
-                              <div class="title">FEB</div>
-                              <div class="value tooltips" data-original-title="5.000" data-toggle="tooltip" data-placement="top">50%</div>
-                          </div>
-                          <div class="bar ">
-                              <div class="title">MAR</div>
-                              <div class="value tooltips" data-original-title="6.000" data-toggle="tooltip" data-placement="top">60%</div>
-                          </div>
-                          <div class="bar ">
-                              <div class="title">APR</div>
-                              <div class="value tooltips" data-original-title="4.500" data-toggle="tooltip" data-placement="top">45%</div>
-                          </div>
-                          <div class="bar">
-                              <div class="title">MAY</div>
-                              <div class="value tooltips" data-original-title="3.200" data-toggle="tooltip" data-placement="top">32%</div>
-                          </div>
-                          <div class="bar ">
-                              <div class="title">JUN</div>
-                              <div class="value tooltips" data-original-title="6.200" data-toggle="tooltip" data-placement="top">62%</div>
-                          </div>
-                          <div class="bar">
-                              <div class="title">JUL</div>
-                              <div class="value tooltips" data-original-title="7.500" data-toggle="tooltip" data-placement="top">75%</div>
-                          </div>
-                      </div>
-                      <!--custom chart end-->
-					</div><!-- /row -->	
-					
-                  </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                        function drawChart() {
+                          var data = google.visualization.arrayToDataTable([
+                            ['', '총 금액'],
+                            ['이벤트', ${event}],
+                            ['농산', ${farm}],
+                            ['축산', ${animal}],
+                            ['수산', ${fish}],
+                            ['건강·유기농', ${health}],
+                            ['버섯', ${mushroom}],
+                            ['주류', ${alcohol}],
+                            ['기타', ${etc}]
+                          ]);
                   
+                          var options = {
+                            chart: {
+                              title: '',
+                              subtitle: '',
+                            },
+                            bars: 'horizontal' // Required for Material Bar Charts.
+                          };
                   
-      <!-- **********************************************************************************************************************************************************
-      RIGHT SIDEBAR CONTENT
-      *********************************************************************************************************************************************************** -->                  
+                          var chart = new google.charts.Bar(document.getElementById('partnerFund'));
                   
-                  <div class="col-lg-3 ds">
-                    <!--COMPLETED ACTIONS DONUTS CHART-->
-						<h3>NOTIFICATIONS</h3>
-                                        
-                      <!-- First Action -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                      	</div>
-                      	<div class="details">
-                      		<p><muted>2 Minutes Ago</muted><br/>
-                      		   <a href="#">James Brown</a> subscribed to your newsletter.<br/>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Second Action -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                      	</div>
-                      	<div class="details">
-                      		<p><muted>3 Hours Ago</muted><br/>
-                      		   <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Third Action -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                      	</div>
-                      	<div class="details">
-                      		<p><muted>7 Hours Ago</muted><br/>
-                      		   <a href="#">Brandon Page</a> purchased a year subscription.<br/>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Fourth Action -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                      	</div>
-                      	<div class="details">
-                      		<p><muted>11 Hours Ago</muted><br/>
-                      		   <a href="#">Mark Twain</a> commented your post.<br/>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Fifth Action -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                      	</div>
-                      	<div class="details">
-                      		<p><muted>18 Hours Ago</muted><br/>
-                      		   <a href="#">Daniel Pratt</a> purchased a wallet in your store.<br/>
-                      		</p>
-                      	</div>
-                      </div>
+                          chart.draw(data, google.charts.Bar.convertOptions(options));
+                        }
+                      </script>
+                      <div id="partnerFund" style="width: 400px; height: 400px;"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- 분야별 펀드 현황 차트 끝 -->
 
-                       <!-- USERS ONLINE SECTION -->
-						<h3>TEAM MEMBERS</h3>
-                      <!-- First Member -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<img class="img-circle" src="resources/css/assets/img/ui-divya.jpg" width="35px" height="35px" align="">
-                      	</div>
-                      	<div class="details">
-                      		<p><a href="#">DIVYA MANIAN</a><br/>
-                      		   <muted>Available</muted>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Second Member -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<img class="img-circle" src="resources/css/assets/img/ui-sherman.jpg" width="35px" height="35px" align="">
-                      	</div>
-                      	<div class="details">
-                      		<p><a href="#">DJ SHERMAN</a><br/>
-                      		   <muted>I am Busy</muted>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Third Member -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<img class="img-circle" src="resources/css/assets/img/ui-danro.jpg" width="35px" height="35px" align="">
-                      	</div>
-                      	<div class="details">
-                      		<p><a href="#">DAN ROGERS</a><br/>
-                      		   <muted>Available</muted>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Fourth Member -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<img class="img-circle" src="resources/css/assets/img/ui-zac.jpg" width="35px" height="35px" align="">
-                      	</div>
-                      	<div class="details">
-                      		<p><a href="#">Zac Sniders</a><br/>
-                      		   <muted>Available</muted>
-                      		</p>
-                      	</div>
-                      </div>
-                      <!-- Fifth Member -->
-                      <div class="desc">
-                      	<div class="thumb">
-                      		<img class="img-circle" src="resources/css/assets/img/ui-sam.jpg" width="35px" height="35px" align="">
-                      	</div>
-                      	<div class="details">
-                      		<p><a href="#">Marcel Newman</a><br/>
-                      		   <muted>Available</muted>
-                      		</p>
-                      	</div>
-                      </div>
+            <!-- 분야별 경매 현황 차트 시작 -->
+            <div class="col-lg-6">
+               <div class="content-panel">
+                  <h4>
+                     <i class="fa fa-angle-right"></i> 분야별 경매 현황 차트
+                  </h4>
+                  <div class="panel-body text-center">
+                     <!-- 차트에 입력할 값 c:set 작업 -->
+                   <c:set var="event" value="${map1['event']}"></c:set>
+                   <c:set var="farm" value="${map1['farm']}"></c:set>
+                   <c:set var="animal" value="${map1['animal']}"></c:set>
+                   <c:set var="fish" value="${map1['fish']}"></c:set>
+                    <c:set var="health" value="${map1['health']}"></c:set>
+                   <c:set var="mushroom" value="${map1['mushroom']}"></c:set>
+                   <c:set var="alcohol" value="${map1['alcohol']}"></c:set>
+                   <c:set var="etc" value="${map1['etc']}"></c:set>
+                  
+                      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                      <script type="text/javascript">
+                        google.charts.load('current', {'packages':['bar']});
+                        google.charts.setOnLoadCallback(drawChart);
+                  
+                        function drawChart() {
+                          var data = google.visualization.arrayToDataTable([
+                            ['', '총 금액'],
+                            ['이벤트', ${event}],
+                            ['농산', ${farm}],
+                            ['축산', ${animal}],
+                            ['수산', ${fish}],
+                            ['건강·유기농', ${health}],
+                            ['버섯', ${mushroom}],
+                            ['주류', ${alcohol}],
+                            ['기타', ${etc}]
+                          ]);
+                  
+                          var options = {
+                            chart: {
+                              title: '',
+                              subtitle: '',
+                            },
+                            bars: 'horizontal' // Required for Material Bar Charts.
+                          };
+                  
+                          var chart = new google.charts.Bar(document.getElementById('partnerAuc'));
+                  
+                          chart.draw(data, google.charts.Bar.convertOptions(options));
+                        }
+                      </script>
+                      <div id="partnerAuc" style="width: 400px; height: 400px;"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- 분야별 경매 현황 차트 끝 -->
+         </div>
+      </div>
+      <!-- 차트 끝 -->
 
-                        <!-- CALENDAR-->
-                        <div id="calendar" class="mb">
-                            <div class="panel green-panel no-margin">
-                                <div class="panel-body">
-                                    <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-                                        <div class="arrow"></div>
-                                        <h3 class="popover-title" style="disadding: none;"></h3>
-                                        <div id="date-popover-content" class="popover-content"></div>
-                                    </div>
-                                    <div id="my-calendar"></div>
-                                </div>
-                            </div>
-                        </div><!-- / calendar -->
-                      
-                  </div><!-- /col-lg-3 -->
-              </div> <!-- /row -->
-          </section>
-      </section>
+      <hr width="0%">
 
-      <!--main content end-->
-      <!--footer start-->
-      <footer class="site-footer">
-          <div class="text-center">
-              2014 - Alvarez.is
-              <a href="index.html#" class="go-top">
-                  <i class="fa fa-angle-up"></i>
-              </a>
-          </div>
-      </footer>
-      <!--footer end-->
-  </section>
+      <div class="row mt">
+         <div class="col-md-12">
+            <div class="content-panel">
+               <!-- 파트너 관리 테이블 시작 -->
+               <h4>
+                  <i class="fa fa-angle-right"></i> 파트너 관리
+               </h4>
+               <table class="table table-striped table-advance table-hover">
+                  <hr>
+                  <thead>
+                     <tr>
+                        <th style="width: 1%"><input type="checkbox" id="checkall" /></th>
+                        <th style="width: 5%"><i class="fa fa-bullhorn"></i> 번호</th>
+                        <th style="width: 5%"><i class="fa fa-heart"></i> 아이디</th>
+                        <th style="width: 5%"><i class="fa fa-eye"></i>   이름</th>
+                        <th style="width: 10%"><i class="fa fa-phone-square"></i> 연락처</th>
+                        <th style="width: 10%"><i class=" fa fa-bookmark"></i> 등록/승인일</th>
+                        <th style="width: 5%"><i class="fa fa-star"></i> 상태</th>
+                        <th style="width: 5%"><i class="fa fa-plus-square"></i>점수</th>
+                        <th style="width: 10%"><i class=" fa fa-smile-o"></i> 어드벤티지</th>
+                        <th style="width: 15%"><i class=" fa fa-edit"></i> 파트너 관리</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <!-- 회원 목록이 있으면  -->
+                     <c:if test="${cnt>0}">
+                        <!-- 큰바구니에서 작은바구니로 한건을꺼냄 건수만큼 반복하라-->
+                        <c:forEach var="dto" items="${dtos}">
+                           <tr>
+                              <td><input type="checkbox" class="checkthis"></td>
+                              <td>${number}<c:set var="number" value="${number-1}" /></td>
+                              <td><a href="#">${dto.mem_id}</a></td>
+                              <td>${dto.mem_name}</td>
+                              <td>${dto.mem_hp}</td>
+                              <td>${dto.farm_regDate}</td>
+                              <c:if test="${dto.farm_status == 1}">
+                              <c:set var="mem_grade" value="${dto.mem_grade}"/>
+                                 <td><span class="badge bg-warning">신청 대기</span></td>
+                              </c:if>
+                              <c:if test="${dto.farm_status == 2}">
+                              <c:set var="mem_grade" value="${dto.mem_grade +1}"/>
+                                 <td><span class="badge bg-info">파트너</span></td>
+                              </c:if>
+                              <td>${dto.farm_adv}</td>
+                              <td>
+                                 <!-- 파트너 어드밴티지 가산점 -->
+                                
+                                 <div class="btn-group">
+                                   <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                     <i class="fa fa-plus"></i>
+                                   </button>
+                                   
+                                   <ul class="dropdown-menu" role="menu">
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=1&advStatue=1&pageNum=${pageNum}&mem_grade=${mem_grade}">1점</a></li>
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=5&advStatue=1&pageNum=${pageNum}&mem_grade=${mem_grade}">5점</a></li>
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=10&advStatue=1&pageNum=${pageNum}&mem_grade=${mem_grade}">10점</a></li>
+                                     <li class="divider"></li>
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=50&advStatue=1&pageNum=${pageNum}&mem_grade=${mem_grade}">50점</a></li>
+                                   </ul>
+                                 </div>
+                                   <!-- 파트너 어드밴티지 가산점 -->
+                                   <!-- 파트너 어드밴티지 감점 -->
+                                 <div class="btn-group">
+                                   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                     <i class="fa fa-minus"></i>
+                                   </button>
+                                   <ul class="dropdown-menu" role="menu">
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=1&advStatue=2&pageNum=${pageNum}&mem_grade=${mem_grade}">-1점</a></li>
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=5&advStatue=2&pageNum=${pageNum}&mem_grade=${mem_grade}">-5점</a></li>
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=10&advStatue=2&pageNum=${pageNum}&mem_grade=${mem_grade}">-10점</a></li>
+                                     <li class="divider"></li>
+                                     <li><a href="PartnerAdvManage.ad?mem_id=${dto.mem_id}&mem_adv=50&advStatue=2&pageNum=${pageNum}&mem_grade=${mem_grade}">-50점</a></li>
+                                   </ul>
+                                 </div>
+                                   </div>
+                                   <!-- 파트너 어드밴티지 감점 -->
+                  
+                              </td>
+                              <!-- 파트너 관리 버튼 -->
+                              <td>
+                                 <c:if test="${dto.farm_status == 1}">
+                                    <button class="btn btn-success btn-xs" onclick="return farmUp('${dto.mem_id}');">
+                                       <i class="fa fa-check"></i>
+                                    </button>
+                                 </c:if>
+                                 <button class="btn btn-danger btn-xs" onclick="return farmDown('${dto.mem_id}')">
+                                    <i class="fa fa-trash-o "></i>
+                                 </button>
+                              </td>
+                              <!-- 파트너 관리 버튼 -->
+                           </tr>
+                        </c:forEach>
+                        <tr align="center">
+                           <td colspan="9"></td>
+                           <td>
+                              <button class="btn btn-success btn-xs">
+                                 <i class="fa fa-check"></i>
+                              </button>
+                              <button class="btn btn-danger btn-xs">
+                                 <i class="fa fa-trash-o "></i>
+                              </button>
+                           </td>
+                        </tr>
+                     </c:if>
+                     <!-- 회원 목록이 있으면 끝 -->
 
-	<!-- 푸터 -->
-	<footer>
-<%@include file="../Footer.jsp" %>
-</footer>
+                     <!-- 게시글이 없으면 -->
+                     <c:if test="${cnt==0}">
+                        <tr>
+                           <td colspan="9" align="center">파트너 회원이 없습니다.!!</td>
+                        </tr>
+                     </c:if>
+                  </tbody>
+               </table>
+               <!-- 파트너 관리 테이블 종료 -->
+
+               <!-- 페이지 컨트롤 시작 -->
+               <c:if test="${cnt>0 }">
+                  <div class="clearfix"></div>
+                  <ul class="pagination pull-right">
+                     <c:if test="${startPage > pageBlock}">
+                        <li class="disabled"><a   href="PartnerManage.ad?${startPage - pageBlock}">
+                        <span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                     </c:if>
+
+                     <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                        <c:if test="${i == currentPage}">
+                           <li class="active"><a href="PartnerManage.ad?pageNum=${i}">${i}</a></li>
+                        </c:if>
+
+                        <c:if test="${i != currentPage}">
+                           <li><a href="PartnerManage.ad?pageNum=${i}">${i}</a></li>
+                        </c:if>
+                     </c:forEach>
+
+                     <c:if test="${pageCount > endPage}">
+                        <li><a href="PartnerManage.ad?pageNum=${startPage + pageBlock}">
+                        <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                     </c:if>
+                  </ul>
+               </c:if>
+               <!-- 페이지 컨트롤 종료 -->
+
+            </div>
+            <!-- /content-panel -->
+         </div>
+         <!-- /col-md-12 -->
+      </div>
+      <!-- /row -->
+   </section><!--/wrapper -->
+   </section><!-- /MAIN CONTENT --> <!--main content end-->
+   </section>
+
+   <!-- 관리자 푸터 -->
+   <footer> <%@ include file="../HostFooter.jsp"%>
+   </footer>
+
+   <!-- 푸터 -->
+   <footer> <%@ include file="../Footer.jsp"%>
+   </footer>
 </body>
-
 </html>

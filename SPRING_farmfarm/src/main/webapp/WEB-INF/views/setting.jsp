@@ -6,9 +6,7 @@
 
 
 <c:set var="project" value="/farmfarm/"/>
-
-<script type="text/javascript" src="${project}resources/script.js"></script>
-<script type="text/javascript" src="${project}resources/jquery-3.3.1.min.js"></script>
+<c:set var="images" value="${project}resources/images/"/>
 
 <!-- 관리자 부트스트랩 경로 지정 -->
 <c:set var="hostcss" value="resources/css/assets"/>

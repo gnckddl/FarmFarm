@@ -3,16 +3,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- 테이블 아래 이동키  -->
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 <!-- 테이블 아래 이동키 끝  -->
 
@@ -22,8 +18,6 @@
 <!-- 관리자 사이드 바 -->
 <%@ include file="../HostSideBar.jsp"%>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="Dashboard">
 <meta name="keyword"
@@ -44,38 +38,105 @@
 		<!-- 차트 시작 -->
 		<div class="tab-pane" id="chartjs">
 			<div class="row mt">
-				<!-- 분야별 구매 차트 시작 -->
-				<div class="col-lg-6">
-					<div class="content-panel">
-						<h4>
-							<i class="fa fa-angle-right"></i> 분야별 구매
-						</h4>
-						<div class="panel-body text-center">
-							<canvas id="bar" height="300" width="400"></canvas>
-						</div>
-					</div>
-				</div>
-				<!-- 분야별 구매 차트 끝 -->
+				<!-- 펀드 분야별 구매 차트 시작 -->
+            <div class="col-lg-6">
+               <div class="content-panel">
+                  <h4>
+                     <i class="fa fa-angle-right"></i> 펀드 분야별 구매
+                  </h4>
+                  <div class="panel-body text-center">
+                  <!-- 차트에 입력할 값 c:set 작업 -->
+                   <c:set var="event" value="${map['event']}"></c:set>
+                   <c:set var="farm" value="${map['farm']}"></c:set>
+                   <c:set var="animal" value="${map['animal']}"></c:set>
+                   <c:set var="fish" value="${map['fish']}"></c:set>
+                    <c:set var="health" value="${map['health']}"></c:set>
+                   <c:set var="mushroom" value="${map['mushroom']}"></c:set>
+                   <c:set var="alcohol" value="${map['alcohol']}"></c:set>
+                   <c:set var="etc" value="${map['etc']}"></c:set>
+                  
+                      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                      <script type="text/javascript">
+                        google.charts.load('current', {'packages':['bar']});
+                        google.charts.setOnLoadCallback(drawChart);
+                  
+                        function drawChart() {
+                          var data = google.visualization.arrayToDataTable([
+                            ['', '총 금액'],
+                            ['이벤트', ${event}],
+                            ['농산', ${farm}],
+                            ['축산', ${animal}],
+                            ['수산', ${fish}],
+                            ['건강·유기농', ${health}],
+                            ['버섯', ${mushroom}],
+                            ['주류', ${alcohol}],
+                            ['기타', ${etc}]
+                          ]);
+                  
+                          var options = {
+                            chart: {
+                              title: '',
+                              subtitle: '',
+                            },
+                            bars: 'horizontal' // Required for Material Bar Charts.
+                          };
+                  
+                          var chart = new google.charts.Bar(document.getElementById('guestFundSales'));
+                  
+                          chart.draw(data, google.charts.Bar.convertOptions(options));
+                        }
+                      </script>
+                      <div id="guestFundSales" style="width: 400px; height: 400px;"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- 펀드 분야별 구매 차트 끝 -->
 
-				<!-- 파트너 대 회원 차트 시작 -->
-				<div class="col-lg-6">
-					<div class="content-panel">
-						<h4>
-							<i class="fa fa-angle-right"></i> 파트너 대 회원
-						</h4>
-						<div class="panel-body text-center">
-							<canvas id="doughnut" height="300" width="400"></canvas>
-						</div>
-					</div>
-				</div>
-				<!-- 파트너 대 회원 차트 끝 -->
-			</div>
-		</div>
-		<!-- 차트 끝 -->
+            <!-- 회원 펀드 & 경매 진행 차트 시작 -->
+            <div class="col-lg-6">
+               <div class="content-panel">
+                  <h4>
+                     <i class="fa fa-angle-right"></i> 펀드 & 경매 진행
+                  </h4>
+                  <div class="panel-body text-center">
+                  <!-- 차트에 입력할 값 c:set 작업 -->
+                   <c:set var="guestFund" value="${map1['guestFund']}"></c:set>
+                   <c:set var="guestAuc" value="${map1['guestAuc']}"></c:set>
+                   
+                  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                   <script type="text/javascript">
+                    google.charts.load("current", {packages:["corechart"]});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                      var data = google.visualization.arrayToDataTable([
+                        ['', ''],
+                        ['펀드 진행 내역', ${guestFund}],
+                        ['경매 진행 내역', ${guestAuc}],
+                      ]);
+               
+                      var options = {
+                        title: '',
+                        legend: '',
+                        pieSliceText: 'label',
+                        slices: {  0: {offset: 0.1},
+                                 1: {offset: 0.1},
+                        },
+                      };
+               
+                      var chart = new google.visualization.PieChart(document.getElementById('guestFundAuc'));
+                      chart.draw(data, options);
+                    }
+                  </script>
+                   <div id="guestFundAuc" style="width: 400px; height: 400px;"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- 회원 펀드 & 경매 진행 차트 끝 -->
 
 		<div class="row mt">
 			<div class="col-md-12">
 				<div class="content-panel">
+					<!-- 회원 관리 테이블 시작 -->
 					<table class="table table-striped table-advance table-hover">
 						<h4>
 							<i class="fa fa-angle-right"></i> 회원 관리
@@ -83,16 +144,17 @@
 						<hr>
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="checkall" /></th>
-								<th><i class="fa fa-bullhorn"></i> 번호</th>
-								<th class="hidden-phone"><i class="fa fa-question-circle"></i>
-									아이디</th>
-								<th><i class=" fa fa-edit"></i> 이름</th>
-								<th><i class="fa fa-bookmark"></i> 연락처</th>
-								<th><i class=" fa fa-edit"></i> 펀드 및 경매 참여금액</th>
-								<th><i class="fa fa-bookmark"></i> 등급</th>
-								<th><i class=" fa fa-edit"></i> 어드벤티지</th>
-								<th><i class=" fa fa-edit"></i> 삭제</th>
+								<th style="width: 1%"><input type="checkbox" id="checkall"></th>
+								<th style="width: 5%"><i class="fa fa-bullhorn"></i>번호</th>
+								<th style="width: 5%"><i class="fa fa-heart"></i>아이디</th>
+								<th style="width: 5%"><i class=" fa fa-eye"></i>이름</th>
+								<th style="width: 10%"><i class="fa fa-phone-square"></i>연락처</th>
+								<th style="width: 10%"><i class=" fa fa-bookmark"></i> 가입일</th>
+								<th style="width: 10%"><i class=" fa fa-won"></i>팜팜참여금액</th>
+								<th style="width: 5%"><i class="fa fa-plus-square"></i>등급</th>
+								<th style="width: 5%"><i class="fa fa-plus-square"></i>점수</th>
+								<th style="width: 10%"><i class=" fa fa-smile-o"></i>어드벤티지</th>
+								<th style="width: 10%"><i class=" fa fa-sign-out"></i>삭제</th>
 
 							</tr>
 						</thead>
@@ -103,28 +165,68 @@
 								<c:forEach var="dto" items="${dtos}">
 									<tr>
 										<td><input type="checkbox" class="checkthis"></td>
-										<td>${number-1}<!-- 보여지기용도  num뿌리면 안됨.-->
+										<td>${number-1}<!-- 보여지기용도  num뿌리면 안됨 -->
 											<c:set var="number" value="${number-1}" />
 										</td>
 										<td><a href="#">${dto.mem_id}</a></td>
 										<td>${dto.mem_name}</td>
-										<td class="hidden-phone">${dto.mem_hp}</td>
-										<td>참여금액</td>
-										<td><span class="label label-info label-mini">소작농</span>
+										<td>${dto.mem_hp}</td>
+										<td>${dto.mem_regDate}</td>
+										<td>￦10,000</td>
+										<td>
+											<span class="label label-info label-mini">소작농</span>
 										</td>
 										<td>
-											<button class="btn btn-success btn-xs">+</button>
-											<button class="btn btn-danger btn-xs">-</button>
+											${dto.mem_adv}
 										</td>
 										<td>
-											<button class="btn btn-danger btn-xs">
+										<!-- Single button --><!--  //&pageNum=${pageNum} -->
+											<div class="btn-group">
+											  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+											    <i class="fa fa-plus"></i>
+											  </button>
+											  <ul class="dropdown-menu" role="menu">
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=1&advStatue=1">1점</a></li>
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=5&advStatue=1">5점</a></li>
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=10&advStatue=1">10점</a></li>
+											    <li class="divider"></li>
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=50&advStatue=1">50점</a></li>
+											  </ul>
+											</div>
+						     					<!-- Single button -->
+											<div class="btn-group">
+											  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+											    <i class="fa fa-minus"></i>
+											  </button>
+											  <ul class="dropdown-menu" role="menu">
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=1&advStatue=2">1점</a></li>
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=5&advStatue=2">5점</a></li>
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=10&advStatue=2">10점</a></li>
+											    <li class="divider"></li>
+											    <li><a href="guestAdvManage.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}&mem_grade=${dto.mem_grade}&mem_adv=50&advStatue=2">50점</a></li>
+											  </ul>
+											</div>
+						     				</div><!-- /showback -->
+										</td>
+										
+										<td>
+											<button class="btn btn-danger btn-xs" onclick="window.location='guestDelete.ad?mem_id=${dto.mem_id}&pageNum=${pageNum}'">
 												<i class="fa fa-trash-o "></i>
 											</button>
-										</td>
+										</td> 
 									</tr>
 								</c:forEach>
+								<tr>
+									<td colspan="10"></td>
+									 <td>
+										<button type="button" class="btn btn-theme04">
+											<i class="fa fa-times ">전체 삭제</i>
+										</button>
+									</td> 
+								</tr>
 							</c:if>
 							<!-- 회원 목록이 있으면 끝 -->
+							
 							<!-- 게시글이 없으면 -->
 							<c:if test="${cnt==0}">
 								<tr>
@@ -133,19 +235,34 @@
 							</c:if>
 						</tbody>
 					</table>
-					<!-- 페이지 컨트롤 -->
-					<ul class="pagination pull-right">
-						<li class="disabled"><a href="#"><span
-								class="glyphicon glyphicon-chevron-left"></span></a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span></a></li>
-					</ul>
-					<!-- 페이지 컨트롤 끝-->
+					<!-- 회원 관리 테이블 종료 -->
+					
+					<!-- 페이지 컨트롤 시작 -->
+					<c:if test="${cnt>0 }">
+						<div class="clearfix"></div>
+						<ul class="pagination pull-right">
+						<c:if test="${startPage > pageBlock}">
+							<li class="disabled"><a href="GuestManage.ad?${startPage - pageBlock}">
+							<span class="glyphicon glyphicon-chevron-left"></span></a></li>
+						</c:if>
+									
+							<c:forEach var ="i" begin="${startPage}" end="${endPage}">
+								<c:if test="${i == currentPage}">
+									<li class="active"><a href="GuestManage.ad?pageNum=${i}">${i}</a></li>
+								</c:if>
+								
+								<c:if test="${i != currentPage}">
+									<li><a href="GuestManage.ad?pageNum=${i}">${i}</a></li>
+								</c:if>
+							</c:forEach>
+							
+							<c:if test="${pageCount > endPage}">
+							<li><a href="GuestManage.ad?pageNum=${startPage + pageBlock}"><span
+									class="glyphicon glyphicon-chevron-right"></span></a></li>
+							</c:if>
+						</ul>
+					</c:if>
+					<!-- 페이지 컨트롤 종료 -->
 
 				</div>
 				<!-- /content-panel -->

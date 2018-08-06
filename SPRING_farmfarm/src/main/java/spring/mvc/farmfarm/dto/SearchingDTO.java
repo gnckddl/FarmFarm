@@ -23,7 +23,7 @@ public class SearchingDTO {
 	private int auc_nowPrice;
 	private int auc_status;
 	private String auc_regDate;
-	private String auc_term;
+	private String auc_endDate;
 	
 	
 	
@@ -129,11 +129,11 @@ public class SearchingDTO {
 	public final void setAuc_regDate(String auc_regDate) {
 		this.auc_regDate = auc_regDate;
 	}
-	public final String getAuc_term() {
-		return auc_term;
+	public final String getAuc_endDate() {
+		return auc_endDate;
 	}
-	public final void setAuc_term(String auc_term) {
-		this.auc_term = auc_term;
+	public final void setAuc_endDate(String auc_endDate) {
+		this.auc_endDate = auc_endDate;
 	}
 	
 	

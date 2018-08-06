@@ -55,8 +55,8 @@
 									<td align="center">${dto.farmer_id}</td>
 									<td align="center">${dto.fund_title}</td>
 									<td align="center">${dto.stock_name}</td>									
-									<td align="center">${dto.fund_price} / ${dto.stock_price * dto.count} </td>
-									<td align="center">${dto.count} 명</td>
+									<td align="center">${dto.fund_price} / ${dto.stock_price * dto.fund_join} </td>
+									<td align="center">${dto.fund_join} 명</td>
 									<td align="center">${dto.fund_endDate}</td>
 								</tr>								
 								<c:set var="i" value="${i+1}"/>

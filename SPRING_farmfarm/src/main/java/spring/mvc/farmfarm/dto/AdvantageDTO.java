@@ -6,17 +6,18 @@ public class AdvantageDTO {
 	private String mem_id;
 	private int adv_reason;
 	private int adv_point;
-	private int adv_sumPoint;
+	//private int adv_sumPoint;
+	private Integer adv_sumPoint;
 	private String adv_regDate;
 	//adv 목록가져올때 번호순서를 위해서 추가
 	private int rNum;
 	
 	
 	
-	public final int getAdv_sumPoint() {
+	public final Integer getAdv_sumPoint() {
 		return adv_sumPoint;
 	}
-	public final void setAdv_sumPoint(int adv_sumPoint) {
+	public final void setAdv_sumPoint(Integer adv_sumPoint) {
 		this.adv_sumPoint = adv_sumPoint;
 	}
 	public  int getrNum() {

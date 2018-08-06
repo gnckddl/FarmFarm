@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<body>
 <!-- Bootstrap core CSS -->
     <link href="resources/css/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
@@ -16,6 +16,8 @@
     <link href="resources/css/assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="resources/css/assets/js/chart-master/Chart.js"></script>
+<body>
+
 
 <!--header start-->
       <header class="header">
@@ -114,7 +116,7 @@
                                     <span class="time">지금 막</span>
                                     </span>
                                     <span class="message">
-                                       	어린이 도움재단 입니다.
+                                          어린이 도움재단 입니다.
                                     </span>
                                 </a>
                             </li>
@@ -126,7 +128,7 @@
                                     <span class="time">40 분전</span>
                                     </span>
                                     <span class="message">
-                                     	아프리카 어린이모금단체 입니다.
+                                        아프리카 어린이모금단체 입니다.
                                     </span>
                                 </a>
                             </li>
@@ -138,7 +140,7 @@
                                     <span class="time">2 시간 전</span>
                                     </span>
                                     <span class="message">
-                                        	꿈나무 어린이 보육원 입니다.
+                                           꿈나무 어린이 보육원 입니다.
                                     </span>
                                 </a>
                             </li>
@@ -150,7 +152,7 @@
                                     <span class="time">4 시간 전</span>
                                     </span>
                                     <span class="message">
-                                       	 교회단체 입니다.
+                                           교회단체 입니다.
                                     </span>
                                 </a>
                             </li>
@@ -213,12 +215,16 @@
                      <span>펀드</span>
                  </a>
              </li>
-             <li>
-                 <a href="LetterList">
-                     <i class="fa fa-dashboard"></i>
-                     <span>쪽지</span>
-                 </a>
-             </li>
+             <li class="sub-menu"><a href="javascript:;"> <i
+               class=" fa fa-bar-chart-o"></i> <span>쪽지</span>
+            </a>
+               <ul class="sub">
+                  <li><a href="LetterList">보낸쪽지함</a></li>
+                  <li><a href="LetterGetList">받은쪽지함</a></li>
+               </ul></li>
+            <li><a href="logout"> <i class="fa fa-dashboard"></i> <span>로그아웃</span>
+            </a>
+         </li>
              <li>
                  <a href="#">
                      <i class="fa fa-dashboard"></i>
@@ -226,7 +232,7 @@
                  </a>
              </li>
              <li>
-                 <a href="#">
+                 <a href="guestDonateLists">
                      <i class="fa fa-dashboard"></i>
                      <span>내 기부내역</span>
                  </a>
@@ -237,7 +243,7 @@
                     <span>주말 농장</span>
                 </a>
                 <ul class="sub">
-                   <li><a  href="#">주말농장 관리</a></li>
+                   <li><a  href="CustomerWeeklyFarmlist">주말농장 관리</a></li>
                   <li><a  href="#">IoT</a></li>
                 </ul>
             </li>

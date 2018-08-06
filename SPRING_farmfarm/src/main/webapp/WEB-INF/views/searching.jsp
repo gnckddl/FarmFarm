@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ include file="setting.jsp" %> 
 <html>
 <link rel="stylesheet" href="resources/css/assets/bootstrap.css">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -10,13 +8,15 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 <body class="board-body">
 <!-- 헤더시작 -->
 <header>
 	<%@include file="Header.jsp" %>
 </header>
-<!-- 헤더끝 --> 
+<!-- 헤더끝 -->
 
 <!------ Include the above in your HEAD tag ---------->
 
@@ -33,11 +33,11 @@
          
         <tr align="center">
          <td style="width:10%"><b>거래 종류</b></td>
-          <td style="width:15%"><b>이미지</b></td>
-           <td style="width:10%"><b>상품명</b></td>
-           <td style="width:15%"><b>거래명</b></td>
+          <td style="width:20%"><b>이미지</b></td>
+           <td style="width:7%"><b>상품명</b></td>
+           <td style="width:18%"><b>거래 상품명</b></td>
            <td style="width:10%"><b>가격</b></td>
-           <td style="width:10%"><b>상품 종류</b></td>
+           <td style="width:8%"><b>상품 종류</b></td>
            <td style="width:10%"><b>상품 상태</b></td>
            <td style="width:10%"><b>종료 날짜</b></td>
            <!--  <th>글쓰기</th>
@@ -56,7 +56,7 @@
 				</td>
 				
 				<td align="center">
-					${dto.stock_image}
+					<a href="#"><img src="${image}main/${dto.stock_image}"></a>
 				</td>
 				
 				<td align="center">
@@ -106,7 +106,7 @@
 				</td>
 				
 				<td align="center">
-					${dto.stock_image}
+					<a href="AuctionItemContent?auc_no=${dto.auc_no}"><img style="width:200px;" src="${images}main/${dto.stock_image}"></a>
 				</td>
 				
 				<td align="center">
@@ -152,7 +152,7 @@
 					<!-- date>number형변환 -->
 					<fmt:parseNumber var="endDate" value="${(startDate.time+addDate.time)/(1000*60*60*24)}" integerOnly="true"/>
 					<!-- 남은날짜 계산후 출력(남았는지,넘었는지 체크) --> --%>
-					${dto.auc_term}
+					${dto.auc_endDate}
 				</td>
 				
 	 		</tr>
@@ -170,7 +170,7 @@
 <c:if test="${cnt==0}">
 	<tr>
 		<td colspan="6" align="center">
-			게시글이 없습니다. 글을 작성해 주세요.!!
+			검색 내용이 존재하지 않습니다.
 		</td>
 	</tr>
 </c:if>
@@ -216,8 +216,5 @@
     </footer>
    <!--푸터 끝  -->  
     
- 	<!--스크립트 공통부분  -->
-   <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-   <script src="resources/js/bootstrap.js"></script>
 </body>
 </html>

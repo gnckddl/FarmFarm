@@ -112,7 +112,7 @@
 	}
 	
 </style>
-<body>
+<body onload="document.login-form.userId.focus();">
 
 
 <!-- 헤더시작 -->

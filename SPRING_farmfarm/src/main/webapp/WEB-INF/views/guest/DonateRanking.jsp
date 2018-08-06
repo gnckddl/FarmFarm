@@ -53,7 +53,7 @@
 									<td align="center">${dto.farmer_id}</td>
 									<td align="center">${dto.stock_name}</td>
 									<td align="center">${dto.fund_price}</td>									
-									<td align="center">${dto.count} </td>
+									<td align="center">${dto.fund_join} </td>
 								</tr>								
 								<c:set var="i" value="${i+1}"/>
 							</c:forEach>

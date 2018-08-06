@@ -8089,5 +8089,270 @@ element.style {
 
 /*2018/07/20  */
 
+/* 18/07/31 */
 
+.section-itemview-top .section-title {
+    font-size: 30px;
+    font-weight: 700;
+}
+.section-title {
+    padding: 0px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #555;
+    letter-spacing: 0px;
+    margin: 0;
+    line-height: 150%;
+}
+.ff-summary .rewardline {
+    font-size: 16px;
+    line-height: 170%;
+    margin-bottom: 20px;
+    color: #645353;
+    font-weight: 400;
+}
+.section-header-sm {
+    padding: 20px 0 20px 0;
+}
+@media (min-width: 992px){
+	.ff-summary .status {
+	    height: 400px;
+	    padding-top: 20px;
+	    padding-bottom: 0px;
+	    width: 100%;
+	    border-top: 1px solid #ccc;
+	    z-index: 222;
+	    margin-bottom: 20px;
+	    list-style-type: none;
+	    text-align: center;
+	}
+}
+@media (min-width: 992px){
+	.ff-summary .status .number {
+	    font-size: 30px;
+	    margin-bottom: 0px;
+	    color: #645353;
+	    font-wieght:500px;
+	}
+}
+@media (min-width: 992px){
+	.ff-summary .status .number-label {
+	    font-size: 14px;
+	    color: #645353;
+	    padding-left: 2px;
+	    font-weight: 700;
+	}
+}
+@media (min-width: 992px){
+	.ff-summary .status .number span {
+	    font-size: 14px;
+	    margin-left: 3px;
+	    font-weight: 700;
+	}
+}
+@media (min-width: 992px){
+	.ff-summary .status .funding-go {
+	    float: none;
+	    width: 100%;
+	    padding-top: 10px !important;
+	}
+}
+.ff-summary .btn-go {
+    margin-top: 0px;
+    width: 100%;
+    margin-bottom: 0px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+    padding: 18px 15px;
+    -webkit-transition: background-color 1s, -webkit-transform 1s;
+    transition: background-color 1s, transform 1s;
+}
+@media (min-width: 992px){
+	.ff-summary .status li {
+	    float: none;
+	    width: 100%;
+	    margin-bottom: 25px;
+	}
+}
+.btn, .btn-large, .btn-flat {
+    border: none;
+    border-radius: 2px;
+    /* display: inline-block; */
+    /* height: 36px; */
+    /* line-height: 36px; */
+    /* padding: 0 2rem; */
+    /* text-transform: uppercase; */
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+}
+.collapsible-header {
+    display: block;
+    cursor: pointer;
+    min-height: 3rem;
+    line-height: 3rem;
+    padding: 0 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+ul:not(.browser-default) {
+    padding-left: 0;
+    list-style-type: none;
+}
+.farmer-card .collapsible-header {
+    border-bottom: 0px !important;
+    padding: 15px 0px !important;
+}
+
+.farmer-card .collapsible-header .pic {
+    float: left;
+    border-radius: 3px;
+    margin: 0 15px 0 0;
+    border: 1px solid #e1e1e1;
+    width: 60px;
+    height: 60px;
+}
+
+.farmer-card .collapsible-header .icon-more {
+    float: right;
+    font-size: 24px;
+    width: 30px;
+    margin-right: -5px;
+    margin-top: -5px;
+    text-align: center;
+}
+
+.farmer-card .collapsible-header .header-set {
+    line-height: 130%;
+}
+
+.farmer-card .collapsible-header .header-set .farmername {
+    padding: 12px 0 0 0;
+    margin: 0 0 10px 0;
+}
+
+.farmer-card .collapsible-header .header-set .farmerspot {
+    padding: 0px;
+    margin-top: 0;
+    color: #aaa;
+}
+
+.farmer-card .collapsible-header .header-set .farmerspot i {
+    font-size: 14px;
+    color: #aaa;
+    float: left;
+    line-height: 120%;
+    margin-top: -2px;
+    width: 15px;
+    text-align: center;
+    margin-right: 3px;
+    margin-left: 0px;
+    padding: 0px !important;
+}
+.collapsible-header i {
+    width: 2rem;
+    font-size: 1.6rem;
+    line-height: 3rem;
+    display: block;
+    float: left;
+    text-align: center;
+    margin-right: 1rem;
+}
+.farmer-card .collapsible-body .farmerabout {
+    padding: 15px 0;
+    border-bottom: 1px solid #e1e1e1;
+    font-size: 12px;
+}
+.farmer-card .collapsible-body .cell1 {
+    border-right: 1px solid #e1e1e1 !important;
+    line-height: 120%;
+    padding-top: 8px;
+    padding-bottom: 0px;
+}
+small {
+    font-size: 75%;
+}
+.farmer-card {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 0px 20px 0px 20px!important;
+    margin-bottom: 0px;
+    box-shadow: none;
+    border: 0px !important;
+    outline: none !important;
+}
+.farmer-card .collapsible-body {
+    border-top: 1px solid #e1e1e1;
+    /* margin-top: 0px; */
+    border-bottom: 0px;
+}
+.farmer-card .collapsible-body .cell2 {
+    padding-left: 15px !important;
+    border-right: 1px solid #e1e1e1 !important;
+    line-height: 120%;
+    padding-top: 8px;
+    padding-bottom: 0px;
+}
+.farmer-card .collapsible-body .cell3 {
+    padding-left: 15px !important;
+    line-height: 120%;
+    padding-top: 8px;
+    padding-bottom: 0px;
+}
+.pace-done .navbar-static-side, .pace-done .nav-header, .pace-done li.active, .pace-done #page-wrapper, .pace-done .footer {
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+.itemview-carousel .ibox .ibox-content {
+    cursor: move;
+    height: auto;
+    padding: 0;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+.ibox-content {
+    background-color: #ffffff;
+    color: inherit;
+    padding: 15px 20px 20px 20px;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0px;
+}
+.ff-episode .episode-title {
+    margin-bottom: 30px;
+    color: #26b597;
+    font-size: 18px;
+    font-weight: 700;
+    font-size: 24px;
+}
+.ff-episode .episode-article {
+    margin-bottom: 40px;
+    font-size: 14px;
+    line-height: 200%;
+    color: #444;
+    letter-spacing: 0px;
+}
+@media (min-width: 768px){
+	.ff-episode .episode-article {
+	    font-size: 17px;
+	}
+}
+.auc_content{
+	    font-family: 'NotoSans', 'Sans-serif' !important;
+}
+
+/* 18/07/31 */
  

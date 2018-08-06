@@ -236,7 +236,7 @@ ul.top-menu > li > .logout {
 }
 
 #sidebar h5 {
-	color: #f2f2f2;
+	color: #00A58A;
 	font-weight: 700;
 }
 
@@ -397,9 +397,10 @@ ul.sidebar-menu li a.active i {
 
 /* MAIN CONTENT CONFIGURATION */
 #main-content {
-    margin-left: 210px;
+    margin-left: 230px;
+    margin-right: 20px;
 }
-
+.00000000
 .header, .footer {
     min-height: 60px;
     padding: 0 15px;
@@ -1053,25 +1054,25 @@ PANELS CONFIGURATIONS
 
 /*Green Panel*/
 .green-panel {
-	text-align: center;
-	background: #68dff0;
+   text-align: center;
+   background: #ffffff;
 }
 .green-panel .green-header {
-	background: #43b1a9;
-	padding: 3px;
-	margin-bottom: 15px;
+   background: #00A58A;
+   padding: 3px;
+   margin-bottom: 15px;
 }
 .green-panel h5 {
-	color: white;
-	font-weight: 200;
-	margin-top: 10px;
+   color: white;
+   font-weight: 200;
+   margin-top: 10px;
 }
 .green-panel h3 {
-	color: white;
-	font-weight: 100;
+   color: white;
+   font-weight: 100;
 }
 .green-panel p {
-	color: white;
+   color: #00A58A;
 }
 
 /*White Panel */

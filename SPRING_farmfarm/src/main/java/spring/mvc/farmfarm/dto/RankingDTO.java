@@ -11,10 +11,16 @@ public class RankingDTO {
 	private String farmer_id;		
 	private int fund_price;
 	private String fund_endDate;	
-	private int count;
+	private int fund_join;
 	
 	
 	
+	public final int getFund_join() {
+		return fund_join;
+	}
+	public final void setFund_join(int fund_join) {
+		this.fund_join = fund_join;
+	}
 	public final String getFarmer_id() {
 		return farmer_id;
 	}
@@ -57,12 +63,5 @@ public class RankingDTO {
 	public final void setFund_price(int fund_price) {
 		this.fund_price = fund_price;
 	}
-	public final int getCount() {
-		return count;
-	}
-	public final void setCount(int count) {
-		this.count = count;
-	}
-	
 	
 }

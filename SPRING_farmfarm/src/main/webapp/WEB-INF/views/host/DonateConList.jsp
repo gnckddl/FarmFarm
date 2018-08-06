@@ -14,81 +14,114 @@
 	<!-- 관리자 사이드 바 -->
 	<%@ include file="../HostSideBar.jsp"%>
 
-	<section id="main-content"> <section class="wrapper">
-	<h3>
-		<i class="fa fa-angle-right"></i> [기부업체 현황]
-	</h3>
-	<div class="row">
-		<!-- 기부업체 현황 시작 -->
-		<div class="col-md-12 mt">
-			<div class="content-panel">
-				<table class="table table-hover">
-					<h4>
-						<i class="fa fa-angle-right"></i> 기부업체 현황 (3건)
-					</h4>
-					<hr>
-					<thead>
-						<tr>
-							<th style="width: 5%">선택</th>
-							<th style="width: 5%">번호</th>
-							<th style="width: 15%"></th>
-							<th style="width: 10%">이름</th>
-							<th style="width: 10%">담당자</th>
-							<th style="width: 10%">등록일</th>
-							<th style="width: 10%">총 기부 금액</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>체크박스</td>
-							<td>1</td>
-							<td><img src="${hostImage}/donate1.jpg" width="100px"></td>
-							<td>유니세프</td>
-							<td>문재인</td>
-							<td>2018-07-22</td>
-							<td>￦10,000</td>
-						</tr>
-						<tr>
-							<td>체크박스</td>
-							<td>2</td>
-							<td><img src="${hostImage}/donate2.jpg" width="100px"></td>
-							<td></td>
-							<td>안철수</td>
-							<td>2018-07-22</td>
-							<td>￦20,000</td>
-						</tr>
-						<tr>
-							<td>체크박스</td>
-							<td>3</td>
-							<td><img src="${hostImage}/donate4.jpg" width="100px"></td>
-							<td>하나사랑협회</td>
-							<td>홍준표</td>
-							<td>2018-07-22</td>
-							<td>￦30,000</td>
-						</tr>
-					</tbody>
-				</table>
+	<section id="main-content">
+		<section class="wrapper">
+		<h3>
+			<i class="fa fa-angle-right"></i> 기부업체 현황
+		</h3>
+		<div class="row">
+			<!-- 기부업체 현황 시작 -->
+			<div class="col-md-12 mt">
+				<div class="content-panel">
+					<table class="table table-hover">
+						<h4>
+							<i class="fa fa-angle-right"></i> 기부업체 현황 (${cnt}건)
+						</h4>
+						
+						<thead>
+							<tr>
+								<td colspan="7"></td>
+								<td>
+									<button type="button" class="btn btn-theme04" onclick="window.location='DonateWriteForm.ad?pageNum=${pageNum}'">
+                                        	<i class="fa fa-heart"></i> 기부단체 등록
+                           			</button>
+								</td>
+							</tr>
+							<tr>
+								<th style="width: 1%"><input type="checkbox" id="checkall"></th>
+								<th style="width: 5%">번호</th>
+								<th style="width: 5%">로고</th>
+								<th style="width: 15%">이름</th>
+								<th style="width: 10%">담당자</th>
+								<th style="width: 10%">등록일</th>
+								<th style="width: 10%">총 기부 금액</th>
+								<th style="width: 3%">관리</th>
+							</tr>
+						</thead>
+						<tbody>
+						 <!-- 게시글이 있으면 -->
+                           <c:if test="${cnt>0}"> 
+                           <c:if test="${d_state != 0}">
+                           <!-- 큰바구니에서 작은바구니로 한건을꺼냄 건수만큼 반복하라-->
+                              <c:forEach var="dto" items="${dtos}">
+                                  <tr>
+                                 	 <td><input type="checkbox" class="checkthis"></td>
+                                     <td>${number}
+										<c:set var="number" value="${number-1}"/>	
+                                     </td>
+                                     <td><img src="${hostImage}/${dto.doOrg_image}" width="100px"></td>
+                    				 <td>${dto.doOrg_name}</td>
+                                     <td>${dto.doOrg_person}</td>
+                                     <td>${dto.doOrg_regDate}</td>
+                                     <td>${dto.doOrg_account}</td>
+                                     <td>                     
+                                        <button type="button" class="btn btn-primary" onclick="window.location='donateModifyView.ad?pageNum=${pageNum}&doForm_id=${dto.doForm_id}'">
+                                        	<i class="fa fa-cog"> 수정</i>
+                                        </button>
+                             			<button type="button" class="btn btn-default" onclick="window.location='donateDeletePro.ad?pageNum=${pageNum}&doForm_id=${dto.doForm_id}'">
+                                        	<i class="fa fa-times"></i> 삭제
+                           				</button>
+                             		</td>
+                                 </tr>
+                               </c:forEach>
+                            </c:if>
+                            </c:if>
+                            <!-- 게시글이 없으면 -->
+                           <c:if test="${cnt==0}">
+                              <tr>
+                                 <td colspan="6" align="center">
+                                   	 기부 단체가 없습니다.!!
+                                 </td>
+                              </tr>
+                           </c:if>
+						</tbody>
+					</table>
+				</div>
+				<!--/content-panel -->
 			</div>
-			<!--/content-panel -->
+			<!-- /col-md-12 -->
+			<!-- 기부업체 현황 끝 -->
 		</div>
-		<!-- /col-md-12 -->
-		<!-- 기부업체 현황 끝 -->
-	</div>
-	<!-- row -->
-
-	<div class="clearfix"></div>
-	<ul class="pagination pull-right">
-		<li class="disabled"><a href="#"><span
-				class="glyphicon glyphicon-chevron-left"></span></a></li>
-		<li class="active"><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#">4</a></li>
-		<li><a href="#">5</a></li>
-		<li><a href="#"><span
-				class="glyphicon glyphicon-chevron-right"></span></a></li>
-	</ul>
-	</section> </section>
+		<!-- row -->
+	
+		<!-- 페이지 컨트롤 시작 -->
+		<c:if test="${cnt>0 }">
+			<div class="clearfix"></div>
+			<ul class="pagination pull-right">
+			<c:if test="${startPage > pageBlock}">
+				<li class="disabled"><a href="DonateConList.ad?${startPage - pageBlock}">
+				<span class="glyphicon glyphicon-chevron-left"></span></a></li>
+			</c:if>
+						
+				<c:forEach var ="i" begin="${startPage}" end="${endPage}">
+					<c:if test="${i == currentPage}">
+						<li class="active"><a href="DonateConList.ad?pageNum=${i}">${i}</a></li>
+					</c:if>
+					
+					<c:if test="${i != currentPage}">
+						<li><a href="DonateConList.ad?pageNum=${i}">${i}</a></li>
+					</c:if>
+				</c:forEach>
+				
+				<c:if test="${pageCount > endPage}">
+				<li><a href="DonateConList.ad?pageNum=${startPage + pageBlock}"><span
+						class="glyphicon glyphicon-chevron-right"></span></a></li>
+				</c:if>
+			</ul>
+		</c:if>
+		<!-- 페이지 컨트롤 종료 -->
+		</section>
+	</section>
 
 	<!-- 관리자 푸터 -->
 	<footer> <%@ include file="../HostFooter.jsp"%>

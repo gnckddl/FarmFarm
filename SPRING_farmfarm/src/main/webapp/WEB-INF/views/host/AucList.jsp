@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,84 +9,65 @@
 <body>
 
 	<!-- 헤더 -->
-	<%@ include file="../Header.jsp" %>
- 	
- 	<!-- 관리자 사이드 바 -->
-	<%@ include file="../HostSideBar.jsp" %>
- 	
- 	<section id="main-content">
-          <section class="wrapper">
-          	<h3><i class="fa fa-angle-right"></i> [경매 진행내역]</h3>
-				<div class="row">
-					  <!-- 경매 진행내역 시작 -->
-	                  <div class="col-md-12 mt">
-	                  	<div class="content-panel">
-	                          <table class="table table-hover">
-	                  	  	  <h4><i class="fa fa-angle-right"></i> 경매 진행내역 (3건)</h4>
-	                  	  	  <hr>
-	                              <thead>
-	                              <tr>
-	                                  <th style="width:5%">번호</th>
-	                                  <th style="width:15%">상품 이미지</th>
-	                                  <th style="width:30%">경매 제목</th>
-	                                  <th style="width:10%">경매 파트너</th>
-	                                  <th style="width:10%">작성일</th>
-	                                  <th style="width:5%">조회 수</th>
-	                              </tr>
-	                              </thead>
-	                              <tbody>
-	                              <tr>
-	                                  <td>1</td>
-	                                  <td><img src="${hostImage}/watermelon.jpg" width="100px"></td>
-	                                  <td>경매 1</td>
-	                                  <td>문재인</td>
-	                                  <td>2018-07-22</td>
-	                                  <td>1</td>
-	                              </tr>
-	                              <tr>
-	                                  <td>2</td>
-	                                  <td><img src="${hostImage}/watermelon.jpg" width="100px"></td>
-	                                  <td>경매 2</td>
-	                                  <td>안철수</td>
-	                                  <td>2018-07-22</td>
-	                                  <td>2</td>
-	                              </tr>
-	                              <tr>
-	                                  <td>3</td>
-	                                  <td><img src="${hostImage}/watermelon.jpg" width="100px"></td>
-	                                  <td>경매 3</td>
-	                                  <td>홍준표</td>
-	                                  <td>2018-07-22</td>
-	                                  <td>3</td>
-	                              </tr>
-	                              </tbody>
-	                          </table>
-	                  	  </div> <!--/content-panel -->
-	                  </div><!-- /col-md-12 -->
-	                  <!-- 경매 진행내역 끝 -->
-				</div><!-- row -->
-				
-				<div class="clearfix"></div>
-				<ul class="pagination pull-right">
-				  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-				  <li class="active"><a href="#">1</a></li>
-				  <li><a href="#">2</a></li>
-				  <li><a href="#">3</a></li>
-				  <li><a href="#">4</a></li>
-				  <li><a href="#">5</a></li>
-				  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-				</ul>
+	<%@ include file="../Header.jsp"%>
+
+	<!-- 관리자 사이드 바 -->
+	<%@ include file="../HostSideBar.jsp"%>
+
+	<section id="main-content">
+		<section class="wrapper">
+		<h3>
+			<i class="fa fa-angle-right"></i> 경매 진행내역
+		</h3>
+		<div class="row">
+			<!-- 경매 진행내역 시작 -->
+			<div class="col-md-12 mt">
+				<%@ include file="AucList_ing.jsp"%>
+			</div>
+			<!-- 경매 진행내역 끝 -->
+	
+			<!-- 경매 완료내역 시작 -->
+			<div class="col-md-12 mt">
+				<%@ include file="AucList_end.jsp"%>
+				<!-- 페이지 컨트롤 시작 -->
+				  <c:if test="${cnt>0 }">
+				     <div class="clearfix"></div>
+				     <ul class="pagination pull-right">
+				     <c:if test="${startPage > pageBlock}">
+				        <li class="disabled"><a href="AucList_ing.ad?${startPage - pageBlock}">
+				        <span class="glyphicon glyphicon-chevron-left"></span></a></li>
+				     </c:if>
+				              
+				        <c:forEach var ="i" begin="${startPage}" end="${endPage}">
+				           <c:if test="${i == currentPage}">
+				              <li class="active"><a href="AucList_ing.ad?pageNum=${i}">${i}</a></li>
+				           </c:if>
+				           
+				           <c:if test="${i != currentPage}">
+				              <li><a href="AucList_ing.ad?pageNum=${i}">${i}</a></li>
+				           </c:if>
+				        </c:forEach>
+				        
+				        <c:if test="${pageCount > endPage}">
+				        <li><a href="AucList_ing.ad?pageNum=${startPage + pageBlock}"><span
+				              class="glyphicon glyphicon-chevron-right"></span></a></li>
+				        </c:if>
+				     </ul>
+				  </c:if>
+				  <!-- 페이지 컨트롤 종료 -->
+			</div>
+			<!-- 경매 완료내역 끝 -->
+		</div><!-- row -->
 		</section>
 	</section>
- 	
- 	<!-- 관리자 푸터 -->
+
+	<!-- 관리자 푸터 -->
 	<footer> <%@ include file="../HostFooter.jsp"%>
 	</footer>
- 	
- 	<!-- 푸터 -->
- 	<footer>
-		<%@ include file="../Footer.jsp" %>
+
+	<!-- 푸터 -->
+	<footer> <%@ include file="../Footer.jsp"%>
 	</footer>
- 	
+
 </body>
 </html>
