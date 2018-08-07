@@ -19,18 +19,44 @@ public class AuctionDTO {
     private int auc_startPrice;
     private Integer auc_nowPrice;
     private Date auc_endDate;
+    private String auc_title;
     //화면뿌릴려고 추가
     private String mem_id;
     private String auc_no;
-    
-    
+    private int join_aucPrice;
+    private Date join_regDate;
     
 	//auc_endDate로 수정해야함
     private Date auc_term;
+    private int cnt;		//참여횟수
     
     
     
-    public final String getAuc_no() {
+	public final int getJoin_aucPrice() {
+		return join_aucPrice;
+	}
+	public final void setJoin_aucPrice(int join_aucPrice) {
+		this.join_aucPrice = join_aucPrice;
+	}
+	public final Date getJoin_regDate() {
+		return join_regDate;
+	}
+	public final void setJoin_regDate(Date join_regDate) {
+		this.join_regDate = join_regDate;
+	}
+	public final String getAuc_title() {
+		return auc_title;
+	}
+	public final void setAuc_title(String auc_title) {
+		this.auc_title = auc_title;
+	}
+	public final int getCnt() {
+		return cnt;
+	}
+	public final void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public final String getAuc_no() {
 		return auc_no;
 	}
 	public final void setAuc_no(String auc_no) {

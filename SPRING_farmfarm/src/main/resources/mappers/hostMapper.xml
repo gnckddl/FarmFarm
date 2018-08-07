@@ -474,7 +474,7 @@
       <![CDATA[
       SELECT *
         FROM(
-              SELECT d.doOrg_name, d.doOrg_image, m.dona_price, m.mem_id, m.dona_date, m.dona_title, rownum rNum
+              SELECT d.doOrg_name, d.doOrg_image, m.dona_price, m.mem_id, m.dona_date, rownum rNum
                   FROM tbl_doOrg d
                   JOIN tbl_memDo m
                     ON d.doForm_id = m.doForm_id

@@ -2,17 +2,19 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="spring.mvc.farmfarm.persistence.FarmDAO">
 	<!-- 장렬 -->
 	<!-- ***회원쪽지*** -->
 	<!-- 1.받은 쪽지 갯수 -->
 	<select id="getArtileCnt" resultType="int">
-		select count(*) from tbl_letters
+		select count(*) from
+		tbl_letters
 	</select>
-	
+
 	<!-- 2.쪽지 리스트 확인 -->
-	<select id="getArticleList" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+	<select id="getArticleList" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO">
 		<![CDATA[ 
 	SELECT * FROM ( SELECT b.boa_id, b.mem_id, b.boa_subject, b.boa_content, l.letter_id, b.boa_regDate, 
 					b.boa_category, rownum rNum FROM tbl_board b join tbl_letters l on b.boa_id=l.boa_id) 
@@ -20,40 +22,46 @@
 					  		mem_id= #{userId} AND 
 					  			rNum >= #{start} AND rNum <= #{end}]]>
 	</select>
-	
+
 	<!-- 3.회원 받은 쪽지함 확인/ 농부가 보낸 쪽지함 -->
-	<select id="getArticle" resultType="spring.mvc.farmfarm.dto.BoardDTO">
-	 select * from tbl_board b join tbl_letters l on b.boa_id=l.boa_id 
-	 		 WHERE b.boa_category=6 AND b.BOA_ID = #{boa_id}
+	<select id="getArticle"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO">
+		select * from tbl_board b join tbl_letters l on b.boa_id=l.boa_id
+		WHERE b.boa_category=6 AND b.BOA_ID = #{boa_id}
 	</select>
-	
+
 	<!-- 4.전송한 쪽지 처리 -->
-	<insert id="insertLetter" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
-		  insert all
-          	into TBL_BOARD(boa_id,mem_id,boa_subject,boa_content,boa_regDate,boa_ip,boa_category)
-          		values(tbl_board_seq.NEXTVAL,#{mem_id},#{boa_subject},#{boa_content},sysdate,'0',6)
-          	into tbl_letters(boa_id, letter_id)values(tbl_board_seq.currval,#{letter_id})
-          select * from dual
+	<insert id="insertLetter"
+		parameterType="spring.mvc.farmfarm.dto.BoardDTO">
+		insert all
+		into
+		TBL_BOARD(boa_id,mem_id,boa_subject,boa_content,boa_regDate,boa_ip,boa_category)
+		values(tbl_board_seq.NEXTVAL,#{mem_id},#{boa_subject},#{boa_content},sysdate,'0',6)
+		into tbl_letters(boa_id,
+		letter_id)values(tbl_board_seq.currval,#{letter_id})
+		select * from dual
 	</insert>
-	
+
 	<!-- 5.쪽지 삭제 처리 -->
 	<delete id="LTdelete" parameterType="java.util.Map">
-		 DELETE FROM tbl_letters l
-                WHERE EXISTS
-                (
-                    SELECT 1
-                    	from
-                    		tbl_board b
-                    			where l.boa_id = b.boa_id
-                    				and b.BOA_ID in
-        <foreach collection="check" item="boa_id" open="(" separator="," close=")">
-                    #{boa_id}
+		DELETE FROM tbl_letters l
+		WHERE EXISTS
+		(
+		SELECT 1
+		from
+		tbl_board b
+		where l.boa_id = b.boa_id
+		and b.BOA_ID in
+		<foreach collection="check" item="boa_id" open="("
+			separator="," close=")">
+			#{boa_id}
 		</foreach>
 		)
 	</delete>
-	
+
 	<!-- 6. 회원 - 받은 쪽지함 -->
-	<select id="LetterGetList" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+	<select id="LetterGetList" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO">
 	<![CDATA[ 
 		SELECT * FROM ( SELECT b.boa_id, b.mem_id, b.boa_subject, b.boa_content, 
 							   l.letter_id, b.boa_regDate, b.boa_category, rownum rNum
@@ -62,10 +70,11 @@
 					  		 letter_id=#{userId} AND
 					  		    rNum >= #{start} AND rNum <= #{end}]]>
 	</select>
-	
+
 	<!-- ***농부쪽지*** -->
 	<!-- 1. 농부 - 농부 쪽지함 -->
-	<select id="FarmersLetterReply" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+	<select id="FarmersLetterReply" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO">
 		<![CDATA[ 
 		SELECT * FROM ( SELECT b.boa_id, b.mem_id, b.boa_subject, b.boa_content, l.letter_id, 
 							   b.boa_regDate, b.boa_category, rownum rNum
@@ -75,25 +84,30 @@
 					  			rNum >= #{start} AND rNum <= #{end}
 		]]>
 	</select>
-	
-	<!-- 2. 농부 - 회원문의  쪽지 상세페이지 -->
-	<select id="LTFarmerContentsForm" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
-	 SELECT * FROM tbl_board b join tbl_letters l on b.boa_id=l.boa_id 
-	 		 WHERE b.boa_category=6 AND 
-	 		 	   b.BOA_ID = #{boa_id}
+
+	<!-- 2. 농부 - 회원문의 쪽지 상세페이지 -->
+	<select id="LTFarmerContentsForm" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO">
+		SELECT * FROM tbl_board b join tbl_letters l on b.boa_id=l.boa_id
+		WHERE b.boa_category=6 AND
+		b.BOA_ID = #{boa_id}
 	</select>
-	
+
 	<!-- 3. 농부 - 회원문의 답변처리 -->
-	<insert id="replyLetter" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
-	 	  insert all
-          	into TBL_BOARD(boa_id,mem_id,boa_subject,boa_content,boa_regDate,boa_ip,boa_category)
-          		values(tbl_board_seq.NEXTVAL,#{mem_id},#{boa_subject},#{boa_content},sysdate,'0',6)
-          	into tbl_letters(boa_id, letter_id)values(tbl_board_seq.currval,#{letter_id})
-          select * from dual
+	<insert id="replyLetter"
+		parameterType="spring.mvc.farmfarm.dto.BoardDTO">
+		insert all
+		into
+		TBL_BOARD(boa_id,mem_id,boa_subject,boa_content,boa_regDate,boa_ip,boa_category)
+		values(tbl_board_seq.NEXTVAL,#{mem_id},#{boa_subject},#{boa_content},sysdate,'0',6)
+		into tbl_letters(boa_id,
+		letter_id)values(tbl_board_seq.currval,#{letter_id})
+		select * from dual
 	</insert>
-	
+
 	<!-- 4. 농부 - 답변완료 쪽지함 -->
-	<select id="replyletters" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+	<select id="replyletters" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO">
 	<![CDATA[ 
 		SELECT * FROM ( SELECT b.boa_id, b.mem_id, b.boa_subject, b.boa_content, l.letter_id, 
 						b.boa_regDate, b.boa_category, rownum rNum
@@ -102,26 +116,30 @@
 								   mem_id= #{userId} AND
 									rNum >= #{start} AND rNum <= #{end}]]>
 	</select>
-	
-	
+
+
 	<!-- *** 농부 주말농장 *** -->
 	<!-- 1. 농부 - 주말농장 신청 -->
-	<insert id="insertyard" parameterType="spring.mvc.farmfarm.dto.WeekFarmDTO">
+	<insert id="insertyard"
+		parameterType="spring.mvc.farmfarm.dto.WeekFarmDTO">
 		INSERT ALL
 		INTO tbl_wfarm(wfarm_key, mem_id, farm_key)
-		VALUES(tbl_wfarm_seq.NEXTVAL, #{mem_id} ,1)
-		INTO  TBL_WFARMINFO(wfarm_key, wfarminfo_title, wfarminfo_price, wfarminfo_add, wfarm_status)
-		VALUES (TBL_WFARM_SEQ.currval, #{wfarminfo_title},#{wfarminfo_price},#{wfarminfo_add},1)
+		VALUES(tbl_wfarm_seq.NEXTVAL, #{mem_id} ,(select farm_key from tbl_farm where mem_id=#{mem_id}))
+		INTO TBL_WFARMINFO(wfarm_key, wfarminfo_title, wfarminfo_price,
+		wfarminfo_add, wfarm_status)
+		VALUES (TBL_WFARM_SEQ.currval,
+		#{wfarminfo_title},#{wfarminfo_price},#{wfarminfo_add},1)
 		SELECT * FROM dual
 	</insert>
-	
+
 	<!-- 2. 농부 - 주말농장 신청 건수 -->
 	<select id="getWeekCnt" resultType="int">
 		SELECT COUNT(*)FROM tbl_wfarm
 	</select>
-	
+
 	<!-- 3. 농부 - 주말농장 신청 완료 목록 -->
-	<select id="getArticleWeekFarms" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.WeekFarmDTO">
+	<select id="getArticleWeekFarms" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.WeekFarmDTO">
 	<![CDATA[ 
 	 SELECT * FROM ( SELECT f.wfarm_key, f.mem_id, f.farm_key, i.wfarminfo_title, i.wfarminfo_price,i.wfarm_status,
                         rownum rNum FROM tbl_wfarm f JOIN tbl_wfarminfo i ON f.wfarm_key=i.wfarm_key WHERE i.wfarm_status=1)
@@ -130,8 +148,10 @@
 	]]>
 	</select>
 	<!-- ***회원 주말농장*** -->
-	<!-- 1. 회원 - 주말농장 신청 현황 -->	
-	<select id="CustomerWeeklyFarmlist" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.WeekFarmDTO">
+	<!-- 1. 회원 - 주말농장 신청 현황 -->
+	<select id="CustomerWeeklyFarmlist"
+		parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.WeekFarmDTO">
 	<![CDATA[
 	SELECT * FROM ( SELECT f.wfarm_key, f.mem_id, f.farm_key, i.wfarminfo_title, i.wfarminfo_price,i.wfarm_status, i.wfarminfo_add,
                         rownum rNum FROM tbl_wfarm f JOIN tbl_wfarminfo i ON f.wfarm_key=i.wfarm_key WHERE i.wfarm_status=1)
@@ -139,71 +159,90 @@
                         rNum >= #{start} AND rNum <= #{end}
 	]]>
 	</select>
-	
-	
+
+
 	<!-- ***농부 - 농부점수*** -->
 	<!-- 1. 농부 - 농부점수 건수 -->
 	<select id="getFarmerAdvCnt" resultType="int">
-		select count(*) from tbl_advantage where mem_id=#{strId}
+		select count(*) from
+		tbl_advantage where mem_id=#{strId}
 	</select>
-	
+
 	<!-- 2. 농부 - 농부점수 총 받은 리스트 -->
-	<select id="getFarmerAvg" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.AdvantageDTO">
+	<select id="getFarmerAvg" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.AdvantageDTO">
 		<![CDATA[ 
 			select *from (select adv_key,mem_id,adv_reason,adv_point,adv_sumPoint,to_char(adv_regDate, 'yyyy-mm-dd hh24:mi:ss') adv_regDate,rownum rNum from (select * from tbl_advantage order by adv_regDate desc) where mem_id=#{strId}) where rNum >= #{start} AND rNum <=#{end}		
 		]]>
 	</select>
-	
+
 	<!-- 민웅 -->
-	<!-- farmkey  -->
+	<!-- farmkey -->
 	<select id="getFarmKey" resultType="int">
-		SELECT farm_key FROM tbl_farm where mem_id=#{userId} 
-	</select>
-	
-	<!-- 경매 상품 등록 -->
-	<insert id="auctionUpdate" parameterType="spring.mvc.farmfarm.dto.AuctionDTO">
-         insert all
-             into tbl_stock(stock_no,farm_key,stock_name,stock_detail,stock_kg,stock_ea,stock_price,stock_image,stock_kind,stock_regDate)
-                values(tbl_stock_seq.NEXTVAL,#{farm_key},#{stock_name},#{stock_detail},#{stock_kg},#{stock_ea},#{stock_price},#{stock_image},#{stock_kind},#{stock_regDate})
-             into tbl_auction(auc_no,stock_no,auc_title,auc_endDate,auc_status,auc_startPrice)
-             	values(tbl_auction_seq.nextval,tbl_stock_seq.CURRVAL,#{stock_name},#{auc_endDate},1,#{stock_price})
-          select * from dual
-	</insert>
-	
-	<!-- 경매 진행 내역 건수 -->
-	<select id="getAuctionCnt" resultType="int">
-		SELECT COUNT(*) FROM tbl_auction WHERE auc_status= 1 or auc_status=2  
-	</select>
-	
-	<!-- 경매 상품 현황 및 이전내역 -->
-	<select id="auctionList" resultType="spring.mvc.farmfarm.dto.AuctionListDTO">
-		SELECT * FROM(SELECT a.auc_no, a.auc_title, a.auc_nowPrice, a.auc_finalPrice, a.auc_status, a.auc_regDate,
-						a.auc_endDate, s.stock_image,f.farm_key
-						FROM (SELECT * FROM tbl_auction ORDER BY auc_regDate DESC ) a join tbl_stock s on a.stock_no=s.stock_no join tbl_farm f on f.farm_key=s.farm_key) 
-						WHERE auc_status in (1,2) AND farm_key = #{farm_key}
-	</select>
-	
-	<!-- 펀드 상품 등록 -->
-	<insert id="fundUpdate" parameterType="spring.mvc.farmfarm.dto.FundDTO">
-		insert all
-        	into tbl_stock(stock_no,farm_key,stock_name,stock_detail,stock_kg,stock_ea,stock_price,stock_image,stock_kind,stock_regDate)
-        		values(tbl_stock_seq.NEXTVAL,#{farm_key},#{stock_name},#{stock_detail},#{stock_kg},#{stock_ea},#{stock_price},#{stock_image},#{stock_kind},#{stock_regDate})
-        	into tbl_fund(fund_no,stock_no,fund_title,fund_price,fund_status,fund_endDate)
-        		values(tbl_fund_seq.nextval,tbl_stock_seq.CURRVAL,#{fund_title},#{fund_price},1,#{fund_endDate})
-        select * from dual
-	</insert>
-	
-	<!-- 펀드 진행 내역 건수 -->
-	<select id="getfundCnt" resultType="int">
-		SELECT COUNT(*) FROM tbl_fund WHERE fund_status= 1 or fund_status=2  
+		SELECT farm_key FROM tbl_farm
+		where mem_id=#{userId}
 	</select>
 
-	<!-- 펀드 상품 현황 및 이전내역 -->	
-	<select id="fundList" resultType="spring.mvc.farmfarm.dto.FundListDTO">
-		SELECT * FROM(SELECT u.fund_no, u.fund_title, u.fund_price, u.fund_status, u.fund_endDate, u.fund_regDate,s.stock_detail,
-						s.stock_name, s.stock_image,s.stock_ea,s.stock_kind,s.stock_price,f.farm_key
-						FROM (SELECT * FROM tbl_fund ORDER BY fund_regDate DESC ) u join tbl_stock s on u.stock_no=s.stock_no join tbl_farm f on f.farm_key=s.farm_key) 
-						WHERE fund_status in (1,2) AND farm_key = #{farm_key}
+	<!-- 경매 상품 등록 -->
+	<insert id="auctionUpdate"
+		parameterType="spring.mvc.farmfarm.dto.AuctionDTO">
+		insert all
+		into
+		tbl_stock(stock_no,farm_key,stock_name,stock_detail,stock_kg,stock_ea,stock_price,stock_image,stock_kind,stock_regDate)
+		values(tbl_stock_seq.NEXTVAL,#{farm_key},#{stock_name},#{stock_detail},#{stock_kg},#{stock_ea},#{stock_price},#{stock_image},#{stock_kind},#{stock_regDate})
+		into
+		tbl_auction(auc_no,stock_no,auc_title,auc_endDate,auc_status,auc_startPrice)
+		values(tbl_auction_seq.nextval,tbl_stock_seq.CURRVAL,#{stock_name},#{auc_endDate},1,#{stock_price})
+		select * from dual
+	</insert>
+
+	<!-- 경매 진행 내역 건수 -->
+	<select id="getAuctionCnt" resultType="int">
+		SELECT COUNT(*) FROM
+		tbl_auction WHERE auc_status= 1 or auc_status=2
 	</select>
-	
+
+	<!-- 경매 상품 현황 및 이전내역 -->
+	<select id="auctionList"
+		resultType="spring.mvc.farmfarm.dto.AuctionListDTO">
+		SELECT * FROM(SELECT a.auc_no, a.auc_title, a.auc_nowPrice,
+		a.auc_finalPrice, a.auc_status, a.auc_regDate,
+		a.auc_endDate, s.stock_image,f.farm_key
+		FROM (SELECT * FROM tbl_auction ORDER BY auc_regDate DESC ) a join
+		tbl_stock s on a.stock_no=s.stock_no join tbl_farm f on
+		f.farm_key=s.farm_key)
+		WHERE auc_status in (1,2) AND farm_key = #{farm_key}
+	</select>
+
+	<!-- 펀드 상품 등록 -->
+	<insert id="fundUpdate"
+		parameterType="spring.mvc.farmfarm.dto.FundDTO">
+		insert all
+		into
+		tbl_stock(stock_no,farm_key,stock_name,stock_detail,stock_kg,stock_ea,stock_price,stock_image,stock_kind,stock_regDate)
+		values(tbl_stock_seq.NEXTVAL,#{farm_key},#{stock_name},#{stock_detail},#{stock_kg},#{stock_ea},#{stock_price},#{stock_image},#{stock_kind},#{stock_regDate})
+		into
+		tbl_fund(fund_no,stock_no,fund_title,fund_price,fund_status,fund_endDate)
+		values(tbl_fund_seq.nextval,tbl_stock_seq.CURRVAL,#{fund_title},#{fund_price},1,#{fund_endDate})
+		select * from dual
+	</insert>
+
+	<!-- 펀드 진행 내역 건수 -->
+	<select id="getfundCnt" resultType="int">
+		SELECT COUNT(*) FROM tbl_fund
+		WHERE fund_status= 1 or fund_status=2
+	</select>
+
+	<!-- 펀드 상품 현황 및 이전내역 -->
+	<select id="fundList"
+		resultType="spring.mvc.farmfarm.dto.FundListDTO">
+		SELECT * FROM(SELECT u.fund_no, u.fund_title, u.fund_price,
+		u.fund_status, u.fund_endDate, u.fund_regDate,s.stock_detail,
+		s.stock_name,
+		s.stock_image,s.stock_ea,s.stock_kind,s.stock_price,f.farm_key
+		FROM (SELECT * FROM tbl_fund ORDER BY fund_regDate DESC ) u join tbl_stock
+		s on u.stock_no=s.stock_no join tbl_farm f on f.farm_key=s.farm_key)
+		WHERE fund_status in (1,2) AND farm_key = #{farm_key}
+	</select>
+
 </mapper>

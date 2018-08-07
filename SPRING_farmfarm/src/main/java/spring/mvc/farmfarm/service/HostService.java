@@ -19,9 +19,6 @@ public interface HostService {
 	// 미등록 펀드 삭제
 	public void fundDelete(HttpServletRequest req, Model model);
 
-	// 펀드 진행내역_ 3: 중단, 4: 완료
-	public void fundList_end(HttpServletRequest req, Model model);
-
 	// 펀드 상태(1: 미등록 2: 진행중, 3: 중단, 4: 완료) 1.미등록 -> 2.진행중
 	public void fundOk(HttpServletRequest req, Model model);
 
@@ -35,9 +32,6 @@ public interface HostService {
 
 	// 미등록 경매 삭제
 	public void aucDelete(HttpServletRequest req, Model model);
-
-	// 경매 진행내역_유찰,낙찰
-	public void aucList_end(HttpServletRequest req, Model model);
 
 	// 경매 상태(1: 미등록 2: 진행중, 3: 유찰, 4: 낙찰) 1.미등록 -> 2.진행중
 	public void aucOk(HttpServletRequest req, Model model);

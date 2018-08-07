@@ -57,6 +57,14 @@ public interface MemberService {
 
 	// 경매 입찰처리
 	public void AuctionJoinPro(HttpServletRequest req, Model model);
+	
+	// 회원경매내역
+	public void AuctionList(HttpServletRequest req, Model model);
+	// 회원경매 진행내역보기
+	public void AuctionProgress(HttpServletRequest req, Model model);
+	// 회원 경매 진행내역 ajax
+	public void AuctionProgressAjax(HttpServletRequest req, Model model);
+	
 
 	// 펀드상품보기
 	public void FundProductsList(HttpServletRequest req, Model model);

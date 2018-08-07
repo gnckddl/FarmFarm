@@ -153,7 +153,7 @@ padding:0px;
                                    <div class="graph-bar" style="width:100%;"></div>
                                </div>
                               <div class="funding-status">
-                                  <h5 class="left"><strong>${dto.fund_price}</strong><br>모임 <small style="color: #1ab394; font-weight: bold;">372%</small></h5>
+                                  <h5 class="left"><strong>${dto.fund_join*dto.stock_price}</strong><br>모임 <small style="color: #1ab394; font-weight: bold;">${ ((dto.fund_join*dto.stock_price) / dto.fund_price)*100}%</small></h5>
                                   <h5 class="left"><strong>104명</strong><br>참여</h5>
                              </div>
                         </div>

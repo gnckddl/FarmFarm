@@ -203,18 +203,26 @@
                      <span>회원점수</span>
                  </a>
              </li>
-            <li>
-                 <a href="#">
-                     <i class="fa fa-dashboard"></i>
-                     <span>경매</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="#">
-                     <i class="fa fa-dashboard"></i>
-                     <span>펀드</span>
-                 </a>
-             </li>
+             <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-desktop"></i>
+                    <span>펀드 내역</span>
+                </a>
+                <ul class="sub">
+                    <li><a href="#">펀드 진행 내역</a></li>
+                    <li><a href="#">펀드 종료 내역</a></li>
+                </ul>
+            </li>
+             <li class="sub-menu">
+                <a href="javascript:;" >
+                    <i class="fa fa-desktop"></i>
+                    <span>경매 내역</span>
+                </a>
+                <ul class="sub">
+                    <li><a href="AuctionList_ing">경매 진행 내역</a></li>
+                    <li><a href="#">경매 종료 내역</a></li>
+                </ul>
+            </li>
              <li class="sub-menu"><a href="javascript:;"> <i
                class=" fa fa-bar-chart-o"></i> <span>쪽지</span>
             </a>

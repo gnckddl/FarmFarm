@@ -168,6 +168,7 @@
 				<ul class="sub">
 					<li><a href="NoFundList.ad">미등록 펀드내역</a></li>
 					<li><a href="FundList.ad">펀드 진행내역</a></li>
+					<li><a href="FundList_end.ad">펀드 완료내역</a></li>
 				</ul></li>
 
 			<li class="sub-menu"><a href="javascript:;"> <i
@@ -176,6 +177,7 @@
 				<ul class="sub">
 					<li><a href="NoAucList.ad">미등록 경매내역</a></li>
 					<li><a href="AucList.ad">경매 진행내역</a></li>
+					<li><a href="AucList_end.ad">경매 완료내역</a></li>
 				</ul></li>
 			<li class="sub-menu"><a href="javascript:;"> <i
 					class="fa fa-book"></i> <span>회원 관리</span>
@@ -184,6 +186,15 @@
 					<li><a href="GuestManage.ad">일반회원 관리</a></li>
 					<li><a href="PartnerManage.ad">파트너 관리</a></li>
 				</ul></li>
+				
+			<li class="sub-menu"><a href="GuestManage.ad"> <i class="fa fa-th"></i> 
+			<span>결제 관리</span>
+			</a></li>
+			
+			<li class="sub-menu"><a href="GuestManage.ad"> <i class="fa fa-th"></i> 
+			<span>배송 관리</span>
+			</a></li>
+		
 			<li class="sub-menu"><a href="javascript:;"> <i
 					class="fa fa-th"></i> <span>정산</span>
 			</a>

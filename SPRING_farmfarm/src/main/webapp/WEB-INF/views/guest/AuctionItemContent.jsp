@@ -122,7 +122,7 @@ function move(auc_no){
 									<div class="carousel">
 										<div>
 											<div class="ibox-content">
-												<img style="width: 670px; height: 650px;" src="${images}main/${dto.stock_image}" />
+												<img style="width: 670px; height: 650px;" src="${images}auction/${dto.stock_image}" />
 											</div>
 										</div>
 									</div>
@@ -147,7 +147,7 @@ function move(auc_no){
 									<br>
 									<span style="font-size: 15px;font-weight: 700;" >시작가격 </span>
 									<div class="number" style="">
-										${dto.auc_startPrice}
+										<fmt:formatNumber value="${dto.auc_startPrice}" pattern="#,###,###"/>
 									</div>
 									<br>
 									<span style="font-size: 15px;font-weight: 700; " >참여인원 </span>
@@ -182,26 +182,23 @@ function move(auc_no){
 										<img src="${images}main/p_logo.png" class="pic" /> <i
 											class="icon ion-android-more-vertical icon-more"></i>
 										<div class="header-set">
-											<h4 class="farmername">덕적도 단호박 연구회 농부</h4>
-											<h5 class="farmerspot">
-												<i class="fa fa-map-marker"></i>서울-경기
-											</h5>
+											<h4 class="farmername">${dto.mem_id }  농부</h4>
 										</div>
 									</div>
 									<div class="collapsible-body">
 										<div class="farmerabout">한줄소개</div>
 										<div class="row no-gutter">
 											<div class="col-xs-4 cell1">
-												<small>전문</small>
-												<h5>단호박</h5>
+												<small>펀드 개설 건수</small>
+												<h5>${dto2.auctionCnt} 건</h5>
 											</div>
 											<div class="col-xs-4 cell2">
-												<small>개설건수</small>
-												<h5>2건</h5>
+												<small>경매 개설 건수</small>
+												<h5>${dto2.fundCnt} 건</h5>
 											</div>
 											<div class="col-xs-4 cell3">
 												<small>투자자수</small>
-												<h5>29명</h5>
+												<h5>${dto2.fund_join}</h5>
 											</div>
 										</div>
 									</div>

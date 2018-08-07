@@ -36,111 +36,110 @@ public class HostServiceImpl implements HostService {
 	// *************************************
 
 	// 펀드 진행내역_진행중/ 미등록 펀드 내역
-	@Override
-	public void fundList(HttpServletRequest req, Model model) {
-		// 3단계 . 화면으로부터 입력받은 값을 받아온다.
-		// 경매 목록 관련
+	   @Override
+	   public void fundList(HttpServletRequest req, Model model) {
+	      // 3단계 . 화면으로부터 입력받은 값을 받아온다.
+	      // 경매 목록 관련
 
-		int pageSize = 10; // 한페이지당 출력될 글 갯수
-		int pageBlock = 3; // 페이지 블록을 3개씩. 앞뒤를 화살표로 이동
+	      int pageSize = 10; // 한페이지당 출력될 글 갯수
+	      int pageBlock = 3; // 페이지 블록을 3개씩. 앞뒤를 화살표로 이동
 
-		int cnt = 0; // 글갯수
-		int start = 0; // 현재페이지 시작 글번호
-		int end = 0; // 현재 페이지 마지막 글번호
-		int number = 0; // 출력용 글번호, 번호삭제가 되어도
-		String pageNum = null; // 페이지번호
-		int currentPage = 0; // 현재 페이지
+	      int cnt = 0; // 글갯수
+	      int start = 0; // 현재페이지 시작 글번호
+	      int end = 0; // 현재 페이지 마지막 글번호
+	      int number = 0; // 출력용 글번호, 번호삭제가 되어도
+	      String pageNum = null; // 페이지번호
+	      int currentPage = 0; // 현재 페이지
 
-		// 블록당 앞뒤 화살표에 필요한 부분
-		int pageCount = 0; // 페이지 갯수
-		int startPage = 0; // 시작페이지
-		int endPage = 0; // 마지막 페이지
+	      // 블록당 앞뒤 화살표에 필요한 부분
+	      int pageCount = 0; // 페이지 갯수
+	      int startPage = 0; // 시작페이지
+	      int endPage = 0; // 마지막 페이지
 
-		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
-		int fund_status = (Integer) req.getAttribute("fund_status");
+	      // 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
+	      int fund_status = (Integer) req.getAttribute("fund_status");
 
-		System.out.println("fund_status 미등록 갯수."+fund_status);
-		
-		// 5단계 펀드갯수 구하기
-		cnt = hostDao.getFundCnt(fund_status);
-		System.out.println("cnt(진행중인 경매 갯수):" + cnt); // 먼저 테이블에 최소 30건 insert,
+	      System.out.println("fund_status 미등록 갯수."+fund_status);
+	      
+	      // 5단계 펀드갯수 구하기
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      map.put("fund_status", fund_status);
+	      
+	      cnt = hostDao.getFundCnt(map);
+	      System.out.println("cnt(진행중인 경매 갯수):" + cnt); // 먼저 테이블에 최소 30건 insert,
 
-		pageNum = req.getParameter("pageNum");
-		System.out.println("pageNum(페이지번호) : " + pageNum);
+	      pageNum = req.getParameter("pageNum");
+	      System.out.println("pageNum(페이지번호) : " + pageNum);
 
-		if (pageNum == null) {
-			pageNum = "1"; // 첫페이지를 1페이지로 설정
-		}
+	      if (pageNum == null) {
+	         pageNum = "1"; // 첫페이지를 1페이지로 설정
+	      }
 
-		// 글 30건 기준
-		currentPage = Integer.parseInt(pageNum); // 현재페이지 : 1
-		System.out.println("currentPage(현재페이지)" + currentPage);
+	      // 글 30건 기준
+	      currentPage = Integer.parseInt(pageNum); // 현재페이지 : 1
+	      System.out.println("currentPage(현재페이지)" + currentPage);
 
-		// 딱떨어질경우 + 나미저의것. ex) 7 = (30/5) + (1)
-		pageCount = (cnt / pageSize) + (cnt % pageSize > 0 ? 1 : 0);
+	      // 딱떨어질경우 + 나미저의것. ex) 7 = (30/5) + (1)
+	      pageCount = (cnt / pageSize) + (cnt % pageSize > 0 ? 1 : 0);
 
-		// 1 =(1-1) * 5+1
-		start = (currentPage - 1) * pageSize + 1; // 현재페이지 시작번호 1(페이지별)
+	      // 1 =(1-1) * 5+1
+	      start = (currentPage - 1) * pageSize + 1; // 현재페이지 시작번호 1(페이지별)
 
-		// 5 = 1 + 5- 1;
-		end = start + pageSize - 1; // 현재페이지 끝번호 5
+	      // 5 = 1 + 5- 1;
+	      end = start + pageSize - 1; // 현재페이지 끝번호 5
 
-		System.out.println("start(현재페이지 시작글번호):" + start);
-		System.out.println("end(현제페이지 끝글번호):" + end);
+	      System.out.println("start(현재페이지 시작글번호):" + start);
+	      System.out.println("end(현제페이지 끝글번호):" + end);
 
-		Map<String, Object> map = new HashMap<String, Object>();
+	      map.put("start", start);
+	      map.put("end", end);
 
-		map.put("start", start);
-		map.put("end", end);
-		map.put("fund_status", fund_status);
+	      if (end > cnt)
+	         end = cnt;
 
-		if (end > cnt)
-			end = cnt;
+	      // 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
 
-		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
+	      // 30 = 30 (1 - 1) *5
+	      number = cnt - (currentPage - 1) * pageSize; // 출력용 글번호
 
-		// 30 = 30 (1 - 1) *5
-		number = cnt - (currentPage - 1) * pageSize; // 출력용 글번호
+	      System.out.println("number(출력용 글번호)" + number);
+	      System.out.println("pageSize(한페이지당 출력될 글갯수)" + pageSize);
 
-		System.out.println("number(출력용 글번호)" + number);
-		System.out.println("pageSize(한페이지당 출력될 글갯수)" + pageSize);
+	      if (cnt > 0) {
+	         // 경매 낙찰 여부(1: 진행요청 // 2. 진행중, 3: 유찰, 4: 낙찰)
+	         // 경매 목록 조회
+	         System.out.println("fund_status 미등록 리스트 ."+fund_status);
+	         
+	         ArrayList<StockDTO> dtos = hostDao.getFundList(map);
+	         model.addAttribute("dtos", dtos); // 큰바구니 게시글 목록 5건.
+	      }
 
-		if (cnt > 0) {
-			// 경매 낙찰 여부(1: 진행요청 // 2. 진행중, 3: 유찰, 4: 낙찰)
-			// 경매 목록 조회
-			System.out.println("fund_status 미등록 리스트 ."+fund_status);
-			
-			ArrayList<StockDTO> dtos = hostDao.getFundList(map);
-			model.addAttribute("dtos", dtos); // 큰바구니 게시글 목록 5건.
+	      // 1 = (1/3) * 3+1
+	      startPage = (currentPage / pageBlock) * pageBlock + 1;
+	      if (currentPage % pageBlock == 0)
+	         startPage -= pageBlock;
+	      System.out.println("startPage(화살표 시작페이지):" + startPage);
 
-		}
+	      // 3 = 1+3 -1
+	      endPage = startPage + pageBlock - 1;
+	      if (endPage > pageCount)
+	         endPage = pageCount;
+	      System.out.println("endPage(화살표 마지막페이지):" + endPage);
 
-		// 1 = (1/3) * 3+1
-		startPage = (currentPage / pageBlock) * pageBlock + 1;
-		if (currentPage % pageBlock == 0)
-			startPage -= pageBlock;
-		System.out.println("startPage(화살표 시작페이지):" + startPage);
+	      // 6단계. request나 session에 처리결과를 저장 (jsp에 전딜하기 위함)
+	      model.addAttribute("cnt", cnt); // 글갯수
+	      model.addAttribute("number", number); // 글번호
+	      model.addAttribute("pageNum", pageNum); // 페이지번호
 
-		// 3 = 1+3 -1
-		endPage = startPage + pageBlock - 1;
-		if (endPage > pageCount)
-			endPage = pageCount;
-		System.out.println("endPage(화살표 마지막페이지):" + endPage);
-
-		// 6단계. request나 session에 처리결과를 저장 (jsp에 전딜하기 위함)
-		model.addAttribute("cnt", cnt); // 글갯수
-		model.addAttribute("number", number); // 글번호
-		model.addAttribute("pageNum", pageNum); // 페이지번호
-
-		if (cnt > 0) {
-			model.addAttribute("startPage", startPage); // 시작페이지
-			model.addAttribute("endPage", endPage); // 마지막 페이지
-			model.addAttribute("pageBlock", pageBlock); // 출력할 페이지 갯수
-			model.addAttribute("pageCount", pageCount); // 페이지 갯수
-			model.addAttribute("currentPage", currentPage);
-		}
-	}
-
+	      if (cnt > 0) {
+	         model.addAttribute("startPage", startPage); // 시작페이지
+	         model.addAttribute("endPage", endPage); // 마지막 페이지
+	         model.addAttribute("pageBlock", pageBlock); // 출력할 페이지 갯수
+	         model.addAttribute("pageCount", pageCount); // 페이지 갯수
+	         model.addAttribute("currentPage", currentPage);
+	      }
+	   }
+	   
 	// 미등록 펀드 삭제
 	@Override
 	public void fundDelete(HttpServletRequest req, Model model) {
@@ -157,108 +156,7 @@ public class HostServiceImpl implements HostService {
 		model.addAttribute("deleteCnt", deleteCnt);
 	}
 
-	// 펀드 진행내역_ 3: 중단, 4: 완료
-	@Override
-	public void fundList_end(HttpServletRequest req, Model model) {
-		System.out.print("=================2페이지======-----------=");
-		// 3단계 . 화면으로부터 입력받은 값을 받아온다.
-		// 경매 목록 관련
-		int pageSize1 = 10; // 한페이지당 출력될 글 갯수
-		int pageBlock1 = 3; // 페이지 블록을 3개씩. 앞뒤를 화살표로 이동
-
-		int cnt1 = 0; // 글갯수
-		int start1 = 0; // 현재페이지 시작 글번호
-		int end1 = 0; // 현재 페이지 마지막 글번호
-		int number1 = 0; // 출력용 글번호, 번호삭제가 되어도
-		String pageNum1 = null; // 페이지번호
-		int currentPage1 = 0; // 현재 페이지
-
-		// 블록당 앞뒤 화살표에 필요한 부분
-		int pageCount1 = 0; // 페이지 갯수
-		int startPage1 = 0; // 시작페이지
-		int endPage1 = 0; // 마지막 페이지
-
-		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
-		int fund_status = (Integer) req.getAttribute("fund_status");
-
-		// 5단계 경매갯수 구하기
-		cnt1 = hostDao.getFundCnt_end(fund_status);
-		System.out.println("cnt1(진행중인 경매 갯수):" + cnt1); // 먼저 테이블에 최소 30건 insert,
-
-		pageNum1 = req.getParameter("pageNum");
-		System.out.println("pageNum(페이지번호) : " + pageNum1);
-
-		if (pageNum1 == null) {
-			pageNum1 = "1"; // 첫페이지를 1페이지로 설정
-		}
-
-		// 글 30건 기준
-		currentPage1 = Integer.parseInt(pageNum1); // 현재페이지 : 1
-		System.out.println("currentPage1(현재페이지)" + currentPage1);
-
-		// 딱떨어질경우 + 나미저의것. ex) 7 = (30/5) + (1)
-		pageCount1 = (cnt1 / pageSize1) + (cnt1 % pageSize1 > 0 ? 1 : 0);
-
-		// 1 =(1-1) * 5+1
-		start1 = (currentPage1 - 1) * pageSize1 + 1; // 현재페이지 시작번호 1(페이지별)
-
-		// 5 = 1 + 5- 1;
-		end1 = start1 + pageSize1 - 1; // 현재페이지 끝번호 5
-
-		System.out.println("start(현재페이지 시작글번호):" + start1);
-		System.out.println("end(현제페이지 끝글번호):" + end1);
-
-		/*
-		 * Map<String, Object> map = new HashMap<String, Object>();
-		 * 
-		 * map.put("start1", start1); map.put("end1", end1); map.put("auc_status1",
-		 * auc_status);
-		 */
-		if (end1 > cnt1)
-			end1 = cnt1;
-
-		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
-
-		// 30 = 30 (1 - 1) *5
-		number1 = cnt1 - (currentPage1 - 1) * pageSize1; // 출력용 글번호
-
-		System.out.println("number1(출력용 글번호)" + number1);
-		System.out.println("pageSize1(한페이지당 출력될 글갯수)" + pageSize1);
-
-		/*
-		 * if(cnt1 >0 ) { //경매 낙찰 여부(1: 진행요청 // 2. 진행중, 3: 유찰, 4: 낙찰) //경매 목록 조회
-		 * ArrayList<StockDTO> dtos1 = hostDao.getAucList(map);
-		 * model.addAttribute("dtos1", dtos1); //큰바구니 게시글 목록 5건.
-		 * 
-		 * }
-		 */
-
-		// 1 = (1/3) * 3+1
-		startPage1 = (currentPage1 / pageBlock1) * pageBlock1 + 1;
-		if (currentPage1 % pageBlock1 == 0)
-			startPage1 -= pageBlock1;
-		System.out.println("startPage1(화살표 시작페이지):" + startPage1);
-
-		// 3 = 1+3 -1
-		endPage1 = startPage1 + pageBlock1 - 1;
-		if (endPage1 > pageCount1)
-			endPage1 = pageCount1;
-		System.out.println("endPage1(화살표 마지막페이지):" + endPage1);
-
-		// 6단계. request나 session에 처리결과를 저장 (jsp에 전딜하기 위함)
-		model.addAttribute("cnt1", cnt1); // 글갯수
-		model.addAttribute("number1", number1); // 글번호
-		model.addAttribute("pageNum1", pageNum1); // 페이지번호
-
-		if (cnt1 > 0) {
-			model.addAttribute("startPage1", startPage1); // 시작페이지
-			model.addAttribute("endPage1", endPage1); // 마지막 페이지
-			model.addAttribute("pageBlock1", pageBlock1); // 출력할 페이지 갯수
-			model.addAttribute("pageCount1", pageCount1); // 페이지 갯수
-			model.addAttribute("currentPage1", currentPage1);
-		}
-	}
-
+	
 	// 펀드 상태(1: 미등록 2: 진행중, 3: 중단, 4: 완료) 1.미등록 -> 2.진행중
 	@Override
 	public void fundOk(HttpServletRequest req, Model model) {
@@ -304,12 +202,10 @@ public class HostServiceImpl implements HostService {
 		int pageBlock = 3; // 페이지 블록을 3개씩. 앞뒤를 화살표로 이동
 
 		int cnt = 0; // 글갯수
-		int cnt1 = 0; // 글갯수
 		
 		int start = 0; // 현재페이지 시작 글번호
 		int end = 0; // 현재 페이지 마지막 글번호
 		int number = 0; // 출력용 글번호, 번호삭제가 되어도
-		int number2 = 0; // 출력용 글번호, 번호삭제가 되어도
 		
 		String pageNum = null; // 페이지번호
 		int currentPage = 0; // 현재 페이지
@@ -322,18 +218,15 @@ public class HostServiceImpl implements HostService {
 		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
 		int auc_status = (Integer) req.getAttribute("auc_status");
 
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("auc_status", auc_status);
+		
 		// 5단계 1.미등록경매갯수 /2.진행중  구하기 --> 미등록, 진행내역 1번.
-		cnt = hostDao.getAucCnt(auc_status);
+		cnt = hostDao.getAucCnt(map);
 		System.out.println("cnt(진행중인 경매 갯수):" + cnt); // 먼저 테이블에 최소 30건 insert,
 		
-		if (auc_status == 2) { // 진행내역 2번, 유찰낙찰 뿌려주기위해 여기로.
-			cnt1 = hostDao.getAucCnt_end(auc_status);
-			System.out.println("cnt1(진행중인 경매 갯수):" + cnt1); // 먼저 테이블에 최소 30건 insert,
-		}
 	
-		//왕 Cnt
-		int ToCnt = cnt + cnt1;
-		
 		pageNum = req.getParameter("pageNum");
 		System.out.println("pageNum(페이지번호) : " + pageNum);
 
@@ -346,7 +239,7 @@ public class HostServiceImpl implements HostService {
 		System.out.println("currentPage(현재페이지)" + currentPage);
 
 		// 딱떨어질경우 + 나미저의것. ex) 7 = (30/5) + (1)
-		pageCount = (ToCnt / pageSize) + (ToCnt % pageSize > 0 ? 1 : 0);
+		pageCount = (cnt / pageSize) + (cnt % pageSize > 0 ? 1 : 0);
 
 		// 1 =(1-1) * 5+1
 		start = (currentPage - 1) * pageSize + 1; // 현재페이지 시작번호 1(페이지별)
@@ -357,30 +250,26 @@ public class HostServiceImpl implements HostService {
 		System.out.println("start(현재페이지 시작글번호):" + start);
 		System.out.println("end(현제페이지 끝글번호):" + end);
 
-		Map<String, Object> map = new HashMap<String, Object>();
-
+		
 		map.put("start", start);
 		map.put("end", end);
-		map.put("auc_status", auc_status);
+	
 		
-		if (end > ToCnt)
-			end = ToCnt;
+		if (end > cnt)
+			end = cnt;
 
 		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
 
 		// 30 = 30 (1 - 1) *5
 		number = cnt - (currentPage - 1) * pageSize; // 출력용 글번호
-		number2 = cnt1 - (currentPage - 1) * pageSize; // 출력용 글번호
-		int number3 = ToCnt - (currentPage - 1) * pageSize; // 출력용 글번호
+		int number3 = cnt - (currentPage - 1) * pageSize; // 출력용 글번호
 		
 		System.out.println("cnt"+cnt);
-		System.out.println("cnt1 :"+cnt1);
 		System.out.println("number(출력용 글번호)" + number);
-		System.out.println("number2(출력용 글번호)" + number2);
 		
 		System.out.println("pageSize(한페이지당 출력될 글갯수)" + pageSize);
 
-		if (ToCnt > 0) {
+		if (cnt > 0) {
 			// 경매 낙찰 여부(1: 진행요청 // 2. 진행중, 3: 유찰, 4: 낙찰)
 			// 경매 목록 조회
 			ArrayList<StockDTO> dtos = hostDao.getAucList(map);
@@ -401,16 +290,12 @@ public class HostServiceImpl implements HostService {
 		System.out.println("endPage(화살표 마지막페이지):" + endPage);
 
 		// 6단계. request나 session에 처리결과를 저장 (jsp에 전딜하기 위함)
-		model.addAttribute("ToCnt", ToCnt); // 왕 글갯수
 		model.addAttribute("cnt", cnt); // 글갯수
-		model.addAttribute("cnt1", cnt1); // 글갯수
 		
 		model.addAttribute("number", number); // 글번호
-		model.addAttribute("number2", number2); // 글번호
-		model.addAttribute("number3", number3); // 글번호
 		model.addAttribute("pageNum", pageNum); // 페이지번호
 
-		if (ToCnt > 0) {
+		if (cnt > 0) {
 			model.addAttribute("startPage", startPage); // 시작페이지
 			model.addAttribute("endPage", endPage); // 마지막 페이지
 			model.addAttribute("pageBlock", pageBlock); // 출력할 페이지 갯수
@@ -435,108 +320,7 @@ public class HostServiceImpl implements HostService {
 		model.addAttribute("deleteCnt", deleteCnt);
 	}
 
-	// 경매 진행내역 (3.유찰, 4.낙찰)
-	@Override
-	public void aucList_end(HttpServletRequest req, Model model) {
-		System.out.print("=================aucList_end 2페이지======-----------=");
-		// 3단계 . 화면으로부터 입력받은 값을 받아온다.
-		// 경매 목록 관련
-		int pageSize1 = 10; // 한페이지당 출력될 글 갯수
-		int pageBlock1 = 3; // 페이지 블록을 3개씩. 앞뒤를 화살표로 이동
-
-		int cnt1 = 0; // 글갯수
-		int start1 = 0; // 현재페이지 시작 글번호
-		int end1 = 0; // 현재 페이지 마지막 글번호
-		int number1 = 0; // 출력용 글번호, 번호삭제가 되어도
-		String pageNum1 = null; // 페이지번호
-		int currentPage1 = 0; // 현재 페이지
-
-		// 블록당 앞뒤 화살표에 필요한 부분
-		int pageCount1 = 0; // 페이지 갯수
-		int startPage1 = 0; // 시작페이지
-		int endPage1 = 0; // 마지막 페이지
-
-		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
-		int auc_status = (Integer) req.getAttribute("auc_status");
-
-		// 5단계 경매갯수 구하기
-		cnt1 = hostDao.getAucCnt_end(auc_status);
-		System.out.println("cnt1(진행중인 경매 갯수):" + cnt1); // 먼저 테이블에 최소 30건 insert,
-
-		pageNum1 = req.getParameter("pageNum");
-		System.out.println("pageNum(페이지번호) : " + pageNum1);
-
-		if (pageNum1 == null) {
-			pageNum1 = "1"; // 첫페이지를 1페이지로 설정
-		}
-
-		// 글 30건 기준
-		currentPage1 = Integer.parseInt(pageNum1); // 현재페이지 : 1
-		System.out.println("currentPage1(현재페이지)" + currentPage1);
-
-		// 딱떨어질경우 + 나미저의것. ex) 7 = (30/5) + (1)
-		pageCount1 = (cnt1 / pageSize1) + (cnt1 % pageSize1 > 0 ? 1 : 0);
-
-		// 1 =(1-1) * 5+1
-		start1 = (currentPage1 - 1) * pageSize1 + 1; // 현재페이지 시작번호 1(페이지별)
-
-		// 5 = 1 + 5- 1;
-		end1 = start1 + pageSize1 - 1; // 현재페이지 끝번호 5
-
-		System.out.println("start(현재페이지 시작글번호):" + start1);
-		System.out.println("end(현제페이지 끝글번호):" + end1);
-
-		/*
-		 * Map<String, Object> map = new HashMap<String, Object>();
-		 * 
-		 * map.put("start1", start1); map.put("end1", end1); map.put("auc_status1",
-		 * auc_status);
-		 */
-		if (end1 > cnt1)
-			end1 = cnt1;
-
-		// 경매상태(1:경매요청, 2:진행중, 3: 유찰, 4: 낙찰)
-
-		// 30 = 30 (1 - 1) *5
-		number1 = cnt1 - (currentPage1 - 1) * pageSize1; // 출력용 글번호
-
-		System.out.println("number1(출력용 글번호)" + number1);
-		System.out.println("pageSize1(한페이지당 출력될 글갯수)" + pageSize1);
-
-		/*
-		 * if(cnt1 >0 ) { //경매 낙찰 여부(1: 진행요청 // 2. 진행중, 3: 유찰, 4: 낙찰) //경매 목록 조회
-		 * ArrayList<StockDTO> dtos1 = hostDao.getAucList(map);
-		 * model.addAttribute("dtos1", dtos1); //큰바구니 게시글 목록 5건.
-		 * 
-		 * }
-		 */
-
-		// 1 = (1/3) * 3+1
-		startPage1 = (currentPage1 / pageBlock1) * pageBlock1 + 1;
-		if (currentPage1 % pageBlock1 == 0)
-			startPage1 -= pageBlock1;
-		System.out.println("startPage1(화살표 시작페이지):" + startPage1);
-
-		// 3 = 1+3 -1
-		endPage1 = startPage1 + pageBlock1 - 1;
-		if (endPage1 > pageCount1)
-			endPage1 = pageCount1;
-		System.out.println("endPage1(화살표 마지막페이지):" + endPage1);
-
-		// 6단계. request나 session에 처리결과를 저장 (jsp에 전딜하기 위함)
-		model.addAttribute("cnt1", cnt1); // 글갯수
-		model.addAttribute("number1", number1); // 글번호
-		model.addAttribute("pageNum1", pageNum1); // 페이지번호
-
-		if (cnt1 > 0) {
-			model.addAttribute("startPage1", startPage1); // 시작페이지
-			model.addAttribute("endPage1", endPage1); // 마지막 페이지
-			model.addAttribute("pageBlock1", pageBlock1); // 출력할 페이지 갯수
-			model.addAttribute("pageCount1", pageCount1); // 페이지 갯수
-			model.addAttribute("currentPage1", currentPage1);
-		}
-	}
-
+	
 	// 경매 상태(1: 미등록 2: 진행중, 3: 유찰, 4: 낙찰) 1.미등록 -> 2.진행중
 	@Override
 	public void aucOk(HttpServletRequest req, Model model) {
@@ -1870,7 +1654,7 @@ public class HostServiceImpl implements HostService {
 		// map에 입력할 key값을 배열로 정해준다.
 		// -> 나중에 key[i]로 map에 값 입력할 때 쓰인다.
 		int DonaYear4 = 3; // 2016, 2017, 2018
-		int DonaKind4 = 8; // 기부 단체('1.국내아동지원', '2.해외아동지원', '3.북한아동지원', '4.나눔 SOS', '5.해외아동결연' ,6.하나사랑 ,
+		int DonaKind4 = 2; // 기부 단체('1.국내아동지원', '2.해외아동지원', '3.북한아동지원', '4.나눔 SOS', '5.해외아동결연' ,6.하나사랑 ,
 							// 7.유니세프 , 8. 위스타트)
 
 		String[] key = { "2016_1", "2016_2", "2016_3", "2016_4", "2016_5", "2016_6", "2016_7", "2016_8", "2017_1",

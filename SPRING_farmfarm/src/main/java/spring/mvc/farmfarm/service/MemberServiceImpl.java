@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 
 import spring.mvc.farmfarm.dto.AdvantageDTO;
 import spring.mvc.farmfarm.dto.AuctionDTO;
+import spring.mvc.farmfarm.dto.AuctionFarmerDTO;
 import spring.mvc.farmfarm.dto.AuctionListDTO;
 import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
@@ -221,7 +222,7 @@ public class MemberServiceImpl implements MemberService {
 			ArrayList<AdvantageDTO> dtos = dao.getAdv(map);
 			model.addAttribute("dtos", dtos);// 큰바구니 : 게시글 목록 넘김
 
-			sumPoint = dtos.get(0).getAdv_sumPoint();
+			sumPoint = dtos.get(0).getMem_adv();
 			model.addAttribute("sumPoint", sumPoint);
 		}
 
@@ -401,10 +402,13 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("auc_no:" + auc_no);
 
 		AuctionDTO dto = new AuctionDTO();
+		AuctionFarmerDTO dto2 = new AuctionFarmerDTO();
 
 		dto = dao.getAuctionContent(auc_no);
-
+		dto2 = dao.getAuctionFarmer(dto.getFarm_key());
+		dto2.setFundCnt(dao.getAuctionFarmerFund(dto.getFarm_key()));
 		model.addAttribute("dto", dto);
+		model.addAttribute("dto2", dto2);
 	}
 
 	@Override
@@ -453,7 +457,7 @@ public class MemberServiceImpl implements MemberService {
 		if (dtos.size() == 0)
 			sumPoint = 0;
 		else
-			sumPoint = dtos.get(0).getAdv_sumPoint();
+			sumPoint = dtos.get(0).getMem_adv();
 
 		// map2는 실제로 사용하는 맵 이고 map은 sumPoint를 위해 사용한 map
 		Map<String, Object> map2 = new HashMap<>();
@@ -479,6 +483,8 @@ public class MemberServiceImpl implements MemberService {
 			updateCnt = dao.auctionUpdate(map2);
 			// advantage테이블 insert
 			dao.auctionJoinAdv(map2);
+			// member테이블 mem_adv update
+			dao.updateAdv(map2);
 
 			if (check == null)
 				// check==null 즉 처음 입찰이면 join 테이블 insert
@@ -502,7 +508,6 @@ public class MemberServiceImpl implements MemberService {
 	// 펀드상품보기
 	@Override
 	public void FundProductsList(HttpServletRequest req, Model model) {
-		System.out.println("sdjfkalksdfasd;lkfa;lsd");
 		int pageSize = 4; // 한 페이지당 출력할 글의 개수
 		int pageBlock = 3; // 한 블럭당 페이지의 개수
 
@@ -627,10 +632,13 @@ public class MemberServiceImpl implements MemberService {
 	public void FundJoinPro(HttpServletRequest req, Model model) {
 		String fund_no = req.getParameter("fund_no");
 		String userId = (String) req.getSession().getAttribute("userId");
-		int fund_price = Integer.parseInt(req.getParameter("fund_price"));
+		int stock_price = Integer.parseInt(req.getParameter("stock_price"));
 		int updateCnt = 0, insertCnt = 0, sumPoint = 0;
 		Integer check = 0;
 
+		System.out.println("stock_price:~~~~~~~~~~~" + stock_price);
+		System.out.println("fund_no:~~~~~~~~~~~" + fund_no);
+		System.out.println("userId:~~~~~~~~~~~" + userId);
 		// 회원의 총점수 가져오는 부분(guestAdvList메소드 부분을 긁어왔기에 다소복잡해보이기만함)
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", 1);
@@ -642,37 +650,41 @@ public class MemberServiceImpl implements MemberService {
 		if (dtos.size() == 0)
 			sumPoint = 0;
 		else
-			sumPoint = dtos.get(0).getAdv_sumPoint();
+			sumPoint = dtos.get(0).getAdv_point();
 
 		// map2는 실제로 사용하는 맵 이고 map은 sumPoint를 위해 사용한 map
 		Map<String, Object> map2 = new HashMap<String, Object>();
 
 		map2.put("fund_no", fund_no);
 		map2.put("userId", userId);
-		map2.put("fund_price", fund_price);
+		map2.put("stock_price", stock_price);
 		map2.put("sumPoint", sumPoint);
-		map2.put("adv_reason", 3);// 경매참여:3
-		map2.put("adv_point", 1);// 경매참여시 포인트:1
+		map2.put("adv_reason", 1);// 펀드참여:1
+		map2.put("adv_point", 5);// 펀드참여시 포인트:5
 		// 현재입찰가격
 		// aucPrice = dao.getNowPrice(auc_no);
 
 		// join테이블 join_no가져와서 처음입찰인지, 두번째이상인지 체크
-		check = dao.auctionJoinCheck(map2);
-		// auction테이블 update
-		updateCnt = dao.auctionUpdate(map2);
+		check = dao.FundJoinCheck(map2);
+		// fund테이블 update
+		updateCnt = dao.FundUpdate(map2);
 		// advantage테이블 insert
 		dao.auctionJoinAdv(map2);
 
+		// member테이블 mem_adv update
+		dao.updateAdv(map2);
+
 		if (check == null)
 			// check==null 즉 처음 입찰이면 join 테이블 insert
-			insertCnt = dao.auctionJoinInsert(map2);
+			insertCnt = dao.FundJoinInsert(map2);
 		else {
 			// check!=null 즉 여러번 입찰이면 join테이블 update, 그리고 update를 위해 join테이블의 키를 받아왔던 check를
 			// map에 추가
 			map2.put("join_no", check);
 			System.out.println(check);
-			System.out.println(fund_price);
-			insertCnt = dao.auctionJoinUpdate(map2);
+			System.out.println(stock_price);
+			insertCnt = dao.FundJoinUpdate(map2);
+
 		}
 
 		model.addAttribute("insertCnt", insertCnt);
@@ -790,5 +802,52 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void AuctionList(HttpServletRequest req, Model model) {
+		String userId = (String) req.getSession().getAttribute("userId");
+		ArrayList<AuctionDTO> dtos = null;
+		int selectCnt = 0;
+
+		selectCnt = dao.getAuctionDataCnt(userId);
+
+		if (selectCnt > 0)
+			dtos = dao.getAuctionData(userId);
+
+		model.addAttribute("cnt", selectCnt);
+		model.addAttribute("dtos", dtos);
+	}
+
+	@Override
+	public void AuctionProgress(HttpServletRequest req, Model model) {
+		String userId = (String) req.getSession().getAttribute("userId");
+		String auc_no = req.getParameter("auc_no");
+		System.out.println("auc_no:" + auc_no);
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("auc_no", auc_no);
+
+		ArrayList<AuctionDTO> dtos = dao.getAuctionProgress(map);
+		AuctionDTO dto = new AuctionDTO();
+
+		dto.setStock_image(dtos.get(0).getStock_image());
+		dto.setAuc_title(dtos.get(0).getAuc_title());
+		dto.setAuc_startPrice(dtos.get(0).getAuc_startPrice());
+
+		model.addAttribute("dto", dto);
+		model.addAttribute("dtos", dtos);
+		model.addAttribute("auc_no", auc_no);
+	}
+
+	@Override
+	public void AuctionProgressAjax(HttpServletRequest req, Model model) {
+		String auc_no = req.getParameter("auc_no");
+		Map<String, Object> map = new HashMap<>();
+		map.put("auc_no", auc_no);
+
+		ArrayList<AuctionDTO> dtos = dao.getAuctionProgress(map);
+
+		model.addAttribute("dtos", dtos);
 	}
 }

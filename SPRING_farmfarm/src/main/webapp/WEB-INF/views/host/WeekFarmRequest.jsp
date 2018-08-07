@@ -32,26 +32,26 @@
                <td>${dto.wfarmInfo_regDate}</td>
                <td>${dto.wfarmInfo_price}</td>
                <td>
-                  <button class="btn btn-success btn-xs" onclick="return weekFarmReqPermit('${dto.wfarm_key}', '${dto.wfarmInfo_title}', '${pageNum}', '${pageNum1}')">
-                     <i class="fa fa-check"></i>
+                  <button class="btn btn-theme04 " onclick="return weekFarmReqPermit('${dto.wfarm_key}', '${dto.wfarmInfo_title}', '${pageNum}', '${pageNum1}')">
+                     <i class="fa fa-heart">승인</i>
                   </button>
-                  <button class="btn btn-danger btn-xs" onclick="return weekFarmDelete('${dto.wfarm_key}', '${dto.wfarmInfo_title}', '${pageNum}', '${pageNum1}')">
-                     <i class="fa fa-trash-o "></i>
+                  <button class="btn btn-default " onclick="return weekFarmDelete('${dto.wfarm_key}', '${dto.wfarmInfo_title}', '${pageNum}', '${pageNum1}')">
+                     <i class="fa fa-trash-o ">삭제</i>
                   </button>
                </td>
             </tr>
             </c:forEach>
-            <tr>
+            <!-- <tr>
                <td colspan="6"></td>
                <td>
-                  <button class="btn btn-success btn-xs">
-                     <i class="fa fa-check"></i>
+                  <button class="btn btn-theme04 ">
+                     <i class="fa fa-heart">전체 승인</i>
                   </button>
-                  <button class="btn btn-danger btn-xs">
-                     <i class="fa fa-trash-o "></i>
+                  <button class="btn btn-default ">
+                     <i class="fa fa-times ">전체 삭제</i>
                   </button>
                </td>
-            </tr>
+            </tr> -->
          </tbody>
       </table>
    </div>

@@ -26,7 +26,6 @@
                                <hr>
                                  <thead>
                                  <tr>
-                                	 <th style="width: 1%"><input type="checkbox" id="checkall"></th>
                                      <th style="width:5%">번호</th>
                                      <th style="width: 5%">코드</th>
                						 <th style="width: 5%">상태</th>
@@ -47,7 +46,6 @@
                               <c:forEach var="dto" items="${dtos}">
          
                                  <tr>
-                                 	 <td><input type="checkbox" class="checkthis"></td>
                                      <td>${number}
 										<c:set var="number" value="${number-1}"/>	
                                      </td>
@@ -60,10 +58,10 @@
                                      <td>${dto.auc_regDate}</td>
                                      <td>${dto.auc_term}</td>
                                      <td>                     
-                                        <button type="button" class="btn btn-theme04" onclick="window.location='aucOk.ad?auc_no=${dto.auc_no}&auc_status=${auc_status}&pageNum=${pageNum}'">
+                                        <button type="button" class="btn btn-theme04" onclick="window.location='aucOk.ad?auc_no=${dto.auc_no}&auc_status=${dto.auc_status}&pageNum=${pageNum}'">
                                         	<i class="fa fa-heart"> 승인</i>
                                         </button>
-                             			<button type="button" class="btn btn-default" onclick="window.location='aucDelete.ad?auc_no=${dto.auc_no}&auc_status=${auc_status}&pageNum=${pageNum}'">
+                             			<button type="button" class="btn btn-default" onclick="window.location='aucDelete.ad?auc_no=${dto.auc_no}&auc_status=${dto.auc_status}&pageNum=${pageNum}'">
                                         	<i class="fa fa-times"></i> 삭제
                            				</button>
                              		</td>

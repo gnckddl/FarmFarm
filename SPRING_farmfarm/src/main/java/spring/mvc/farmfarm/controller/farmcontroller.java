@@ -131,13 +131,13 @@ public class farmcontroller {
 	public String FundProductJoin(HttpServletRequest req, Model model) {
 		System.out.println("FundProductsPop");
 		String fund_no = req.getParameter("fund_no");
-		int fund_price = Integer.parseInt(req.getParameter("fund_price"));
+		int stock_price = Integer.parseInt(req.getParameter("stock_price"));
 		String fund_title = req.getParameter("fund_title");
 
 		mem_service.FundDonateJoin(req, model);
 
 		model.addAttribute("fund_no", fund_no);
-		model.addAttribute("fund_price", fund_price);
+		model.addAttribute("stock_price", stock_price);
 		model.addAttribute("fund_title", fund_title);
 
 		return "guest/FundProductsPop";
@@ -176,7 +176,6 @@ public class farmcontroller {
 	// 경매상품 현재가격 ajax
 	@RequestMapping("AuctionNowPrice")
 	public String AuctionNowPrice(HttpServletRequest req, Model model) {
-		System.out.println("AuctionNowPrice");
 
 		mem_service.AuctionNowPrice(req, model);
 
@@ -201,6 +200,34 @@ public class farmcontroller {
 		mem_service.AuctionJoinPro(req, model);
 
 		return "guest/AuctionJoinPro";
+	}
+
+	// 회원 경매내역(진행중)
+	@RequestMapping("AuctionList_ing")
+	public String AuctionList_ing(HttpServletRequest req, Model model) {
+		System.out.println("AuctionList_ing");
+
+		mem_service.AuctionList(req, model);
+
+		return "guest/AuctionList_ing";
+	}
+
+	// 경매진행내역보기
+	@RequestMapping("AuctionProgress")
+	public String AuctionProgress(HttpServletRequest req, Model model) {
+		System.out.println("AuctionProgress");
+
+		mem_service.AuctionProgress(req, model);
+
+		return "guest/AuctionProgress";
+	}
+
+	// 경매진행내역보기 ajax
+	@RequestMapping("AuctionProgressAjax")
+	public String AuctionProgressAjax(HttpServletRequest req, Model model) {
+		mem_service.AuctionProgressAjax(req, model);
+
+		return "guest/AuctionProgressAjax";
 	}
 
 	// 농부되기

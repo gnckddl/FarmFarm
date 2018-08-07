@@ -26,6 +26,7 @@
                                <hr>
                                  <thead>
                                  <tr>
+                                	 <th style="width: 1%"><input type="checkbox" id="checkall"></th>
                                      <th style="width:5%">번호</th>
                                      <th style="width: 5%">코드</th>
                						 <th style="width: 5%">상태</th>
@@ -45,6 +46,7 @@
                               <c:forEach var="dto" items="${dtos}">
          
                                  <tr>
+                                 	 <td><input type="checkbox" class="checkthis"></td>
                                      <td>${number}
 										<c:set var="number" value="${number-1}"/>	
                                      </td>
@@ -56,10 +58,10 @@
                                      <td>${dto.fund_regDate}</td>
                                      <td>${dto.fund_endDate}</td>
                                      <td>                     
-                                        <button type="button" class="btn btn-theme04" onclick="window.location='fundOk.ad?fund_no=${dto.fund_no}&fund_status=${fund_status}&pageNum=${pageNum}'">
+                                        <button type="button" class="btn btn-theme04" onclick="window.location='fundOk.ad?fund_no=${dto.fund_no}&fund_status=${dto.fund_status}&pageNum=${pageNum}'">
                                         	<i class="fa fa-heart"> 승인</i>
                                         </button>
-                             			<button type="button" class="btn btn-default" onclick="window.location='fundDelete.ad?fund_no=${dto.fund_no}&fund_status=${fund_status}&pageNum=${pageNum}'">
+                             			<button type="button" class="btn btn-default" onclick="window.location='fundDelete.ad?fund_no=${dto.fund_no}&fund_status=${dto.fund_status}&pageNum=${pageNum}'">
                                         	<i class="fa fa-times"></i> 삭제
                            				</button>
                              		</td>

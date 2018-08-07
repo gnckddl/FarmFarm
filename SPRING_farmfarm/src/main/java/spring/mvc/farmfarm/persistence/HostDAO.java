@@ -22,7 +22,7 @@ public interface HostDAO {
 	// *************************************************************************************
 
 	// 펀드 수
-	public int getFundCnt(int auc_status);
+	public int getFundCnt(Map<String, Object> map);
 
 	// 펀드 수
 	public int getFundCnt_end(int auc_status);
@@ -42,10 +42,7 @@ public interface HostDAO {
 	// *************************************************************************************
 	// 김보영
 	// 경매 수
-	public int getAucCnt(int auc_status);
-
-	// 경매 수
-	public int getAucCnt_end(int auc_status);
+	public int getAucCnt(Map<String, Object> map);
 
 	// 경매 목록 조회
 	public ArrayList<StockDTO> getAucList(Map<String, Object> map);

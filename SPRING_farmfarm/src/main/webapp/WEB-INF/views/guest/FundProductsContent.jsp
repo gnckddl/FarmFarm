@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
 function FundProductsPop(fund_no){
-    window.open('FundProductsPop?fund_no='+fund_no+'&fund_price=${dto.fund_price}&fund_title=${dto.fund_title}', 'auction_popup','top=100px, left=100px, height=500px, width=500px');
+    window.open('FundProductsPop?fund_no='+fund_no+'&stock_price=${dto.stock_price}&fund_title=${dto.fund_title}', 'auction_popup','top=100px, left=100px, height=500px, width=500px');
 }
 </script>
 <head>
@@ -70,7 +70,7 @@ function FundProductsPop(fund_no){
                           <span style="font-size: 30px;">상품명 :  ${dto.fund_title}</span>
                         </div>
                         <div class="number">
-                           <span style="font-size: 30px;">펀드 가격 : ${dto.fund_price}</span>
+                           <span style="font-size: 30px;">펀드 가격 : ${dto.stock_price}</span>
                         </div>
                         <br>
                         
@@ -282,6 +282,13 @@ function FundProductsPop(fund_no){
          <!-- /.container -->
       </div>
       <!-- /.content-wrapper -->
+   </div>
+   <div style="margin-left: 1500px;">
+      <ul class="bo_v_com">
+      <li><a
+         href="FundProducts"
+         class="btn btn-sm btn-success">목록</a></li>
+   </ul>
    </div>
    </form>
    <!--스크립트 공통부분  -->

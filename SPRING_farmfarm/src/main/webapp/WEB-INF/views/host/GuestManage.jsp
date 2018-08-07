@@ -86,7 +86,7 @@
                           chart.draw(data, google.charts.Bar.convertOptions(options));
                         }
                       </script>
-                      <div id="guestFundSales" style="width: 400px; height: 400px;"></div>
+                      <div id="guestFundSales" style="width: 800px; height: 400px;"></div>
                   </div>
                </div>
             </div>
@@ -127,7 +127,7 @@
                       chart.draw(data, options);
                     }
                   </script>
-                   <div id="guestFundAuc" style="width: 400px; height: 400px;"></div>
+                   <div id="guestFundAuc" style="width: 800px; height: 400px;"></div>
                   </div>
                </div>
             </div>

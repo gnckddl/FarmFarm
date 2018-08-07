@@ -28,7 +28,7 @@ body {padding-top:20px;}
    <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div class="well well-sm">
-          <form class="form-horizontal" action="FundJoinPro" method="post">
+          <form class="form-horizontal" action="FundJoinPro?stock_price=${stock_price}&fund_no=${fund_no}" method="post">
           
           <fieldset>
             <legend class="text-center"><h2><P>펀드상품참여</P></h2></legend>
@@ -53,7 +53,7 @@ body {padding-top:20px;}
             <div class="form-group" >
               <label class="col-md-3 control-label" for="fund_price">펀드금액 *</label>
               <div class="col-md-9">
-                 <input class="form-control" type="text" name="fund_Price" id="fund_Price" disabled="disabled" style="font-size:20px; margin-left: 20%; width: 65%" value="${fund_price}">
+                 <input class="form-control" type="text" name="fund_Price" id="fund_Price" disabled="disabled" style="font-size:20px; margin-left: 20%; width: 65%" value="${stock_price}">
               </div>
             </div>
           </legend>
@@ -63,7 +63,7 @@ body {padding-top:20px;}
               <label class="col-md-3 control-label" for="email" name="mem_id">기부 단체명</label>
               <div class="col-md-9">
                 <select name="doOrg_id" class="form-control" style="font-size:15px; margin-left: 20%; width: 65%">
-                	<option value="" selected>기부안함</option>
+                   <option value="" selected>기부안함</option>
                    <c:forEach var="donateDto" items="${donateDtos}">
                       <option value="${donateDto.doForm_id}">${donateDto.doOrg_name}</option>
                        
@@ -74,7 +74,7 @@ body {padding-top:20px;}
             <div class="form-group" >
               <label class="col-md-3 control-label" for="nowPrice">기부 금액</label>
               <div class="col-md-9">
-                 <input class="form-control" type="number" name="fund_Price" id="fund_Price" step="100"  style="font-size:20px; margin-left: 20%; width: 65%" >
+                 <input class="form-control" type="number" name="dona_price" id="dona_price" step="100"  style="font-size:20px; margin-left: 20%; width: 65%" >
               </div>
             </div>
           </legend>

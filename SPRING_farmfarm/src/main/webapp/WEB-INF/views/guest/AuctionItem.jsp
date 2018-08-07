@@ -21,9 +21,9 @@
     <div class="container">
     	<c:forEach var="dto" items="${dtos}">
 			<div class="col-xs-6 no-padding">
-            	<a href="AuctionItemContent?auc_no=${dto.auc_no}"><img style="width: 450px; height: 300px; position:relative;" src="${images}main/${dto.stock_image}" alt="${dto.auc_title}" class="img-responsive"></a>
+            	<a href="AuctionItemContent?auc_no=${dto.auc_no}"><img style="width: 450px; height: 300px; position:relative;" src="${images}auction/${dto.stock_image}" alt="${dto.auc_title}" class="img-responsive"></a>
              			<h2 style=" color: #777">${dto.auc_title}</h2>
-             			<h3 style=" color: #777">${dto.auc_startPrice} 부터~</h3>
+             			<h3 style=" color: #777"><fmt:formatNumber value="${dto.auc_startPrice}" pattern="#,###,###"/> 부터~</h3>
 			</div>               
         </c:forEach>
      </div>

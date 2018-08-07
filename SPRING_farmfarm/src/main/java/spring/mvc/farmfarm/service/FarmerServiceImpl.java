@@ -827,7 +827,7 @@ public class FarmerServiceImpl implements FarmerService {
 			ArrayList<AdvantageDTO> dtos = dao.getFarmerAvg(map);
 			model.addAttribute("dtos", dtos);// 큰바구니 : 게시글 목록 넘김
 
-			sumPoint = dtos.get(0).getAdv_sumPoint();
+			sumPoint = dtos.get(0).getMem_adv();
 			model.addAttribute("sumPoint", sumPoint);
 		}
 

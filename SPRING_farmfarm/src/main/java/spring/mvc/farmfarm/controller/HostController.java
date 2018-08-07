@@ -67,15 +67,23 @@ public class HostController {
 		// 경매내역 불러오기 //진행중
 		hostService.fundList(req, model);
 
-		fund_status = 3; // 유찰
-		req.setAttribute("fund_status", fund_status);
-
-		// 펀드내역 불러오기(유찰, 낙찰)
-		hostService.fundList_end(req, model);
-
 		return "host/FundList";
 	}
 
+	// 펀드 완료내역
+   @RequestMapping("FundList_end.ad")
+   public String fundList_end(HttpServletRequest req, Model model) {
+      System.out.println("FundList_end.ad");
+
+      int fund_status = 3; // 유찰
+      req.setAttribute("fund_status", fund_status);
+
+      // 펀드내역 불러오기(유찰, 낙찰)
+      hostService.fundList(req, model);
+
+      return "host/FundList_end";
+   }
+	
 	// 펀드 상태(1: 미등록 2: 진행중, 3: 유찰, 4: 낙찰) 미등록 -> 진행중
 	@RequestMapping("fundOk.ad")
 	public String fundOk(HttpServletRequest req, Model model) {
@@ -88,16 +96,10 @@ public class HostController {
 		
 		hostService.fundList(req, model);
 		
-		fund_status = 3; // 유찰
-		req.setAttribute("fund_status", fund_status);
-
-		// 펀드내역 불러오기(유찰, 낙찰)
-		hostService.fundList_end(req, model);
-		
 		if (fund_status == 1) {
 			return "host/NoFundList";
 		}else {
-			return "host/FundList";
+			return "host/FundList2";
 		}
 	}
 
@@ -144,15 +146,24 @@ public class HostController {
 
 		// 경매내역 불러오기 //진행중
 		hostService.aucList(req, model);
-
-		//auc_status = 3; // 유찰
-		//req.setAttribute("auc_status", auc_status);
-
-		// 경매내역 불러오기(유찰, 낙찰)
-		//hostService.aucList_end(req, model);
-
-		return "host/AucList2";
+		
+		return "host/AucList";
 	}
+	
+	// 경매 완료내역
+	@RequestMapping("AucList_end.ad")
+	public String AucList_end(HttpServletRequest req, Model model) {
+		System.out.println("AucList_end.ad");
+
+		int auc_status = 3; // 유찰 낙찰
+		req.setAttribute("auc_status", auc_status);
+
+		// 경매내역 불러오기 //진행중
+		hostService.aucList(req, model);
+		
+		return "host/AucList_end";
+	}
+
 
 	// 경매 상태(1: 미등록 2: 진행중, 3: 유찰, 4: 낙찰) 미등록 -> 진행중
 	@RequestMapping("aucOk.ad")

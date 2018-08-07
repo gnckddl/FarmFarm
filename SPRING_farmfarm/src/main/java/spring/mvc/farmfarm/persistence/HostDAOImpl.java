@@ -26,9 +26,9 @@ public class HostDAOImpl implements HostDAO {
 	// *************************************************************************************
 	// 펀드 수 //미등록 펀드수(1: 진행요청 // 2. 진행중 )-->
 	@Override
-	public int getFundCnt(int auc_status) {
+	public int getFundCnt(Map<String, Object> map) {
 		HostDAO dao = sqlSession.getMapper(HostDAO.class);
-		int selectCnt = dao.getFundCnt(auc_status);
+		int selectCnt = dao.getFundCnt(map);
 
 		return selectCnt;
 	}
@@ -82,18 +82,9 @@ public class HostDAOImpl implements HostDAO {
 	// 김보영
 	// 경매 수 //미등록 경매수(1: 진행요청 // 2. 진행중 )-->
 	@Override
-	public int getAucCnt(int auc_status) {
+	public int getAucCnt(Map<String, Object> map) {
 		HostDAO dao = sqlSession.getMapper(HostDAO.class);
-		int selectCnt = dao.getAucCnt(auc_status);
-
-		return selectCnt;
-	}
-
-	// 경매 수 //미등록 경매수(3: 유찰, 4: 낙찰) -->
-	@Override
-	public int getAucCnt_end(int auc_status) {
-		HostDAO dao = sqlSession.getMapper(HostDAO.class);
-		int selectCnt = dao.getAucCnt_end(auc_status);
+		int selectCnt = dao.getAucCnt(map);
 
 		return selectCnt;
 	}

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import spring.mvc.farmfarm.dto.AdvantageDTO;
 import spring.mvc.farmfarm.dto.AuctionDTO;
+import spring.mvc.farmfarm.dto.AuctionFarmerDTO;
 import spring.mvc.farmfarm.dto.AuctionListDTO;
 import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
@@ -63,6 +64,15 @@ public interface MemberDAO {
 	// 경매리스트 상세
 	public AuctionDTO getAuctionContent(String auc_no);
 
+	// 경매리스트 상세 농부데이터
+	public AuctionFarmerDTO getAuctionFarmer(int farm_key);
+
+	// 경매리스트 상세 농부 펀드개설갯수
+	public int getAuctionFarmerFund(int farm_key);
+
+	// 경매리스트 상세 농부 옥션개설갯수
+	public int getAuctionFarmerAuction(int farm_key);
+
 	// 현재 경매가 가져오기
 	public Integer getNowPrice(String auc_no);
 
@@ -81,6 +91,15 @@ public interface MemberDAO {
 	// 경매참여후 포인트추가
 	public void auctionJoinAdv(Map<String, Object> map);
 
+	// 회원경매 참여내역 cnt
+	public Integer getAuctionDataCnt(String userId);
+
+	// 회원 경매참여내역
+	public ArrayList<AuctionDTO> getAuctionData(String userId);
+
+	// 회원 경매진행내역 받기
+	public ArrayList<AuctionDTO> getAuctionProgress(Map<String, Object> map);
+
 	// 펀드리스트 글갯수
 	public int getFundCnt();
 
@@ -92,21 +111,34 @@ public interface MemberDAO {
 
 	// 기부업체명 리스트 가져오기
 	public ArrayList<DonateDTO> getDonateList();
-	
-	
+
 	/**
 	 * 장렬
 	 */
-	//이메일 인증
+	// 이메일 인증
 	public String sendmail(String email, String key);
-	
-	
+
 	/**
 	 * 민웅
 	 */
 	// 농부 신청 - 처리
 	public int BecomFarm(BecomeFarmerDTO dto);
-		
+
 	// 기부 내역
 	public ArrayList<DonateListDTO> getDonated(String mem_id);
+
+	// 멤버 adv점수 업데이트
+	public void updateAdv(Map<String, Object> map);
+
+	// 펀드 참여한적 있는지 체크
+	public Integer FundJoinCheck(Map<String, Object> map);
+
+	// 펀드 참여처리(join table insert)
+	public int FundJoinInsert(Map<String, Object> map);
+
+	// 펀드 참여처리(fund table update)
+	public int FundUpdate(Map<String, Object> map);
+
+	// 펀드 참여한적있는사람처리(join table update)
+	public int FundJoinUpdate(Map<String, Object> map);
 }

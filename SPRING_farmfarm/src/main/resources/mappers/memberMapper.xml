@@ -49,7 +49,7 @@
 	<select id="getAdv" parameterType="java.util.Map"
 		resultType="spring.mvc.farmfarm.dto.AdvantageDTO">
 		<![CDATA[ 
-			select *from (select adv_key,mem_id,adv_reason,adv_point,adv_sumPoint,to_char(adv_regDate, 'yyyy-mm-dd hh24:mi:ss') adv_regDate,rownum rNum from (select * from tbl_advantage order by adv_regDate desc) where mem_id=#{strId}) where rNum >= #{start} AND rNum <=#{end}			
+			select * from ( select adv_key,m.mem_id,adv_reason,adv_point,to_char(adv_regDate, 'yyyy-mm-dd hh24:mi:ss') adv_regDate,mem_adv,rownum rNum from ( select * from tbl_advantage order by adv_regDate desc ) adv join tbl_member m on adv.mem_id=m.mem_id where m.mem_id=#{strId} ) where rNum >= #{start} AND rNum <=#{end}			
 		]]>
 	</select>
 
@@ -127,7 +127,7 @@
 	<select id="getAuctionContent"
 		resultType="spring.mvc.farmfarm.dto.AuctionDTO">
 		select auc_no,stock_name,
-		stock_detail,stock_kind,auc_join,auc_startPrice,auc_nowPrice,auc_regDate,auc_endDate,mem_id,stock_image
+		stock_detail,stock_kind,auc_join,auc_startPrice,auc_nowPrice,auc_regDate,auc_endDate,mem_id,stock_image,f.farm_key
 		from tbl_stock s join tbl_auction a on s.stock_no=a.stock_no join
 		tbl_farm f on f.farm_key=s.farm_key where auc_no=#{auc_no}
 	</select>
@@ -166,8 +166,45 @@
 	<insert id="auctionJoinAdv" parameterType="java.util.Map">
 		insert into
 		tbl_advantage
-		values(tbl_advantage_seq.nextval,#{userId},#{adv_reason},#{adv_point},sysdate,#{sumPoint}+#{adv_point})
+		values(tbl_advantage_seq.nextval,#{userId},#{adv_reason},#{adv_point},sysdate)
 	</insert>
+	<!-- member adv 업데이트 -->
+	<update id="updateAdv" parameterType="java.util.Map">
+		update tbl_member set
+		mem_adv=mem_adv+#{adv_point} where mem_id=#{userId}
+	</update>
+
+
+	<!-- 회원 경매진행내역 갯수 -->
+	<select id="getAuctionDataCnt" resultType="Integer">
+		select count(*)
+		from
+		(select count(*),a.auc_no from tbl_join j join tbl_auction a on
+		j.auc_no=a.auc_no where mem_id=#{userId} group by a.auc_no)
+	</select>
+
+	<!-- 회원 경매진행내역 -->
+	<select id="getAuctionData"
+		resultType="spring.mvc.farmfarm.dto.AuctionDTO">
+		select
+		a.auc_no,stock_image,auc_title,auc_startprice,auc_nowprice,count(join_no)
+		auc_join,auc_endDate
+		from tbl_auction a join tbl_stock s on
+		a.stock_no=s.stock_no
+		join tbl_join j on j.auc_no=a.auc_no where
+		j.mem_id=#{userId} group by
+		a.auc_no,stock_image,auc_title,auc_startprice,auc_nowprice,auc_endDate
+	</select>
+
+	<select id="getAuctionProgress" parameterType="java.util.Map"
+		resultType="spring.mvc.farmfarm.dto.AuctionDTO">
+		select
+		stock_image,auc_startPrice,auc_title,join_aucPrice,join_regDate,mem_id
+		from tbl_auction a join tbl_stock s on a.stock_no=s.stock_no
+		join
+		tbl_join j on j.auc_no=a.auc_no where a.auc_no=#{auc_no} order by
+		join_regDate desc
+	</select>
 
 
 	<!--펀드상품보기 글갯수 -->
@@ -182,8 +219,8 @@
         <![CDATA[
            SELECT *
          FROM(
-         SELECT fund_no,stock_no,stock_image,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id, rownum rNum
-           FROM (select fund_no, s.stock_no,s.stock_image,fund_join, fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_regDate DESC  
+         SELECT fund_no,stock_no,stock_image,stock_price,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id, rownum rNum
+           FROM (select fund_no, s.stock_no,s.stock_image,stock_price,fund_join, fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_regDate DESC  
          ))
          WHERE rNum >= #{start} AND rNum <= #{end}
          ]]>
@@ -194,8 +231,9 @@
 		SELECT *
 		FROM(
 		SELECT
-		fund_no,stock_no,stock_image,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
-		FROM (select fund_no, s.stock_no,s.stock_image,fund_join,
+		fund_no,stock_no,stock_image,stock_price,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
+		FROM (select fund_no,
+		s.stock_no,s.stock_image,s.stock_price,fund_join,
 		fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
 		from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join
 		tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_regDate DESC
@@ -241,5 +279,52 @@
 		WHERE
 		mem_id=#{mem_id} order by dona_date desc
 	</select>
+	<!-- 시작-경매상세 농부관련데이터 -->
+	<select id="getAuctionFarmer"
+		resultType="spring.mvc.farmfarm.dto.AuctionFarmerDTO">
+		select sum(auc_join) auc_join,sum(fund_join) fund_join
+		from
+		tbl_stock s left join tbl_auction a on s.stock_no=a.stock_no
+		left join
+		tbl_fund f on f.stock_no=s.stock_no
+		where farm_key=#{farm_key}
+	</select>
+
+	<select id="getAuctionFarmerFund" resultType="int">
+		select
+		count(fund_no) fundCnt
+		from tbl_stock s left join tbl_auction a on
+		s.stock_no=a.stock_no
+		left join tbl_fund f on f.stock_no=s.stock_no
+		where farm_key=#{farm_key} and fund_no is not null
+	</select>
+
+	<!-- 끝-경매상세 농부관련데이터 -->
+
+
+	<!--펀드참여한적있는지 체크 -->
+	<select id="FundJoinCheck" resultType="Integer">
+		select join_no from
+		tbl_join where mem_id=#{userId} and fund_no=#{fund_no}
+	</select>
+
+	<!--펀드데이터 업데이트 참여인원... -->
+	<update id="FundUpdate" parameterType="java.util.Map">
+		update tbl_fund set
+		fund_join=fund_join+1 where fund_no=#{fund_no}
+	</update>
+
+	<!--펀드참여 인서트 -->
+	<insert id="FundJoinInsert" parameterType="java.util.Map">
+		insert into
+		tbl_join(join_no,mem_id,fund_no,join_fundPrice)
+		values(tbl_join_seq.nextval,#{userId},#{fund_no},#{stock_price})
+	</insert>
+
+	<!--펀드 참여한적있는사람 업뎃 -->
+	<update id="FundJoinUpdate" parameterType="java.util.Map">
+		update tbl_join set
+		join_fundPrice=join_fundPrice+#{stock_price} where join_no=#{join_no}
+	</update>
 
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import spring.mvc.farmfarm.dto.AdvantageDTO;
 import spring.mvc.farmfarm.dto.AuctionDTO;
+import spring.mvc.farmfarm.dto.AuctionFarmerDTO;
 import spring.mvc.farmfarm.dto.AuctionListDTO;
 import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
@@ -295,4 +296,94 @@ public class MemberDAOImpl implements MemberDAO {
 		}
 		return dtos;
 	}
+
+	@Override
+	public void updateAdv(Map<String, Object> map) {
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dao.updateAdv(map);
+	}
+
+	@Override
+	public ArrayList<AuctionDTO> getAuctionData(String userId) {
+		ArrayList<AuctionDTO> dtos = null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dtos = dao.getAuctionData(userId);
+		return dtos;
+	}
+
+	@Override
+	public Integer getAuctionDataCnt(String userId) {
+		Integer selectCnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		selectCnt = dao.getAuctionDataCnt(userId);
+		return selectCnt;
+	}
+
+	@Override
+	public ArrayList<AuctionDTO> getAuctionProgress(Map<String, Object> map) {
+		ArrayList<AuctionDTO> dtos = null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dtos = dao.getAuctionProgress(map);
+		return dtos;
+	}
+
+	// 경매리스트 상세 농부데이터
+	@Override
+	public AuctionFarmerDTO getAuctionFarmer(int farm_key) {
+		AuctionFarmerDTO dto = null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dto = dao.getAuctionFarmer(farm_key);
+		return dto;
+	}
+
+	@Override
+	public int getAuctionFarmerFund(int farm_key) {
+		int cnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		cnt = dao.getAuctionFarmerFund(farm_key);
+		return cnt;
+	}
+
+	@Override
+	public int getAuctionFarmerAuction(int farm_key) {
+		int cnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		cnt = dao.getAuctionFarmerAuction(farm_key);
+		return cnt;
+	}
+
+	// 펀드 참여한적 있는지 체크
+	@Override
+	public Integer FundJoinCheck(Map<String, Object> map) {
+		Integer check = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		check = dao.FundJoinCheck(map);
+		return check;
+	}
+
+	// 펀드 참여처리(fund table update)
+	@Override
+	public int FundUpdate(Map<String, Object> map) {
+		int updateCnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		updateCnt = dao.FundUpdate(map);
+		return updateCnt;
+	}
+
+	@Override
+	public int FundJoinInsert(Map<String, Object> map) {
+		int insertCnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		insertCnt = dao.FundJoinInsert(map);
+		return insertCnt;
+	}
+
+	@Override
+	public int FundJoinUpdate(Map<String, Object> map) {
+		int updateCnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		updateCnt = dao.FundJoinUpdate(map);
+		return updateCnt;
+	}
+
 }
