@@ -69,9 +69,8 @@ public interface MemberDAO {
 
 	// 경매리스트 상세 농부 펀드개설갯수
 	public int getAuctionFarmerFund(int farm_key);
-
-	// 경매리스트 상세 농부 옥션개설갯수
-	public int getAuctionFarmerAuction(int farm_key);
+	// 경매리스트 상세 농부 경매개설갯수
+	public int getAuctionFarmerAuc(int farm_key);
 
 	// 현재 경매가 가져오기
 	public Integer getNowPrice(String auc_no);

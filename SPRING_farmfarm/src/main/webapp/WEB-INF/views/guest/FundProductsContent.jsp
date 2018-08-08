@@ -75,7 +75,7 @@ function FundProductsPop(fund_no){
                         <br>
                         
                         <div class="number">
-                           <span style="font-size: 30px;">명 참여 : ${dto.fund_join}</span>
+                           <span style="font-size: 30px;">참여인원 : ${dto.fund_join}</span>
                         </div>
                         
                         <div class="number">

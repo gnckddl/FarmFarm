@@ -119,9 +119,10 @@
 
 	<select id="getAuctionList"
 		resultType="spring.mvc.farmfarm.dto.AuctionListDTO">
-		select auc_no,auc_title,auc_startPrice,stock_image from
-		tbl_auction a join tbl_stock s on a.stock_no=s.stock_no where
-		auc_status=2
+		select auc_no,auc_title,auc_startPrice,stock_image ,mem_id
+		from tbl_auction a join tbl_stock s on a.stock_no=s.stock_no
+		join tbl_farm f on f.farm_key=s.farm_key
+		where auc_status=2
 	</select>
 
 	<select id="getAuctionContent"
@@ -238,7 +239,8 @@
 		from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join
 		tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_regDate DESC
 		))
-		where fund_no=#{fund_no}
+		where
+		fund_no=#{fund_no}
 	</select>
 
 
@@ -293,10 +295,18 @@
 	<select id="getAuctionFarmerFund" resultType="int">
 		select
 		count(fund_no) fundCnt
+		from tbl_stock s left join tbl_fund f on
+		f.stock_no=s.stock_no
+		where farm_key=#{farm_key} and fund_no is not
+		null
+	</select>
+	<select id="getAuctionFarmerAuc" resultType="int">
+		select
+		count(auc_no)
+		auctionCnt
 		from tbl_stock s left join tbl_auction a on
 		s.stock_no=a.stock_no
-		left join tbl_fund f on f.stock_no=s.stock_no
-		where farm_key=#{farm_key} and fund_no is not null
+		where farm_key=#{farm_key} and a.auc_no is not null
 	</select>
 
 	<!-- 끝-경매상세 농부관련데이터 -->

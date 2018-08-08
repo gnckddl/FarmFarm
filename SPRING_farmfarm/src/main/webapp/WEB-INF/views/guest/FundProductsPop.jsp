@@ -28,7 +28,7 @@ body {padding-top:20px;}
    <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div class="well well-sm">
-          <form class="form-horizontal" action="FundJoinPro?stock_price=${stock_price}&fund_no=${fund_no}" method="post">
+          <form class="form-horizontal" action="FundJoinPro?stock_price=${stock_price}&fund_no=${fund_no}&doFrom_id=${donateDto.doForm_id}" method="post">
           
           <fieldset>
             <legend class="text-center"><h2><P>펀드상품참여</P></h2></legend>

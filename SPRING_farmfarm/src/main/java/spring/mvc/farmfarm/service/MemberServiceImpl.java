@@ -75,15 +75,28 @@ public class MemberServiceImpl implements MemberService {
 		MemberDTO dto = new MemberDTO();
 		int insertCnt = 0;
 		// 3 화면값
-		// 도로명or지번주소 + 상세주소 합쳐줌
-		// String addr=req.getParameter("addr1")+" "+req.getParameter("addr2");
 
 		dto.setMem_id(req.getParameter("userId"));
 		dto.setMem_pwd(req.getParameter("userPassword"));
 		dto.setMem_name(req.getParameter("userName"));
-		dto.setMem_address(req.getParameter("address"));
+
+		// 주소 API처리
+		// 도로명or지번주소 + 상세주소
+		// String addr=req.getParameter("addr1")+" "+req.getParameter("addr2");
+		String address = "";
+		String add1 = req.getParameter("add1");
+		String add2 = req.getParameter("add2");
+		// null 처리가 될 경우 방지 체크
+		if (!add1.equals("") && !add2.equals("")) {
+			address = add1 + add2;
+		}
+
+		dto.setMem_address(address);
 		dto.setMem_hp(req.getParameter("hp"));
-		dto.setMem_email(req.getParameter("email"));
+
+		String email1 = req.getParameter("email1");
+		String email2 = req.getParameter("email2");
+		dto.setMem_email(email1 + "@" + email2);
 
 		// 5 처리
 		insertCnt = dao.insertMember(dto);
@@ -405,8 +418,19 @@ public class MemberServiceImpl implements MemberService {
 		AuctionFarmerDTO dto2 = new AuctionFarmerDTO();
 
 		dto = dao.getAuctionContent(auc_no);
-		dto2 = dao.getAuctionFarmer(dto.getFarm_key());
-		dto2.setFundCnt(dao.getAuctionFarmerFund(dto.getFarm_key()));
+		int farmkey = dto.getFarm_key();
+
+		dto2 = dao.getAuctionFarmer(farmkey);
+
+		int fcnt = dao.getAuctionFarmerFund(farmkey);
+		int acnt = dao.getAuctionFarmerAuc(farmkey);
+
+		System.out.println("fkey" + farmkey);
+		System.out.println("acnt" + acnt + "fcnt" + fcnt);
+
+		dto2.setFundCnt(fcnt);
+		dto2.setAuctionCnt(acnt);
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("dto2", dto2);
 	}
@@ -609,11 +633,13 @@ public class MemberServiceImpl implements MemberService {
 
 		dto = dao.getFundArticle(fund_no);
 
+		System.out.println("fdddd" + dto.getFund_endDate());
+
+		req.setAttribute("fund_endDate", dto.getFund_endDate());
 		// 상세페이지 조회
 		model.addAttribute("dto", dto);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("number", number);
-
 	}
 
 	@Override
@@ -774,7 +800,7 @@ public class MemberServiceImpl implements MemberService {
 		String todayDate = new SimpleDateFormat("yyyy-MM-dd").format(todaydate);
 		System.out.println(todayDate); // 2011-01-18
 
-		String fund_endDate = req.getParameter("fund_endDate");
+		String fund_endDate = (String) req.getAttribute("fund_endDate");
 		System.out.println("엔드데이트" + fund_endDate);
 
 		try { // String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서 에러가 발생해서
@@ -801,22 +827,41 @@ public class MemberServiceImpl implements MemberService {
 			// 예외 처리
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void AuctionList(HttpServletRequest req, Model model) {
 		String userId = (String) req.getSession().getAttribute("userId");
 		ArrayList<AuctionDTO> dtos = null;
-		int selectCnt = 0;
+		ArrayList<AuctionDTO> newDtos = new ArrayList<>();
+		ArrayList<AuctionDTO> oldDtos = new ArrayList<>();
+		int selectCnt = 0, oldCnt = 0, newCnt = 0;
 
 		selectCnt = dao.getAuctionDataCnt(userId);
 
-		if (selectCnt > 0)
+		if (selectCnt > 0) {
 			dtos = dao.getAuctionData(userId);
 
-		model.addAttribute("cnt", selectCnt);
-		model.addAttribute("dtos", dtos);
+			Date currentTime = new Date();
+			int result = 0;
+			for (int i = 0; i < dtos.size(); i++) {
+				result = currentTime.compareTo(dtos.get(i).getAuc_endDate());
+
+				if (result > 0) {
+					oldDtos.add(dtos.get(i));
+					oldCnt++;
+				} else {
+					newDtos.add(dtos.get(i));
+					newCnt++;
+				}
+			}
+
+		}
+
+		model.addAttribute("newCnt", newCnt);
+		model.addAttribute("oldCnt", oldCnt);
+		model.addAttribute("oldDtos", oldDtos);
+		model.addAttribute("newDtos", newDtos);
 	}
 
 	@Override

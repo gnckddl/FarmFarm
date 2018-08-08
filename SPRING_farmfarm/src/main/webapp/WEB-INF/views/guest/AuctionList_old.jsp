@@ -22,7 +22,7 @@ function AuctionProgress(num){
 
 	<section id="main-content"> <section class="wrapper">
 	<h3>
-		<i class="fa fa-angle-right"></i> 경매 진행내역
+		<i class="fa fa-angle-right"></i> 경매 종료내역
 	</h3>
 	<div class="row">
 		<!-- 펀드 진행내역 시작 -->
@@ -31,7 +31,7 @@ function AuctionProgress(num){
 			<div class="content-panel">
 				<table class="table table-hover">
 					<h4>
-						<i class="fa fa-angle-right"></i> 경매 진행내역 (${newCnt}건)
+						<i class="fa fa-angle-right"></i> 종료내역 (${oldCnt}건)
 					</h4>
 					<hr>
 					<thead>
@@ -48,8 +48,8 @@ function AuctionProgress(num){
 					</thead>
 					<tbody>
 						<!-- 게시글이 있으면 -->
-						<c:if test="${newCnt>0}">
-							<c:forEach var="dto" items="${newDtos}">
+						<c:if test="${oldCnt>0}">
+							<c:forEach var="dto" items="${oldDtos}">
 								<tr>
 									<td><img src="${images}auction/${dto.stock_image}"
 										width="100px" height="60px"></td>
@@ -119,7 +119,8 @@ function AuctionProgress(num){
 
 
 	<!-- 푸터 -->
-	<footer> <%@ include file="../Footer.jsp"%>
+	<footer> 
+		<%@ include file="../Footer.jsp"%>
 	</footer>
 
 </body>

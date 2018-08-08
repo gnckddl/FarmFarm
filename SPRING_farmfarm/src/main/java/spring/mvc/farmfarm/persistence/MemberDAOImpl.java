@@ -335,7 +335,13 @@ public class MemberDAOImpl implements MemberDAO {
 		dto = dao.getAuctionFarmer(farm_key);
 		return dto;
 	}
-
+	@Override
+	public int getAuctionFarmerAuc(int farm_key) {
+		int cnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		cnt = dao.getAuctionFarmerAuc(farm_key);
+		return cnt;
+	}
 	@Override
 	public int getAuctionFarmerFund(int farm_key) {
 		int cnt = 0;
@@ -343,14 +349,7 @@ public class MemberDAOImpl implements MemberDAO {
 		cnt = dao.getAuctionFarmerFund(farm_key);
 		return cnt;
 	}
-
-	@Override
-	public int getAuctionFarmerAuction(int farm_key) {
-		int cnt = 0;
-		MemberDAO dao = ss.getMapper(MemberDAO.class);
-		cnt = dao.getAuctionFarmerAuction(farm_key);
-		return cnt;
-	}
+	
 
 	// 펀드 참여한적 있는지 체크
 	@Override
@@ -385,5 +384,7 @@ public class MemberDAOImpl implements MemberDAO {
 		updateCnt = dao.FundJoinUpdate(map);
 		return updateCnt;
 	}
+
+	
 
 }

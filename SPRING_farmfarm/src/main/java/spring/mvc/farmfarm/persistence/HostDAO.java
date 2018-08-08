@@ -3,13 +3,11 @@ package spring.mvc.farmfarm.persistence;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.ui.Model;
-
+import spring.mvc.farmfarm.dto.AuctionListDTO;
 import spring.mvc.farmfarm.dto.BoardDTO;
 import spring.mvc.farmfarm.dto.CommentDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
+import spring.mvc.farmfarm.dto.FundDTO;
 import spring.mvc.farmfarm.dto.MemberDTO;
 import spring.mvc.farmfarm.dto.PartnerDTO;
 import spring.mvc.farmfarm.dto.StockDTO;
@@ -17,6 +15,12 @@ import spring.mvc.farmfarm.dto.WeekFarmDTO;
 
 public interface HostDAO {
 
+	// 메인리스트
+	public ArrayList<FundDTO> FarmFarmMainList();
+
+	public ArrayList<FundDTO> FarmFarmMainList1();
+
+	public ArrayList<AuctionListDTO> getAuctionList();
 	// *************************************************************************************
 	// ****************************************펀드관리*******************************
 	// *************************************************************************************
@@ -207,7 +211,7 @@ public interface HostDAO {
 
 	// 3.년별 경매(상품 종류별) 차트
 	public Integer yearDonate(Map<String, Integer> mapParam);
-	
+
 	// *************************************************************************************
 	// ***************************************** 주말농장
 	// *************************************

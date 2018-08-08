@@ -5,7 +5,7 @@
 <table style="margin-left: 27%">
 	<c:forEach var="item" items="${dtos }">
 	<tr>
-		<th style="text-align: center;">
+		<th>
 			<c:if test="${item.mem_id==sessionScope.userId}">
 				<b style="color:blue;"><fmt:formatNumber value="${item.join_aucPrice}" pattern="#,###,###"/> / <fmt:formatDate value="${item.join_regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></b>
 			</c:if>

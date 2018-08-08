@@ -19,7 +19,7 @@
 	function startSuggest() {
 		if(checkFirst == true) { // 처음 
 			loopSendKeyword = true;	// 0.5초마다 반복해라
-			setTimeout("getPrice()", 500);
+			setTimeout("getPrice()", 300);
 		}
 		checkFirst = false;	// 작업 종료
 	}
@@ -32,7 +32,7 @@
 		sendRequest(result_callback, "AuctionProgressAjax", "GET", parms);
 		//} 
 		// 재귀호출.. function안에서 호출하므로 
-		setTimeout("getPrice()", 500); // 실시간 제일 중요한 개념
+		setTimeout("getPrice()", 300); // 실시간 제일 중요한 개념
 	}
 	
 	// 콜백함수

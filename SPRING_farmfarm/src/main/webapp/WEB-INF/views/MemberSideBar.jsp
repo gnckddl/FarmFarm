@@ -220,7 +220,7 @@
                 </a>
                 <ul class="sub">
                     <li><a href="AuctionList_ing">경매 진행 내역</a></li>
-                    <li><a href="#">경매 종료 내역</a></li>
+                    <li><a href="AuctionList_old">경매 종료 내역</a></li>
                 </ul>
             </li>
              <li class="sub-menu"><a href="javascript:;"> <i

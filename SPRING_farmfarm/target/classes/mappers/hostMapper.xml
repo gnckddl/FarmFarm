@@ -5,6 +5,59 @@
 
 <mapper namespace="spring.mvc.farmfarm.persistence.HostDAO">
 
+
+	<!--메인인기상품 뿌기리기 -->
+	<select id="FarmFarmMainList"
+		resultType="spring.mvc.farmfarm.dto.FundDTO">
+   <![CDATA[
+       SELECT *
+      FROM(
+      SELECT 
+      fund_no,stock_no,stock_image,stock_price,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id,rownum rNum
+      FROM (select fund_no,
+      s.stock_no,s.stock_image,s.stock_price,fund_join,
+      fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
+      from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join
+      tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_join DESC
+      ))
+          where rNum < 5
+      ]]>
+	</select>
+
+	<!--메인 최신펀드상품 -->
+	<select id="FarmFarmMainList1"
+		resultType="spring.mvc.farmfarm.dto.FundDTO">
+   <![CDATA[
+       SELECT *
+      FROM(
+      SELECT 
+      fund_no,stock_no,stock_image,stock_price,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id,rownum rNum
+      FROM (select fund_no,
+      s.stock_no,s.stock_image,s.stock_price,fund_join,
+      fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
+      from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join
+      tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_regDate DESC
+      ))
+          where rNum < 7
+      ]]>
+	</select>
+
+	<!--메인 인기경매리스트 뿌리기 -->
+	<select id="getAuctionList"
+		resultType="spring.mvc.farmfarm.dto.AuctionListDTO">
+   <![CDATA[
+      select *
+      from (select auc_no,auc_title,auc_startPrice,stock_image,mem_id,rownum rNum
+	      from (select auc_no,auc_title,auc_startPrice,stock_image,mem_id
+	      	from tbl_auction a join tbl_stock s on a.stock_no=s.stock_no 
+	      	join tbl_farm f on f.farm_key=s.farm_key
+	        where auc_status=2 order by auc_join desc)
+        ) where rNum < 5  
+   ]]>
+	</select>
+
+
+
 	<!--******************************** 펀드 ****************************** -->
 	<!-- 펀드 수==> (1: 진행요청 // 2. 진행중 ) -->
 	<select id="getFundCnt" parameterType="int" resultType="int">
@@ -44,7 +97,8 @@
 		</if>
 		<!-- 2. 진행중, 3: 유찰, 4: 낙찰 리스트 뿌리기 -->
 		<if test="fund_status == 2">
-			WHERE f.fund_status = #{fund_status} OR f.fund_status=#{fund_status}+1 OR f.fund_status =#{fund_status} + 2
+			WHERE f.fund_status = #{fund_status} OR
+			f.fund_status=#{fund_status}+1 OR f.fund_status =#{fund_status} + 2
 		</if>
 		ORDER BY f.fund_regDate DESC
 		) 
@@ -112,7 +166,8 @@
 
 	<!--******************************* 회원관리 *************************** -->
 	<!-- 펀드 분야별 구매 -->
-	<select id="guestFundSales" parameterType="int" resultType="Integer">
+	<select id="guestFundSales" parameterType="int"
+		resultType="Integer">
 		SELECT SUM(j.join_fundPrice)
 		FROM tbl_join j
 		JOIN tbl_fund f
@@ -123,13 +178,15 @@
 		WHERE
 		j.join_fundPrice IS NOT NULL
 		GROUP BY s.stock_kind
-		HAVING s.stock_kind =
+		HAVING
+		s.stock_kind =
 		#{stock_kind}
 		ORDER BY s.stock_kind ASC
 	</select>
 
 	<!-- 펀드 & 경매 진행 차트 -->
-	<select id="guestFundAuc" parameterType="int" resultType="Integer">
+	<select id="guestFundAuc" parameterType="int"
+		resultType="Integer">
 		SELECT SUM(join_fundPrice)
 		FROM tbl_join
 		WHERE join_fundPrice IS NOT
@@ -191,7 +248,8 @@
 	<!--************** 파트너관리 *************** -->
 	<!-- ********파트너 차트관리****** -->
 	<!-- 분야별 펀드 현황 차트 -->
-	<select id="partnerFund" parameterType="int" resultType="Integer">
+	<select id="partnerFund" parameterType="int"
+		resultType="Integer">
 		SELECT
 		SUM(j.join_fundPrice)
 		FROM tbl_join j
@@ -203,7 +261,8 @@
 		WHERE
 		j.join_fundPrice IS NOT NULL
 		GROUP BY s.stock_kind
-		HAVING s.stock_kind =
+		HAVING
+		s.stock_kind =
 		#{stock_kind}
 		ORDER BY s.stock_kind ASC
 	</select>
@@ -307,7 +366,8 @@
 		ON j.fund_no = f.fund_no
 		JOIN tbl_stock s
 		ON s.stock_no = f.stock_no
-		WHERE TO_CHAR(to_date(f.fund_endDate,'YY-MM-DD'), 'MM')-0 = #{month} AND
+		WHERE TO_CHAR(to_date(f.fund_endDate,'YY-MM-DD'), 'MM')-0 = #{month}
+		AND
 		f.fund_status = #{fund_status}
 		GROUP BY s.stock_kind
 	</select>
@@ -319,8 +379,10 @@
 		FROM tbl_stock s
 		JOIN tbl_fund f
 		On s.stock_no = f.stock_no
-		WHERE TO_CHAR(to_date(f.fund_endDate,'YY-MM-DD'), 'YY')-0 = #{year}
-		GROUP BY f.fund_status
+		WHERE
+		TO_CHAR(to_date(f.fund_endDate,'YY-MM-DD'), 'YY')-0 = #{year}
+		GROUP BY
+		f.fund_status
 		HAVING f.fund_status=4
 	</select>
 
@@ -331,10 +393,13 @@
 		FROM tbl_stock s
 		JOIN tbl_fund f
 		On s.stock_no = f.stock_no
-		WHERE TO_CHAR(to_date(f.fund_endDate,'YY-MM-DD'), 'YY')-0 = #{year}
-		AND s.stock_kind =#{kind}
+		WHERE
+		TO_CHAR(to_date(f.fund_endDate,'YY-MM-DD'), 'YY')-0 = #{year}
+		AND
+		s.stock_kind =#{kind}
 		GROUP BY f.fund_status
-		HAVING f.fund_status=#{auc_status}
+		HAVING
+		f.fund_status=#{auc_status}
 	</select>
 
 	<!-- //*************경매**************** -->
@@ -343,7 +408,8 @@
 		resultType="Integer">
 		SELECT SUM(j.join_aucPrice)
 		FROM tbl_auction a
-		JOIN tbl_join j
+		JOIN tbl_join
+		j
 		ON a.auc_no = j.auc_no
 		JOIN tbl_stock s
 		ON s.stock_no = a.stock_no
@@ -358,11 +424,13 @@
 		resultType="Integer">
 		SELECT SUM(j.join_aucPrice)
 		FROM tbl_auction a
-		JOIN tbl_join j
+		JOIN tbl_join
+		j
 		ON a.auc_no = j.auc_no
 		JOIN tbl_stock s
 		ON s.stock_no = a.stock_no
-		WHERE TO_CHAR(to_date(a.auc_endDate,'YY-MM-DD'), 'MM')-0 = #{month} AND
+		WHERE TO_CHAR(to_date(a.auc_endDate,'YY-MM-DD'), 'MM')-0 = #{month}
+		AND
 		a.auc_status = #{auc_status}
 		GROUP BY s.stock_kind
 	</select>
@@ -384,11 +452,14 @@
 		resultType="Integer">
 		SELECT SUM(auc_finalPrice)
 		FROM tbl_stock s
-		JOIN tbl_auction a
+		JOIN tbl_auction
+		a
 		On s.stock_no = a.stock_no
-		WHERE TO_CHAR(to_date(auc_endDate,'YY-MM-DD'),
+		WHERE
+		TO_CHAR(to_date(auc_endDate,'YY-MM-DD'),
 		'YY')-0 = #{year}
-		AND s.stock_kind =#{kind}
+		AND
+		s.stock_kind =#{kind}
 		GROUP BY auc_status
 		HAVING
 		auc_status=#{auc_status}
@@ -424,9 +495,10 @@
 	</delete>
 
 	<!-- 공지사항 상세페이지 -->
-	<select id="getNoticeContent" resultType="spring.mvc.farmfarm.dto.BoardDTO"
-		parameterType="int">
-		SELECT * FROM tbl_board
+	<select id="getNoticeContent"
+		resultType="spring.mvc.farmfarm.dto.BoardDTO" parameterType="int">
+		SELECT *
+		FROM tbl_board
 		WHERE boa_id = #{boa_id}
 	</select>
 
@@ -465,7 +537,8 @@
 		//************************************************************************************* -->
 	<!-- 기부 건수 -->
 	<select id="getDonateCnt" resultType="int">
-		SELECT COUNT(*) FROM tbl_memDo
+		SELECT COUNT(*) FROM
+		tbl_memDo
 	</select>
 
 	<!-- 기부 내역 조회 -->
@@ -513,21 +586,27 @@
 	</select>
 
 	<!-- 기부단체 등록 -->
-	<insert id="donateInsert" parameterType="spring.mvc.farmfarm.dto.DonateDTO">
+	<insert id="donateInsert"
+		parameterType="spring.mvc.farmfarm.dto.DonateDTO">
 		INSERT INTO
-		tbl_doOrg(doForm_id , doOrg_name, doOrg_hp, doOrg_address,
+		tbl_doOrg(doForm_id , doOrg_name, doOrg_hp,
+		doOrg_address,
 		doOrg_person, doOrg_image, doOrg_title, doOrg_content)
 		VALUES(tbl_doOrg_seq.nextval,#{doOrg_name},#{doOrg_hp},#{doOrg_address},#{doOrg_person}
 		,#{doOrg_image}, #{ doOrg_title} ,#{ doOrg_content})
 	</insert>
 
 	<!-- 기부단체 수정페이지 -->
-	<update id="donateUpdate" parameterType="spring.mvc.farmfarm.dto.DonateDTO">
+	<update id="donateUpdate"
+		parameterType="spring.mvc.farmfarm.dto.DonateDTO">
 		UPDATE tbl_doOrg
 		SET
-		doOrg_hp=#{doOrg_hp}, doOrg_address=#{doOrg_address},
-		doOrg_person=#{doOrg_person}, doOrg_image=#{doOrg_image},
-		doOrg_title=#{doOrg_title}, doOrg_content=#{doOrg_content}
+		doOrg_hp=#{doOrg_hp},
+		doOrg_address=#{doOrg_address},
+		doOrg_person=#{doOrg_person},
+		doOrg_image=#{doOrg_image},
+		doOrg_title=#{doOrg_title},
+		doOrg_content=#{doOrg_content}
 		WHERE
 		doForm_id = #{doForm_id}
 	</update>
@@ -540,7 +619,8 @@
 
 	<!-- /*차트*/ -->
 	<!-- 이번 달 기부 (업체별) ==> 1. doForm_id 가져오는 메소드 : getDoFormId() -->
-	<select id="getDoFormId" parameterType="Integer" resultType="Integer">
+	<select id="getDoFormId" parameterType="Integer"
+		resultType="Integer">
 		SELECT doForm_id
 		FROM(
 		SELECT doForm_id, rowNum-1 rNum
@@ -549,16 +629,20 @@
 		ORDER BY doForm_id
 		)
 		)
-		WHERE rNum = #{doForm_id}
+		WHERE
+		rNum = #{doForm_id}
 	</select>
 
 	<!-- 이번 달 기부 (업체별) 2. 업체별로 기부 모금액 가져오는 메소드 : thisMonthDonate() -->
-	<select id="thisMonthDonate" parameterType="int" resultType="Integer">
+	<select id="thisMonthDonate" parameterType="int"
+		resultType="Integer">
 		SELECT SUM(m.dona_price)
 		FROM tbl_doOrg d
 		JOIN tbl_memDo m
-		ON d.doForm_id = m.doForm_id
-		WHERE TO_CHAR(to_date(m.dona_date,'YY-MM-DD'), 'MM')-0 =
+		ON
+		d.doForm_id = m.doForm_id
+		WHERE
+		TO_CHAR(to_date(m.dona_date,'YY-MM-DD'), 'MM')-0 =
 		TO_CHAR(to_date(SYSDATE,'YY-MM-DD'), 'MM')-0
 		GROUP BY m.doForm_id
 		HAVING m.doForm_id = #{doForm_id}
@@ -566,16 +650,20 @@
 	</select>
 
 	<!-- 올해 기부 모금액 -->
-	<select id="monthDonate" parameterType="int" resultType="Integer">
+	<select id="monthDonate" parameterType="int"
+		resultType="Integer">
 		SELECT SUM(m.dona_price)
 		FROM tbl_doOrg d
 		JOIN tbl_memDo m
-		ON d.doForm_id = m.doForm_id
-		WHERE TO_CHAR(to_date(m.dona_date,'YY-MM-DD'), 'MM')-0 = #{month}
+		ON
+		d.doForm_id = m.doForm_id
+		WHERE
+		TO_CHAR(to_date(m.dona_date,'YY-MM-DD'), 'MM')-0 = #{month}
 	</select>
 
 	<!-- 업체별 기부액 3년치 -->
-	<select id="yearDonate" parameterType="Integer" resultType="Integer">
+	<select id="yearDonate" parameterType="Integer"
+		resultType="Integer">
 		SELECT SUM(d.doOrg_account)
 		FROM tbl_doOrg d
 		JOIN tbl_memDo m
@@ -590,20 +678,24 @@
 	<!-- 주말농장 건수 -->
 	<select id="getWeekFarmCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM tbl_wfarmInfo
-		WHERE wfarmInfo_status = #{wfarmInfo_status}
+		WHERE wfarmInfo_status =
+		#{wfarmInfo_status}
 	</select>
 
 	<!-- 주말농장 요청현황 조회 -->
-	<select id="getWeekFarmRequestList" parameterType="java.util.Map"
+	<select id="getWeekFarmRequestList"
+		parameterType="java.util.Map"
 		resultType="spring.mvc.farmfarm.dto.WeekFarmDTO">
 		SELECT *
 		FROM(
-		SELECT w.wfarm_key, m.mem_id, w.wfarmInfo_title, w.wfarmInfo_price,
+		SELECT w.wfarm_key, m.mem_id, w.wfarmInfo_title,
+		w.wfarmInfo_price,
 		w.wfarmInfo_regDate, rownum rNum
 		FROM tbl_wfarmInfo w
 		JOIN tbl_wfarm m
 		ON w.wfarm_key = m.wfarm_key
-		WHERE w.wfarmInfo_status = #{wfarm_status}
+		WHERE w.wfarmInfo_status =
+		#{wfarm_status}
 		ORDER BY w.wfarmInfo_regDate DESC
       <![CDATA[
              )
@@ -616,12 +708,14 @@
 		resultType="spring.mvc.farmfarm.dto.WeekFarmDTO">
 		SELECT *
 		FROM(
-		SELECT w.wfarm_key, m.mem_id, w.wfarmInfo_title, w.wfarmInfo_price,
+		SELECT w.wfarm_key, m.mem_id, w.wfarmInfo_title,
+		w.wfarmInfo_price,
 		w.wfarmInfo_regDate, rownum rNum
 		FROM tbl_wfarmInfo w
 		JOIN tbl_wfarm m
 		ON w.wfarm_key = m.wfarm_key
-		WHERE w.wfarmInfo_status = #{wfarm_status}
+		WHERE w.wfarmInfo_status =
+		#{wfarm_status}
 		ORDER BY w.wfarmInfo_regDate DESC
       <![CDATA[
              )
@@ -631,14 +725,17 @@
 
 	<!-- 주말농장 요청승인 -->
 	<update id="weekFarmReqPermit" parameterType="java.util.Map">
-		UPDATE tbl_wfarmInfo
+		UPDATE
+		tbl_wfarmInfo
 		SET wfarmInfo_status = #{wfarm_status}
-		WHERE wfarm_key = #{wfarm_key}
+		WHERE wfarm_key =
+		#{wfarm_key}
 	</update>
 
 	<!-- 주말농장 삭제 -->
 	<delete id="weekFarmDelete" parameterType="int">
-		DELETE FROM tbl_wfarmInfo
+		DELETE FROM
+		tbl_wfarmInfo
 		WHERE wfarm_key = #{wfarm_key}
 	</delete>
 </mapper>

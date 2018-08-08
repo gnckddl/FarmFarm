@@ -170,6 +170,7 @@ function move(auc_no){
 										ondragstart="return false" onselectstart="return false" onclick="move('${dto.auc_no}');">
 										<div class="big">경매 참여하기</div>
 									</a>
+									<input type="button" value="카카오" onclick="window.open('kakao', 'kakao','top=100px, left=100px, height=410px, width=500px');">
 								</div>
 							</li>
 
@@ -190,11 +191,11 @@ function move(auc_no){
 										<div class="row no-gutter">
 											<div class="col-xs-4 cell1">
 												<small>펀드 개설 건수</small>
-												<h5>${dto2.auctionCnt} 건</h5>
+												<h5>${dto2.fundCnt} 건</h5>
 											</div>
 											<div class="col-xs-4 cell2">
 												<small>경매 개설 건수</small>
-												<h5>${dto2.fundCnt} 건</h5>
+												<h5>${dto2.auctionCnt} 건</h5>
 											</div>
 											<div class="col-xs-4 cell3">
 												<small>투자자수</small>

@@ -87,21 +87,11 @@ function registerCheck() {
 function confirmIdFocus() {
 	document.confirmForm.id.focus();
 }
-// 중복확인 창에서 id입력체크
-function confirmIdCheck() {
-	if (!document.confirmForm.userId.value) {
-		alert(msg_id);
-		document.confirmForm.userId.focus();
-		return false;
-	}
-}
 
 
 
-function setId(id) {
-	opener.document.registerForm.userId.value = id;
-	self.close();
-}
+
+
 
 // 로그인창체크
 function loginCheck() {

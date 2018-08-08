@@ -68,7 +68,6 @@ body#LoginForm{ background-image:url("resources/images/host/emailcheckerpaper.jp
 </head>
 <script type="text/javascript">
 function emailCheckDo(key){
-	alert(key);
 	if(key == document.getElementById('emailCheck').value){
 		alert("이메일 인증 성공");
 		opener.document.registerForm.hiddenemail.value="1";

@@ -2,6 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../setting.jsp" %>
 <html>
+<script type="text/javascript">
+   function goCategory(num){
+      if(num==0){
+         window.location="FundProducts";
+         
+      }
+      else
+         window.location="FundProducts?stock_kind="+num;
+   }
+
+</script>
 <style>
 .section-title {
     padding: 0px;
@@ -114,15 +125,15 @@ padding:0px;
                   data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"><b style="font-size: 15px; color: #777;">전체</b><span class="caret"></span></a><!-- caret : 아래 화살표 클릭시 아이콘이 나오게 함 -->
                  <ul class="dropdown-menu">
-                      <li><a onclick="goCategory('농산-채소');" >농산-채소</a></li>
-                     <li><a onclick="goCategory('축산-육가공');">축산-육가공</a></li>
-                     <li><a onclick="goCategory('수산-건어');">수산-건어</a></li>
-                     <li><a onclick="goCategory('버섯류');">버섯류</a></li>
-                     <li><a onclick="goCategory('임산물_기타');">임산물_기타</a></li>
-                     <li><a onclick="goCategory('양념-장류');">양념-장류</a></li>
-                     <li><a onclick="goCategory('즙-음료');">즙-음료</a></li>
-                     <li><a onclick="goCategory('건강-간식');">건강-간식</a></li>
-                     <li><a onclick="goCategory('이벤트');">이벤트</a></li>
+                     <li><a onclick="goCategory(0);">전체</a></li>
+                       <li><a onclick="goCategory(1);">이벤트</a></li>
+                     <li><a onclick="goCategory(2);" >농산물</a></li>
+                     <li><a onclick="goCategory(3);">축산물</a></li>
+                     <li><a onclick="goCategory(4);">수산물</a></li>
+                     <li><a onclick="goCategory(5);">건강유기농</a></li>
+                     <li><a onclick="goCategory(6);">버섯류</a></li>
+                     <li><a onclick="goCategory(7);">주류</a></li>
+                     <li><a onclick="goCategory(8);">기타</a></li>
                   </ul> 
                
             </div>
@@ -134,7 +145,7 @@ padding:0px;
        <div class="card" oncontextmenu="return false" ondragstart="return false" onselectstart="return false" style="width: 503px; height:600px; float: left; margin-left: 20px;">
                         <div class="card-image">
                             <div class="card-image-bg">
-                                <img src="${images}fund/${dto.stock_image}" style="width:500px; height:400px"><!-- areafix -->
+                                <img src="${images}fund/${dto.stock_image}" style="width:501px; height:400px"><!-- areafix -->
                             </div>
                             <div class="heart-counter" onclick="location.href='FundProductsContent?fund_no=${dto.fund_no}&pageNum=${pageNum}&number=${number}'">
                               
@@ -143,7 +154,7 @@ padding:0px;
                                 <i class="fa fa-heart icon-isHeartOn"></i>
                             </div>
                         </div>
-                        <div class="card-content" onclick="location.href='FundProductsContent?fund_no=${dto.fund_no}&pageNum=${pageNum}&number=${number}&fund_endDate=${dto.fund_endDate}'">
+                        <div class="card-content" onclick="location.href='FundProductsContent?fund_no=${dto.fund_no}&pageNum=${pageNum}&number=${number}'">
                             <div class="card-title grey-text text-darken-4 ellipsis2">
                                    <b style="color: #777;">${dto.fund_title}</b>
                             </div>
@@ -153,13 +164,12 @@ padding:0px;
                                    <div class="graph-bar" style="width:100%;"></div>
                                </div>
                               <div class="funding-status">
-                                  <h5 class="left"><strong>${dto.fund_join*dto.stock_price}</strong><br>모임 <small style="color: #1ab394; font-weight: bold;">${ ((dto.fund_join*dto.stock_price) / dto.fund_price)*100}%</small></h5>
-                                  <h5 class="left"><strong>104명</strong><br>참여</h5>
+                                  <h5 class="left"><strong>${dto.fund_join*dto.stock_price}원</strong><br>모임 <small style="color: #1ab394; font-weight: bold;">${ ((dto.fund_join*dto.stock_price) / dto.fund_price)*100}%</small></h5>
+                                  <h5 class="left"><strong>${dto.fund_join}명</strong><br>참여</h5>
                              </div>
                         </div>
                         </div>
-               
-      </div>
+               </div>
       </c:forEach>
      </c:if> 
   </div>

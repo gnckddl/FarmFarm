@@ -7,6 +7,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface HostService {
 
+	// 메인
+	public void FarmFarmMain(HttpServletRequest req, Model model);
+
 	// *************************************************************************************
 	// *************************************** 펀드 관리
 	// *************************************

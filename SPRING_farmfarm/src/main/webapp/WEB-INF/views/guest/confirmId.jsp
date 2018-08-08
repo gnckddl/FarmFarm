@@ -2,6 +2,21 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../setting.jsp" %>
 <html>
+<script type="text/javascript">
+function setId(id) {
+	opener.document.registerForm.userId.value = id;
+	self.close();
+}
+//중복확인 창에서 id입력체크
+function confirmIdCheck() {
+	if (!document.confirmForm.userId.value) {
+		alert(msg_id);
+		document.confirmForm.userId.focus();
+		return false;
+	}
+}
+
+</script>
 <body>
 <form action="confirmId" method="post" name="confirmForm"
 		onsubmit="return confirmIdCheck();">

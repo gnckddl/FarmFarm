@@ -43,6 +43,7 @@ public class farmcontroller {
 		System.out.println("farmFarm");
 
 		model.addAttribute("grade", req.getParameter("grade"));
+		host_service.FarmFarmMain(req, model);
 
 		return "common/FarmFarm";
 	}
@@ -117,11 +118,8 @@ public class farmcontroller {
 	public String FundProductsContent(HttpServletRequest req, Model model) {
 		System.out.println("FundProductsContent");
 
-		String fund_endDate = req.getParameter("fund_endDate");
-		System.out.println("fund_endDate~~~~~~~~" + fund_endDate);
-
-		mem_service.RemainingDate(req, model);
 		mem_service.FundProductsContentList(req, model);
+		mem_service.RemainingDate(req, model);
 
 		return "guest/FundProductsContent";
 	}
@@ -210,6 +208,16 @@ public class farmcontroller {
 		mem_service.AuctionList(req, model);
 
 		return "guest/AuctionList_ing";
+	}
+
+	// 회원 경매내역(종료)
+	@RequestMapping("AuctionList_old")
+	public String AuctionList_old(HttpServletRequest req, Model model) {
+		System.out.println("AuctionList_old");
+
+		mem_service.AuctionList(req, model);
+
+		return "guest/AuctionList_old";
 	}
 
 	// 경매진행내역보기
@@ -718,4 +726,13 @@ public class farmcontroller {
 		return "guest/registerEmailConfirm";
 	}
 
+	
+	//카카오페이 결제
+	@RequestMapping("kakao")
+	public String kakao(HttpServletRequest req, Model model) {
+		System.out.println("kakao");
+
+		return "guest/kakao";
+
+	}
 }

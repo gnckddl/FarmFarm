@@ -7,9 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import spring.mvc.farmfarm.dto.AuctionListDTO;
 import spring.mvc.farmfarm.dto.BoardDTO;
 import spring.mvc.farmfarm.dto.CommentDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
+import spring.mvc.farmfarm.dto.FundDTO;
 import spring.mvc.farmfarm.dto.MemberDTO;
 import spring.mvc.farmfarm.dto.PartnerDTO;
 import spring.mvc.farmfarm.dto.StockDTO;
@@ -20,6 +22,35 @@ public class HostDAOImpl implements HostDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
+
+	// 인기펀드 리스트
+	@Override
+	public ArrayList<FundDTO> FarmFarmMainList() {
+		ArrayList<FundDTO> dtos = null;
+		HostDAO dao = sqlSession.getMapper(HostDAO.class);
+		dtos = dao.FarmFarmMainList();
+
+		return dtos;
+	}
+
+	// 메인 최신펀드 리스트
+	@Override
+	public ArrayList<FundDTO> FarmFarmMainList1() {
+		ArrayList<FundDTO> dtos = null;
+		HostDAO dao = sqlSession.getMapper(HostDAO.class);
+		dtos = dao.FarmFarmMainList1();
+
+		return dtos;
+	}
+
+	// 인기 경매상품
+	@Override
+	public ArrayList<AuctionListDTO> getAuctionList() {
+		ArrayList<AuctionListDTO> dtos = null;
+		HostDAO dao = sqlSession.getMapper(HostDAO.class);
+		dtos = dao.getAuctionList();
+		return dtos;
+	}
 
 	// *************************************************************************************
 	// ****************************************펀드관리*******************************
