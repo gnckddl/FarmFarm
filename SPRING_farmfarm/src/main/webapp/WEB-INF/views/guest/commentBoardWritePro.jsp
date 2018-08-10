@@ -20,7 +20,6 @@
 	<!--글쓰기 성공  -->
 	<c:if test="${insertCnt!=0}">
 		<script type="text/javascript">
-			alert('${boa_id}');
 			window.location="RequestBoardContent?boa_id=${boa_id}&pageNum=${pageNum}&number=${number}&boa_category=${boa_category}";
 		</script>
 	</c:if>

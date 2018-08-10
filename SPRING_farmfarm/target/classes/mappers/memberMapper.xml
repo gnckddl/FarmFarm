@@ -4,6 +4,35 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="spring.mvc.farmfarm.persistence.MemberDAO">
+
+	<!-- 스케줄처리 -->
+	<select id="getSchedule"
+		resultType="spring.mvc.farmfarm.dto.ScheduleDTO">
+		select fund_no, fund_enddate,auc_no,
+		auc_enddate,auc_status,fund_status
+		from tbl_stock s left join
+		tbl_auction a on s.stock_no=a.stock_no
+		left join tbl_fund f on
+		f.stock_no=s.stock_no where auc_status=2 or fund_status=2
+	</select>
+	<!-- 경매참여회원수 -->
+	<select id="getAuctionJoiner" resultType="int">
+		select auc_join from
+		tbl_auction where auc_no=#{auc_no}
+	</select>
+
+	<!-- 스케줄처리 업데이트 -->
+	<update id="scheduleUpdateAuc" parameterType="java.util.Map">
+		update tbl_auction
+		set auc_status=#{auc_status} where auc_no=#{auc_no}
+	</update>
+	<update id="scheduleUpdateFund" parameterType="String">
+		update tbl_fund
+		set fund_status=4 where fund_no=#{fund_no}
+	</update>
+
+
+
 	<select id="idCheck" resultType="int">
 		select count(mem_id) from
 		tbl_member where mem_id=#{strId}
@@ -121,13 +150,13 @@
 		resultType="spring.mvc.farmfarm.dto.AuctionListDTO">
 		select auc_no,auc_title,auc_startPrice,stock_image ,mem_id
 		from tbl_auction a join tbl_stock s on a.stock_no=s.stock_no
-		join tbl_farm f on f.farm_key=s.farm_key
+		join
+		tbl_farm f on f.farm_key=s.farm_key
 		where auc_status=2
 	</select>
 
-	<select id="getAuctionContent"
-		resultType="spring.mvc.farmfarm.dto.AuctionDTO">
-		select auc_no,stock_name,
+	<select id="=" resultType="spring.mvc.farmfarm.dto.AuctionDTO">
+		select auc_no,stock_name,s.stock_no,
 		stock_detail,stock_kind,auc_join,auc_startPrice,auc_nowPrice,auc_regDate,auc_endDate,mem_id,stock_image,f.farm_key
 		from tbl_stock s join tbl_auction a on s.stock_no=a.stock_no join
 		tbl_farm f on f.farm_key=s.farm_key where auc_no=#{auc_no}
@@ -189,12 +218,12 @@
 		resultType="spring.mvc.farmfarm.dto.AuctionDTO">
 		select
 		a.auc_no,stock_image,auc_title,auc_startprice,auc_nowprice,count(join_no)
-		auc_join,auc_endDate
+		auc_join,auc_endDate,auc_status
 		from tbl_auction a join tbl_stock s on
 		a.stock_no=s.stock_no
 		join tbl_join j on j.auc_no=a.auc_no where
 		j.mem_id=#{userId} group by
-		a.auc_no,stock_image,auc_title,auc_startprice,auc_nowprice,auc_endDate
+		a.auc_no,stock_image,auc_title,auc_startprice,auc_nowprice,auc_endDate,auc_status
 	</select>
 
 	<select id="getAuctionProgress" parameterType="java.util.Map"
@@ -232,9 +261,9 @@
 		SELECT *
 		FROM(
 		SELECT
-		fund_no,stock_no,stock_image,stock_price,fund_join,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
+		fund_no,stock_no,stock_image,stock_price,fund_join,farm_key,fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
 		FROM (select fund_no,
-		s.stock_no,s.stock_image,s.stock_price,fund_join,
+		s.stock_no,s.stock_image,s.stock_price,fund_join,f.farm_key,
 		fund_title,fund_content,fund_price,fund_status,fund_regDate,fund_endDate,mem_id
 		from tbl_fund fu join tbl_stock s on fu.stock_no=s.stock_no join
 		tbl_farm f on f.farm_key=s.farm_key ORDER BY fund_regDate DESC
@@ -306,10 +335,17 @@
 		auctionCnt
 		from tbl_stock s left join tbl_auction a on
 		s.stock_no=a.stock_no
-		where farm_key=#{farm_key} and a.auc_no is not null
+		where farm_key=#{farm_key} and a.auc_no is not
+		null
 	</select>
 
 	<!-- 끝-경매상세 농부관련데이터 -->
+
+	<!-- 경매참여폼 기본주소 -->
+	<select id="getOrderData"
+		resultType="spring.mvc.farmfarm.dto.OrderDTO">
+		select mem_address from tbl_member where mem_id=#{userId}
+	</select>
 
 
 	<!--펀드참여한적있는지 체크 -->
@@ -336,5 +372,57 @@
 		update tbl_join set
 		join_fundPrice=join_fundPrice+#{stock_price} where join_no=#{join_no}
 	</update>
+
+
+	<!--펀드참여 인서트 -->
+	<insert id="DonaJoinInsert" parameterType="java.util.Map">
+		insert into
+		tbl_memDo(dona_no,mem_id,doForm_id,dona_price,dona_date)
+		values(tbl_memDo_seq.nextval,#{userId},#{doForm_id},#{dona_price},sysdate)
+	</insert>
+
+	<!-- member adv 업데이트 -->
+	<update id="DonaupdateAdv" parameterType="java.util.Map">
+		update tbl_member set
+		mem_adv=mem_adv+#{adv_point} where mem_id=#{userId}
+	</update>
+
+	<!-- member adv 업데이트 -->
+	<insert id="DonaAdvUpdate" parameterType="java.util.Map">
+		insert into tbl_advantage(adv_key,mem_id,adv_reason,adv_regDate,adv_point)
+		values(tbl_advantage_seq.nextval,#{userId},#{adv_reason},sysdate,#{adv_point})
+
+	</insert>
+
+	<!--기부 참여한적있는사람 업뎃 -->
+	<update id="DonaJoinUpdate" parameterType="java.util.Map">
+		update tbl_doOrg set doOrg_account=doOrg_account+#{dona_price} where
+		doForm_id=#{doForm_id}
+	</update>
+
+
+
+	<!-- 회원 경매진행내역 갯수 -->
+	<select id="getFundDataCnt" resultType="Integer">
+		select count(*)
+		from
+		(select count(*),f.fund_no from tbl_join j join tbl_fund f on
+		j.fund_no=f.fund_no where mem_id=#{userId} group by f.fund_no)
+	</select>
+
+	<!-- 회원 경매진행내역 -->
+	<select id="getFundData"
+		resultType="spring.mvc.farmfarm.dto.FundListDTO">
+		select
+		f.fund_no,stock_image,fund_title,join_fundPrice,count(join_no)
+		fund_join,fund_endDate,fund_status
+		from tbl_fund f join tbl_stock s on
+		f.stock_no=s.stock_no
+		join tbl_join j on j.fund_no=f.fund_no where
+		j.mem_id=#{userId} group by
+		f.fund_no,stock_image,fund_title,join_fundPrice,fund_endDate,fund_status
+	</select>
+
+
 
 </mapper>

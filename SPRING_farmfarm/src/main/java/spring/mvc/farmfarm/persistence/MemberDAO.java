@@ -1,6 +1,7 @@
 package spring.mvc.farmfarm.persistence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import spring.mvc.farmfarm.dto.AdvantageDTO;
@@ -11,11 +12,26 @@ import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
 import spring.mvc.farmfarm.dto.DonateListDTO;
 import spring.mvc.farmfarm.dto.FundDTO;
+import spring.mvc.farmfarm.dto.FundListDTO;
 import spring.mvc.farmfarm.dto.MemberDTO;
+import spring.mvc.farmfarm.dto.OrderDTO;
 import spring.mvc.farmfarm.dto.RankingDTO;
+import spring.mvc.farmfarm.dto.ScheduleDTO;
 import spring.mvc.farmfarm.dto.SearchingDTO;
 
 public interface MemberDAO {
+
+	// 스케쥴처리
+	public ArrayList<ScheduleDTO> getSchedule();
+
+	// 스케줄처리-경매참여 회원수확인
+	public int getAuctionJoiner(String auc_no);
+
+	// 스케줄처리-업데이트
+	public void scheduleUpdateAuc(HashMap<String, Object> map);
+
+	public void scheduleUpdateFund(String fund_no);
+
 	// 아이디중복확인
 	public int idCheck(String strId);
 
@@ -69,11 +85,15 @@ public interface MemberDAO {
 
 	// 경매리스트 상세 농부 펀드개설갯수
 	public int getAuctionFarmerFund(int farm_key);
+
 	// 경매리스트 상세 농부 경매개설갯수
 	public int getAuctionFarmerAuc(int farm_key);
 
 	// 현재 경매가 가져오기
 	public Integer getNowPrice(String auc_no);
+
+	// 경매참여폼 기본주소가져오기
+	public OrderDTO getOrderData(String userId);
 
 	// 경매 입찰처리(auction table update)
 	public int auctionUpdate(Map<String, Object> map);
@@ -140,4 +160,23 @@ public interface MemberDAO {
 
 	// 펀드 참여한적있는사람처리(join table update)
 	public int FundJoinUpdate(Map<String, Object> map);
+
+	// 멤버 adv점수 업데이트
+	public void DonaupdateAdv(Map<String, Object> map);
+
+	// 펀드 참여한적있는사람처리(join table update)
+	public int DonaJoinUpdate(Map<String, Object> map);
+
+	// 기부 참여처리(join table insert)
+	public int DonaJoinInsert(Map<String, Object> map);
+
+	// 기부시어디벤티지 테이블 업뎃
+	public int DonaAdvUpdate(Map<String, Object> map);
+
+	// 회원경매 참여내역 cnt
+	public Integer getFundDataCnt(String userId);
+
+	// 회원 경매참여내역
+	public ArrayList<FundListDTO> getFundData(String userId);
+
 }

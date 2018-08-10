@@ -52,8 +52,12 @@
 									<td align="center"><c:if test="${dto.adv_reason==1}">펀드참여</c:if>
 										<c:if test="${dto.adv_reason==2}">펀드취소</c:if> <c:if
 											test="${dto.adv_reason==3}">경매참여</c:if> <c:if
-											test="${dto.adv_reason==4}">경매취소</c:if> <c:if
-											test="${dto.adv_reason==5}">이벤트</c:if></td>
+											test="${dto.adv_reason==4}">경매취소</c:if> 
+											<c:if test="${dto.adv_reason==5}">이벤트</c:if>
+											<c:if test="${dto.adv_reason==7}">기부참여</c:if>
+											
+									</td>
+											
 											
 									<td align="center">
 										<c:if test="${dto.adv_reason%2==0}">

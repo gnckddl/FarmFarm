@@ -20,12 +20,14 @@ function reset(){
 	document.joinForm.add1.value="";
 	document.joinForm.add2.value="";
 	document.joinForm.address.value="";
+	$("input:radio[name='addrchk']:radio[value=2]").prop('checked', true); // 선택하기
 }
 
 function setting(){
 	document.joinForm.add1.value="${orderDto.addr[0]}";
 	document.joinForm.add2.value="${orderDto.addr[1]}";
 	document.joinForm.address.value="${orderDto.addr[2]}";
+	$("input:radio[name='addrchk']:radio[value=1]").prop('checked', true); // 선택하기
 }
 </script>
 
@@ -98,7 +100,7 @@ body {
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="well well-sm">
-					<form class="form-horizontal" action="AuctionJoinPro" method="post" name="joinForm">
+					<form class="form-horizontal" action="AuctionPayPro" method="post" name="joinForm">
 						<fieldset>
 							<legend class="text-center">
 								<h2>
@@ -121,19 +123,31 @@ body {
 											style="font-size: 20px; margin-left: 20%; width: 65%">
 										<!-- submit hidden값 -->
 										<input type="hidden" name="auc_no" value="${dto.auc_no}">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="nowPrice">입찰
-										금액 *</label>
-									<div class="col-md-9">
-										<input class="form-control" type="number" name="nowPrice"
-											id="nowPrice" step="1000" min="0"
-											style="font-size: 20px; margin-left: 20%; width: 65%">
+										<input type="hidden" name="stock_no" value="${dto.stock_no}">
 									</div>
 								</div>
 							</legend>
-							
+							<legend style="font-size: 15px;">
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="nowPrice">배송지</label>
+									<div class="col-md-9">
+										<label class="control-label" for="oldAddress" style="margin-left: 25%;">기본 배송지</label> 
+										<input type="radio"	name="addrchk" id="oldAddress" value="1" style="font-size: 20px;" onclick="setting();" > 
+										<label class="control-label" for="newAddress" style="margin-left: 10%;">다른 배송지</label> 
+										<input type="radio" name="addrchk" id="newAddress" value="2" style="font-size: 20px;" onclick="reset();" >											
+									</div>
+								</div>
+								
+								<!-- 주소찾기  API Start-->
+								<div class="form-group">
+									<input class="form-control" type="text" id="sample6_postcode" name="add1" placeholder="우편번호" style="width:40%; margin-left: 20%; float: left; margin-right: 15px;">
+									<input class="form-control" type="button" onclick="sample6_execDaumPostcode()" class="form-control-sub" value="우편번호 찾기" style="width: 130px;"><br>
+										   
+									<input class="form-control" type="text" id="sample6_address" name="add2" placeholder="주소" style="width:71%; margin-left: 20%;" > <br>
+									<input class="form-control" type="text" id="sample6_address2" name="address" placeholder="상세주소" style="width:71%; margin-left: 20%;">
+								</div>
+								<!-- 주소찾기  API End-->
+							</legend>
 
 							<!-- Form actions -->
 							<div class="form-group">

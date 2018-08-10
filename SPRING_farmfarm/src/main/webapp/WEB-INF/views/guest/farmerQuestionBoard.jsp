@@ -14,19 +14,22 @@
 <body class="board-body">
 <!-- 헤더시작 -->
 <header>
-	<%@include file="../Header.jsp" %>
+   <%@include file="../Header.jsp" %>
 </header>
 <!-- 헤더끝 --> 
 
 <!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
-	<div class="row">
-		
+   <div class="row">
+      
         
         <div class="col-md-12">
         <h4 align="center" style="margin-bottom:30px; color:#00A58A;"><b>농부문의게시판</b></h4>
+       
+        <c:if test="${sessionScope.grade==2}">
         <button onclick="window.location='farmerQuestionBoardWrite?pageNum=${pageNum}&boa_category=3'" style="margin-left:1050px; margin-bottom:10px; color:#00A58A;"><b>글쓰기</b></button>
+        </c:if>
         <div class="table-responsive">
     <table id="mytable" class="table table-bordred table-striped">
          
@@ -45,82 +48,82 @@
  
  <!--게시글이 있으면  -->
  <c:if test="${cnt > 0}">
- 	<c:forEach var="dto" items="${dtos}">
- 		<tr>
- 		
- 			<!-- 2.번호 -->
+    <c:forEach var="dto" items="${dtos}">
+       <tr>
+       
+          <!-- 2.번호 -->
            <td align="center">
               ${number}
               <c:set var="number" value="${number -1}"/>
            </td>
            
- 		
-			<td align="center">
-				${dto.mem_id}
-			</td>
-			
-			<td align="center">
-				${dto.boa_subject}
-			</td>
-			
-			<td align="center">
-				<a href="RequestBoardContent?boa_id=${dto.boa_id}&pageNum=${pageNum}&number=${number+1}&mem_id=${sessionScope.userId}&cm_cnt=${dto.cm_cnt}&boa_category=${boa_category}">${dto.boa_content}<span style="color: red;">[${dto.cm_cnt}]</span></a>
-			</td>
-			
-			<td align="center">
-				${dto.boa_regDate}
-			</td>
-			
-			 <td align="center">
-				${dto.boa_readCnt}
-			</td>  
-		
-			
- 		</tr>
- 	</c:forEach>
+       
+         <td align="center">
+            ${dto.mem_id}
+         </td>
+         
+         <td align="center">
+            ${dto.boa_subject}
+         </td>
+         
+         <td align="center">
+            <a href="RequestBoardContent?boa_id=${dto.boa_id}&pageNum=${pageNum}&number=${number+1}&mem_id=${sessionScope.userId}&cm_cnt=${dto.cm_cnt}&boa_category=${boa_category}">${dto.boa_content}<span style="color: red;">[${dto.cm_cnt}]</span></a>
+         </td>
+         
+         <td align="center">
+            ${dto.boa_regDate}
+         </td>
+         
+          <td align="center">
+            ${dto.boa_readCnt}
+         </td>  
+      
+         
+       </tr>
+    </c:forEach>
  </c:if>
  </tr>
     </tbody>
         
 </table>
-		<!--게시글이 없으면  -->
-	<table>
-		<c:if test="${cnt==0}">
-			<tr align="center">
-				<td colspan="6" align="center">
-				<span style="margin-left: 400px;">게시글이 없습니다. 글을 작성해 주세요.!!</span>
-				</td>
-			</tr>
-		</c:if>
-	</table>
-			<!-- 페이지 컨트롤 -->
-					<c:if test="${cnt>0 }">
-						<div class="clearfix"></div>
-						<ul class="pagination pull-right">
-						<c:if test="${startPage > pageBlock}">
-							<li class="disabled"><a href="RequestBoard?${startPage - pageBlock}&boa_category=${boa_category}">
-							<span class="glyphicon 	glyphicon-chevron-left"></span></a></li>
-						</c:if>
-									
-							<c:forEach var ="i" begin="${startPage}" end="${endPage}">
-								<c:if test="${i == currentPage}">
-									<li class="active"><a href="#">${i }</a></li>
-								</c:if>
-								
-								<c:if test="${i != currentPage}">
-									<li><a href="RequestBoard?pageNum=${i}&boa_category=${boa_category}">${i}</a></li>
-								</c:if>
-							</c:forEach>
-							<c:if test="${pageCount > endPage}">
-							<li><a href="RequestBoard?pageNum=${startPage + pageBlock}&boa_category=${boa_category}"><span
-									class="glyphicon glyphicon-chevron-right"></span></a></li>
-							</c:if>
-						</ul>
-					</c:if>
+      <!--게시글이 없으면  -->
+   <table>
+      <c:if test="${cnt==0}">
+         <tr align="center">
+            <td colspan="6" align="center">
+            <span style="margin-left: 400px;">게시글이 없습니다. 글을 작성해 주세요.!!</span>
+            </td>
+         </tr>
+      </c:if>
+   </table>
+         <!-- 페이지 컨트롤 -->
+               <c:if test="${cnt>0 }">
+                  <div class="clearfix"></div>
+                  <ul class="pagination pull-right">
+                  <c:if test="${startPage > pageBlock}">
+                     <li class="disabled"><a href="RequestBoard?${startPage - pageBlock}&boa_category=${boa_category}">
+                     <span class="glyphicon    glyphicon-chevron-left"></span></a></li>
+                  </c:if>
+                           
+                     <c:forEach var ="i" begin="${startPage}" end="${endPage}">
+                        <c:if test="${i == currentPage}">
+                           <li class="active"><a href="#">${i }</a></li>
+                        </c:if>
+                        
+                        <c:if test="${i != currentPage}">
+                           <li><a href="RequestBoard?pageNum=${i}&boa_category=${boa_category}">${i}</a></li>
+                        </c:if>
+                     </c:forEach>
+                     <c:if test="${pageCount > endPage}">
+                     <li><a href="RequestBoard?pageNum=${startPage + pageBlock}&boa_category=${boa_category}"><span
+                           class="glyphicon glyphicon-chevron-right"></span></a></li>
+                     </c:if>
+                  </ul>
+               </c:if>
             </div>
             
         </div>
-	</div>
+   </div>
 </div>
 
 
@@ -180,11 +183,11 @@
 
  <!-- 4.푸터 -->
     <footer >
-	<%@include file="../Footer.jsp" %>
+   <%@include file="../Footer.jsp" %>
     </footer>
    <!--푸터 끝  -->  
     
- 	<!--스크립트 공통부분  -->
+    <!--스크립트 공통부분  -->
    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
    <script src="resources/js/bootstrap.js"></script>
 </body>

@@ -20,6 +20,8 @@ public class AuctionDTO {
     private Integer auc_nowPrice;
     private Date auc_endDate;
     private String auc_title;
+    private int auc_status;
+    
     //화면뿌릴려고 추가
     private String mem_id;
     private String auc_no;
@@ -32,6 +34,12 @@ public class AuctionDTO {
     
     
     
+	public final int getAuc_status() {
+		return auc_status;
+	}
+	public final void setAuc_status(int auc_status) {
+		this.auc_status = auc_status;
+	}
 	public final int getJoin_aucPrice() {
 		return join_aucPrice;
 	}

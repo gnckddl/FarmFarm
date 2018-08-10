@@ -9,7 +9,6 @@
 <script type="text/javascript">
 function mainMove(num){
     window.location='FundProductsContent?fund_no='+num+'&number=1';
-    
    
 }
 
@@ -89,7 +88,7 @@ function mainMove(num){
                                            
                                     </div>
                                     <div class="funding-status">
-                                        <h5 class="left"><strong>${dto.fund_join*dto.stock_price}원</strong><br>모임 <small style="color: #1ab394; font-weight: bold;">${ ((dto.fund_join*dto.stock_price) / dto.fund_price)*100}%</small></h5>
+                                        <h5 class="left"><strong>${dto.fund_join*dto.stock_price}원</strong><br>모임 <small style="color: #1ab394; font-weight: bold;"> <fmt:formatNumber value="${ ((dto.fund_join*dto.stock_price) / dto.fund_price)*100}" pattern=".0"/>%</small></h5>
                                         <h5 class="left"><strong>${dto.fund_join}명</strong><br>참여</h5>
                                         <h5 class="left" style="margin-right:0;"><strong></strong><br></h5>
                                      </div>

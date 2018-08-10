@@ -224,17 +224,17 @@ function emailchk() {
 								</div>
 									<input type="text" name="userName" id="userName" tabindex="1" class="form-control" placeholder="이름" value="">
 								<div class="form-group">
-									<input type="text" name="hp" id="hp" tabindex="1" class="form-control" placeholder="휴대폰번호 -없이 입력" value="">
+									<input type="text" name="hp" id="hp" tabindex="1" class="form-control" placeholder="휴대폰번호 -없이 입력" maxlength="12" value="">
 								</div>
 								
 								<!-- 주소찾기  API Start-->
 								<div class="form-group">
 									<input type="text" id="sample6_postcode" name="add1" placeholder="우편번호">
 									<input type="button" onclick="sample6_execDaumPostcode()" class="form-control-sub" value="우편번호 찾기" 
-										   style="width: 146px; margin-left: 15px; margin-bottom: 15px;"><br>
+										   style="width: 146px; margin-left: 15px; margin-bottom: 15px;" tabindex="1"><br>
 										   
 									<input type="text" id="sample6_address" name="add2" placeholder="주소">
-									<input type="text" id="sample6_address2" name="address" placeholder="상세주소">
+									<input type="text" id="sample6_address2" name="address" placeholder="상세주소" tabindex="1">
 								</div>
 								<!-- 주소찾기  API End-->
 

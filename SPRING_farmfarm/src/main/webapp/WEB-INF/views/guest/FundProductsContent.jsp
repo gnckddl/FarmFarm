@@ -5,7 +5,14 @@
 
 <script type="text/javascript">
 function FundProductsPop(fund_no){
-    window.open('FundProductsPop?fund_no='+fund_no+'&stock_price=${dto.stock_price}&fund_title=${dto.fund_title}', 'auction_popup','top=100px, left=100px, height=500px, width=500px');
+   if(${sessionScope.userId== null}){
+      alert("로그인후 이용해주세요!");
+      window.location='loginForm';
+      return false;
+   }else{
+    
+      window.open('FundProductsPop?fund_no='+fund_no+'&stock_price=${dto.stock_price}&fund_title=${dto.fund_title}', 'auction_popup','top=100px, left=100px, height=600px, width=500px');
+   }
 }
 </script>
 <head>
@@ -70,21 +77,22 @@ function FundProductsPop(fund_no){
                           <span style="font-size: 30px;">상품명 :  ${dto.fund_title}</span>
                         </div>
                         <div class="number">
-                           <span style="font-size: 30px;">펀드 가격 : ${dto.stock_price}</span>
+                           <span style="font-size: 30px;">펀드 가격 :<fmt:formatNumber value="${dto.stock_price}" pattern="#,###,###"/>원</span>
+                           
                         </div>
                         <br>
                         
                         <div class="number">
                            <span style="font-size: 30px;">참여인원 : ${dto.fund_join}</span>
                         </div>
-                        
+                         <br>
                         <div class="number">
                            <span style="font-size: 30px;">남은일수 : ${calDateDays}</span>
                         </div>
                        </li>
                      <li class="funding-go row">
                         <div class="col-xs-12 col-sm-12">
-                           <a href="#" onclick="FundProductsPop(${dto.fund_no})"
+                          <a href="#" onclick="FundProductsPop(${dto.fund_no})"
                               class="btn-go btn-primary" oncontextmenu="return false"
                               ondragstart="return false" onselectstart="return false">
                               <div class="big">펀드 참여하기</div>
@@ -93,34 +101,31 @@ function FundProductsPop(fund_no){
                      </li>
 
                   </ul>
-                  <!-- 농부정보 -->
+                    <!-- 농부정보 -->
                   <div class="farmer">
-                     <ul class="collapsible farmer-card" data-collapsible="accordion">
+                     <ul class="collapsible farmer-card" data-collapsible="accordion" style="margin-top: 50px;">
                         <li>
                            <div class="collapsible-header">
-                              <img src="resources/images/eeet.jpg" class="pic" /> <i
+                              <img src="${images}main/p_logo.png" class="pic" /> <i
                                  class="icon ion-android-more-vertical icon-more"></i>
                               <div class="header-set">
-                                 <h4 class="farmername">덕적도 단호박 연구회 농부</h4>
-                                 <h5 class="farmerspot">
-                                    <i class="fa fa-map-marker"></i>서울-경기
-                                 </h5>
+                                 <h4 class="farmername">${dto.mem_id }  농부</h4>
                               </div>
                            </div>
                            <div class="collapsible-body">
                               <div class="farmerabout">한줄소개</div>
                               <div class="row no-gutter">
                                  <div class="col-xs-4 cell1">
-                                    <small>전문</small>
-                                    <h5>단호박</h5>
+                                    <small>펀드 개설 건수</small>
+                                    <h5>${dto2.fundCnt} 건</h5>
                                  </div>
                                  <div class="col-xs-4 cell2">
-                                    <small>개설건수</small>
-                                    <h5>2건</h5>
+                                    <small>경매 개설 건수</small>
+                                    <h5>${dto2.auctionCnt} 건</h5>
                                  </div>
                                  <div class="col-xs-4 cell3">
                                     <small>투자자수</small>
-                                    <h5>29명</h5>
+                                    <h5>${dto2.fund_join}</h5>
                                  </div>
                               </div>
                            </div>

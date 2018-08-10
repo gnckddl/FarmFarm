@@ -11,7 +11,7 @@
     </style>
 <body>
 <!-- 헤더시작 -->
-	<%@include file="../Header.jsp" %>
+   <%@include file="../Header.jsp" %>
 <!-- 헤더끝 --> 
 
 <!--FarmFarm소개  -->
@@ -189,7 +189,7 @@
 </div>
 
 <div class="row">
-<div class="col-xs-12 text-center"><button class="btn btn-45 btn-primary" onclick="window.location='FundProducts';" style="margin:0 10px;">펀드상품 둘러보기</button><button class="btn btn-45 btn-primary" onclick="window.location='BecomeFarmer';" style="margin:0 10px;">농부되기</button><button class="btn btn-45 btn-primary" onclick="window.location='RequestBoard';" style="margin:0 10px;">요청게시판보기</button></div>
+<div class="col-xs-12 text-center"><button class="btn btn-45 btn-primary" onclick="window.location='FundProducts';" style="margin:0 10px;">펀드상품 둘러보기</button><button class="btn btn-45 btn-primary" onclick="window.location='BecomeFarmer';" style="margin:0 10px;">농부되기</button><button class="btn btn-45 btn-primary" onclick="window.location='RequestBoard?boa_category=5';" style="margin:0 10px;">요청게시판보기</button></div>
 </div>
 </div>
 </div>
@@ -218,17 +218,17 @@
   
 
 <!--FarmFarm 소개끝  -->
-	
+   
  <!-- 4.푸터 -->
 <footer>
 <%@include file="../Footer.jsp" %>
 </footer>
 <!--푸터 끝  -->
     
- 	<!--스크립트 공통부분  -->
+    <!--스크립트 공통부분  -->
    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
    <script src="resources/js/bootstrap.js"></script>
-	
+   
 </body>
 
 </html>

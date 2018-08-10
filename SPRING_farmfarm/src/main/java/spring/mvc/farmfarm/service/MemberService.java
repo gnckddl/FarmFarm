@@ -1,15 +1,14 @@
 package spring.mvc.farmfarm.service;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
-import spring.mvc.farmfarm.dto.DonateListDTO;
-
 public interface MemberService {
+
+	// 스케쥴 처리
+	public void scheduleRun();
+
 	// 로그인처리
 	public void LoginPro(HttpServletRequest req, Model model);
 
@@ -57,14 +56,21 @@ public interface MemberService {
 
 	// 경매 입찰처리
 	public void AuctionJoinPro(HttpServletRequest req, Model model);
-	
+
 	// 회원경매내역
 	public void AuctionList(HttpServletRequest req, Model model);
+
 	// 회원경매 진행내역보기
 	public void AuctionProgress(HttpServletRequest req, Model model);
+
 	// 회원 경매 진행내역 ajax
 	public void AuctionProgressAjax(HttpServletRequest req, Model model);
-	
+
+	// 회원 낙찰후 결제배송
+	public void AuctionPay(HttpServletRequest req, Model model);
+
+	// 회원 낙찰후 결제배송 처리
+	public void AuctionPayPro(HttpServletRequest req, Model model);
 
 	// 펀드상품보기
 	public void FundProductsList(HttpServletRequest req, Model model);
@@ -77,6 +83,9 @@ public interface MemberService {
 
 	// 펀드상품 참여 기부 참여 처리
 	public void FundJoinPro(HttpServletRequest req, Model model);
+
+	// 펀드상품 참여 기부 참여 처리
+	public void FundDonaJoinPro(HttpServletRequest req, Model model);
 
 	/**
 	 * 장렬
@@ -95,4 +104,9 @@ public interface MemberService {
 
 	// 남은날짜구하기
 	public void RemainingDate(HttpServletRequest req, Model model);
+
+	
+	// 회원펀드내역
+	public void FundList(HttpServletRequest req, Model model);
+
 }

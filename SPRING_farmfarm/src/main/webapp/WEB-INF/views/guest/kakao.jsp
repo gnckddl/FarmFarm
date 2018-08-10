@@ -24,6 +24,8 @@
 			Kakao.Auth.login({
 				success : function(authObj) {
 					alert(JSON.stringify(authObj));
+					var refreshToken = Kakao.Auth.getRefreshToken();
+					Kakao.Auth.setAccessToken(accessTokenFromServer);
 				},
 				fail : function(err) {
 					alert(JSON.stringify(err));

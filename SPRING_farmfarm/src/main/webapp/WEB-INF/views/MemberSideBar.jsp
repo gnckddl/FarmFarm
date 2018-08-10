@@ -209,8 +209,8 @@
                     <span>펀드 내역</span>
                 </a>
                 <ul class="sub">
-                    <li><a href="#">펀드 진행 내역</a></li>
-                    <li><a href="#">펀드 종료 내역</a></li>
+                    <li><a href="FundList_ing">펀드 진행 내역</a></li>
+                    <li><a href="FundList_old">펀드 종료 내역</a></li>
                 </ul>
             </li>
              <li class="sub-menu">

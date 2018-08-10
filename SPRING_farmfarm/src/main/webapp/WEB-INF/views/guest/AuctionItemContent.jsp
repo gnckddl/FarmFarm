@@ -80,7 +80,7 @@
 </script>
 <script type="text/javascript">
 function move(auc_no){
- 	window.open('AuctionJoin?auc_no='+auc_no, 'auction_popup','top=100px, left=100px, height=410px, width=500px');
+ 	window.open('AuctionJoin?auc_no='+auc_no, 'auction_popup','top=100px, left=100px, height=430px, width=500px');
 }
 </script>
 <head>
@@ -170,10 +170,8 @@ function move(auc_no){
 										ondragstart="return false" onselectstart="return false" onclick="move('${dto.auc_no}');">
 										<div class="big">경매 참여하기</div>
 									</a>
-									<input type="button" value="카카오" onclick="window.open('kakao', 'kakao','top=100px, left=100px, height=410px, width=500px');">
 								</div>
 							</li>
-
 						</ul>
 						<!-- 농부정보 -->
 						<div class="farmer">
@@ -199,7 +197,7 @@ function move(auc_no){
 											</div>
 											<div class="col-xs-4 cell3">
 												<small>투자자수</small>
-												<h5>${dto2.fund_join}</h5>
+												<h5>${dto2.fund_join} 명</h5>
 											</div>
 										</div>
 									</div>
@@ -303,7 +301,7 @@ function move(auc_no){
 														style="margin-left: 10px;"></i> 농사펀드 옐로아이디 : 카카오톡 > 친구찾기 >
 														‘농사펀드’로 검색 > 친구추가</li>
 													<li><i class="fa fa-asterisk"
-														style="margin-left: 10px;"></i>w<!-- /.tab-pane -->
+														style="margin-left: 10px;"></i><!-- /.tab-pane -->
 
 
 							</div>

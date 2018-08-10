@@ -5,87 +5,87 @@
     
 <mapper namespace="spring.mvc.farmfarm.persistence.BoardDAO">
 
-	<select id="getArtileCnt" resultType="int">
-			select count(*) from tbl_board where boa_category=#{boa_category}
-	</select>
-		
-	<!--게시글 목록  -->
-	<!--
-		방법1. >= 일 경우 &gt;= <=일 경우 &lt;=
-		 WHERE rNum  &gt;= #{start} AND rNum  &lt;= #{end}
-		
-		방법2.CDATA : CDATA 영역의 주석은 밖으로 빼야한다.
-		CDATA 영역에 작성된 데이터는 단순한 문자데이터(Character DATA)이므로
-		XML 파서가 처리하지 않고, 데이터베이스에 그대로 전달하므로 에러가 발생하지 않는다.  -->
-	<select id="getArticleList" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
-		<![CDATA[ 
-		SELECT * 
-		  FROM(SELECT boa_id, mem_id, boa_subject, boa_content, boa_readCnt, to_char(boa_regDate, 'yyyy-mm-dd hh24:mi:ss') boa_regDate, 
-		  				boa_ip, boa_category, rownum rNum  
-		        FROM tbl_board where boa_category=#{boa_category} order by boa_regDate desc   
-	 	        )
-		  WHERE rNum >= #{start} AND rNum <= #{end} 
-		  ]]>
-	</select>
-	
-	<!--조회수   -->
-	<update id="addReadCnt" parameterType="java.util.Map" >
-		update tbl_board set boa_readCnt=boa_readCnt+1 where boa_id=#{boa_id} and boa_category=#{boa_category}
-	</update>
-	
-	<!--요청게시판  -->
-	<select id="getArticleBoard" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
-		select * from tbl_board where boa_id=#{boa_id} and boa_category=#{boa_category}
-	</select>
-	
-	<!--글쓰기 처리  -->
-	<insert id="farminsertBoard" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
-		INSERT INTO tbl_board(boa_id, mem_id, boa_subject, boa_content, boa_readCnt, boa_ip,boa_category) 
-		values(tbl_board_seq.nextval,#{mem_id}, #{boa_subject},#{boa_content},0,#{boa_ip},#{boa_category})
-	</insert>
-	
-	<!--댓글 리스트  -->
-	<select id="RequestComment"  resultType="spring.mvc.farmfarm.dto.CommentDTO">
-		select * from tbl_comment where boa_id=#{boa_id} order by cm_regDate asc 
-	</select>
-	
-	<!--댓글 갯수  -->
-	<select id="RequestCommentCnt" resultType="int">
-		select count(*) from tbl_comment where boa_id=#{boa_id} order by cm_regDate asc 
-	</select>
-	
-	<!--댓글 처리  -->
-	<insert id="commentBoardWirtePro" parameterType="spring.mvc.farmfarm.dto.CommentDTO">
-		insert into tbl_comment(cm_no, boa_id, mem_id, cm_content)
-		values(tbl_comment_seq.nextval,#{boa_id},#{mem_id},#{cm_content})
-	</insert>
-	
-	<!--본문수정  -->
-	<update id="updateBoard" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
-		<![CDATA[
-		update tbl_board set boa_subject=#{boa_subject},boa_content=#{boa_content} where boa_id= #{boa_id}
-		  ]]>
-	</update>
-	
-	<!--댓글 수정  -->
-	<update id="commentUpdate" parameterType="spring.mvc.farmfarm.dto.CommentDTO">
-		<![CDATA[
-		update tbl_comment set cm_content=#{cm_content} where cm_no= #{cm_no}
-		  ]]>
-	</update>
-	
-	<!--본문삭제 -->
-	<delete id="deleteBoard" parameterType="int">
-		delete from tbl_board where boa_id=#{boa_id}
-	</delete>
-	
-	<!--댓글삭제  -->
-	<delete id="deleteComment" parameterType="int">
-		delete from tbl_comment where cm_no=#{cm_no}
-	</delete>
-	
-	<!--소식게시판글수  -->
-	<select id="getNewsCnt" parameterType="java.util.Map" resultType="int">
+   <select id="getArtileCnt" resultType="int">
+         select count(*) from tbl_board where boa_category=#{boa_category}
+   </select>
+      
+   <!--게시글 목록  -->
+   <!--
+      방법1. >= 일 경우 &gt;= <=일 경우 &lt;=
+       WHERE rNum  &gt;= #{start} AND rNum  &lt;= #{end}
+      
+      방법2.CDATA : CDATA 영역의 주석은 밖으로 빼야한다.
+      CDATA 영역에 작성된 데이터는 단순한 문자데이터(Character DATA)이므로
+      XML 파서가 처리하지 않고, 데이터베이스에 그대로 전달하므로 에러가 발생하지 않는다.  -->
+   <select id="getArticleList" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+      <![CDATA[ 
+         SELECT * 
+        FROM(SELECT boa_id, mem_id, boa_subject, boa_content, boa_readCnt, to_char(boa_regDate, 'yyyy-mm-dd hh24:mi:ss') boa_regDate, 
+                    boa_ip, boa_category, rownum rNum  
+              FROM tbl_board where boa_category=#{boa_category} order by boa_regDate desc   
+               )
+        WHERE rNum >= #{start} AND rNum <= #{end} 
+        ]]>
+   </select>
+   
+   <!--조회수   -->
+   <update id="addReadCnt" parameterType="java.util.Map" >
+      update tbl_board set boa_readCnt=boa_readCnt+1 where boa_id=#{boa_id} and boa_category=#{boa_category}
+   </update>
+   
+   <!--요청게시판  -->
+   <select id="getArticleBoard" parameterType="java.util.Map" resultType="spring.mvc.farmfarm.dto.BoardDTO">
+      select * from tbl_board where boa_id=#{boa_id} and boa_category=#{boa_category}
+   </select>
+   
+   <!--글쓰기 처리  -->
+   <insert id="farminsertBoard" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
+      INSERT INTO tbl_board(boa_id, mem_id, boa_subject, boa_content, boa_readCnt, boa_ip,boa_category) 
+      values(tbl_board_seq.nextval,#{mem_id}, #{boa_subject},#{boa_content},0,#{boa_ip},#{boa_category})
+   </insert>
+   
+   <!--댓글 리스트  -->
+   <select id="RequestComment"  resultType="spring.mvc.farmfarm.dto.CommentDTO">
+      select * from tbl_comment where boa_id=#{boa_id} order by cm_regDate asc 
+   </select>
+   
+   <!--댓글 갯수  -->
+   <select id="RequestCommentCnt" resultType="int">
+      select count(*) from tbl_comment where boa_id=#{boa_id} order by cm_regDate asc 
+   </select>
+   
+   <!--댓글 처리  -->
+   <insert id="commentBoardWirtePro" parameterType="spring.mvc.farmfarm.dto.CommentDTO">
+      insert into tbl_comment(cm_no, boa_id, mem_id, cm_content)
+      values(tbl_comment_seq.nextval,#{boa_id},#{mem_id},#{cm_content})
+   </insert>
+   
+   <!--본문수정  -->
+   <update id="updateBoard" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
+      <![CDATA[
+      update tbl_board set boa_subject=#{boa_subject},boa_content=#{boa_content} where boa_id= #{boa_id}
+        ]]>
+   </update>
+   
+   <!--댓글 수정  -->
+   <update id="commentUpdate" parameterType="spring.mvc.farmfarm.dto.CommentDTO">
+      <![CDATA[
+      update tbl_comment set cm_content=#{cm_content} where cm_no= #{cm_no}
+        ]]>
+   </update>
+   
+   <!--본문삭제 -->
+   <delete id="deleteBoard" parameterType="int">
+      delete from tbl_board where boa_id=#{boa_id}
+   </delete>
+   
+   <!--댓글삭제  -->
+   <delete id="deleteComment" parameterType="int">
+      delete from tbl_comment where cm_no=#{cm_no}
+   </delete>
+   
+   <!--소식게시판글수  -->
+   <select id="getNewsCnt" parameterType="java.util.Map" resultType="int">
          SELECT COUNT(*) FROM tbl_board
          WHERE boa_category = #{category}
    </select>
@@ -110,10 +110,10 @@
     </insert>
     <!--소식게시판 글수정 처리  -->
    
-    	<update id="NewsModifyBoardPro" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
-		<![CDATA[
-		update tbl_board set boa_subject=#{boa_subject},boa_content=#{boa_content},boa_image=#{boa_image} where boa_id= #{boa_id}
-		  ]]>
-		</update>
-	
+       <update id="NewsModifyBoardPro" parameterType="spring.mvc.farmfarm.dto.BoardDTO">
+      <![CDATA[
+      update tbl_board set boa_subject=#{boa_subject},boa_content=#{boa_content},boa_image=#{boa_image} where boa_id= #{boa_id}
+        ]]>
+      </update>
+   
 </mapper>

@@ -10,6 +10,16 @@
 
 <!-- 페이지 내 자체 CSS -->
 <html>
+<script type="text/javascript">
+function check(){
+   if(${sessionScope.userId== null}){
+      alert("로그인후 이용해주세요!");
+      window.location='loginForm';
+      return false;
+   }
+   
+}
+</script>
 <head>
 <style type="text/css">
 @import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
@@ -25,7 +35,7 @@ body {padding-top:20px;}
 <body>
 <!-- 헤더시작 -->
 <header>
-	<%@include file="../Header.jsp" %>
+   <%@include file="../Header.jsp" %>
 </header>
 <!-- 헤더끝 --> 
 
@@ -33,12 +43,12 @@ body {padding-top:20px;}
    <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div class="well well-sm">
-          <form class="form-horizontal" action="RequestBoardWritePro" method="post">
+          <form class="form-horizontal" action="RequestBoardWritePro" method="post" onsubmit="return check();">
           <fieldset>
             <legend class="text-center"><h2><P>요청게시판 글쓰기</P></h2></legend>
-    		<input type="hidden" name="pageNum" value="${pageNum}">
-    		<input type="hidden" name="boa_category" value="${boa_category}">
-    		
+          <input type="hidden" name="pageNum" value="${pageNum}">
+          <input type="hidden" name="boa_category" value="${boa_category}">
+          
             <!-- 글번호 input-->
             <div class="form-group">
               <div class="col-md-9">
@@ -57,15 +67,15 @@ body {padding-top:20px;}
             <div class="form-group">
               <label class="col-md-3 control-label" for="email">요청상품</label>
               <div class="col-md-9">
-                <textarea id="email" name="boa_subject" type="text"  class="form-control" rows="1" ></textarea>
+                <textarea id="email" name="boa_subject" type="text"  class="form-control" rows="1" required="required" ></textarea>
               </div>
             </div>
     
-    		 <!-- Message body -->
+           <!-- Message body -->
             <div class="form-group">
               <label class="col-md-3 control-label" for="message">요청내용</label>
               <div class="col-md-9">
-                <textarea class="form-control" id="message" name="boa_content"  rows="5" ></textarea>
+                <textarea class="form-control" id="message" name="boa_content"  rows="5" required="required"></textarea>
               </div>
             </div>
        
@@ -86,11 +96,11 @@ body {padding-top:20px;}
 
  <!-- 4.푸터 -->
      <footer >
-	<%@include file="../Footer.jsp" %>
+   <%@include file="../Footer.jsp" %>
     </footer> 
    <!--푸터 끝  -->  
     
-  	<!--스크립트 공통부분  -->
+     <!--스크립트 공통부분  -->
    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
    <script src="resources/js/bootstrap.js"></script> 
 </body>

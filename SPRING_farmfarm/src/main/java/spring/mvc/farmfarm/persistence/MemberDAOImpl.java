@@ -1,6 +1,7 @@
 package spring.mvc.farmfarm.persistence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
@@ -20,8 +21,11 @@ import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
 import spring.mvc.farmfarm.dto.DonateListDTO;
 import spring.mvc.farmfarm.dto.FundDTO;
+import spring.mvc.farmfarm.dto.FundListDTO;
 import spring.mvc.farmfarm.dto.MemberDTO;
+import spring.mvc.farmfarm.dto.OrderDTO;
 import spring.mvc.farmfarm.dto.RankingDTO;
+import spring.mvc.farmfarm.dto.ScheduleDTO;
 import spring.mvc.farmfarm.dto.SearchingDTO;
 
 @Repository
@@ -33,6 +37,40 @@ public class MemberDAOImpl implements MemberDAO {
 	@Autowired
 	private JavaMailSender mailSender; // xml에 등록한 bean autowired
 	// 아이디중복확인
+
+	// 스케줄처리
+	@Override
+	public ArrayList<ScheduleDTO> getSchedule() {
+		ArrayList<ScheduleDTO> dtos = null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dtos = dao.getSchedule();
+
+		return dtos;
+	}
+
+	// 경매참여회원수
+	@Override
+	public int getAuctionJoiner(String auc_no) {
+		int cnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		cnt = dao.getAuctionJoiner(auc_no);
+
+		return cnt;
+	}
+
+	// 스케줄처리-업데이트
+	@Override
+	public void scheduleUpdateAuc(HashMap<String, Object> map) {
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dao.scheduleUpdateAuc(map);
+	}
+
+	@Override
+	public void scheduleUpdateFund(String fund_no) {
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dao.scheduleUpdateFund(fund_no);
+
+	}
 
 	@Override
 	public int idPwdCheck(Map<String, String> map) {
@@ -335,6 +373,7 @@ public class MemberDAOImpl implements MemberDAO {
 		dto = dao.getAuctionFarmer(farm_key);
 		return dto;
 	}
+
 	@Override
 	public int getAuctionFarmerAuc(int farm_key) {
 		int cnt = 0;
@@ -342,6 +381,7 @@ public class MemberDAOImpl implements MemberDAO {
 		cnt = dao.getAuctionFarmerAuc(farm_key);
 		return cnt;
 	}
+
 	@Override
 	public int getAuctionFarmerFund(int farm_key) {
 		int cnt = 0;
@@ -349,7 +389,6 @@ public class MemberDAOImpl implements MemberDAO {
 		cnt = dao.getAuctionFarmerFund(farm_key);
 		return cnt;
 	}
-	
 
 	// 펀드 참여한적 있는지 체크
 	@Override
@@ -385,6 +424,62 @@ public class MemberDAOImpl implements MemberDAO {
 		return updateCnt;
 	}
 
-	
+	// 경매참여폼 기본주소가져오기
+	@Override
+	public OrderDTO getOrderData(String userId) {
+		OrderDTO dto = null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dto = dao.getOrderData(userId);
+		return dto;
+	}
+
+	// 기부시 멤버테일 점수업뎃
+	@Override
+	public void DonaupdateAdv(Map<String, Object> map) {
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dao.DonaupdateAdv(map);
+
+	}
+
+	// 기부시 기부테일 업뎃
+	@Override
+	public int DonaJoinUpdate(Map<String, Object> map) {
+		int updateCnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		updateCnt = dao.DonaJoinUpdate(map);
+		return updateCnt;
+	}
+
+	@Override
+	public int DonaJoinInsert(Map<String, Object> map) {
+		int insertCnt1 = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		insertCnt1 = dao.DonaJoinInsert(map);
+		return insertCnt1;
+	}
+
+	@Override
+	public int DonaAdvUpdate(Map<String, Object> map) {
+		int insertCnt2 = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		insertCnt2 = dao.DonaAdvUpdate(map);
+		return insertCnt2;
+	}
+
+	@Override
+	public Integer getFundDataCnt(String userId) {
+		Integer selectCnt = 0;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		selectCnt = dao.getFundDataCnt(userId);
+		return selectCnt;
+	}
+
+	@Override
+	public ArrayList<FundListDTO> getFundData(String userId) {
+		ArrayList<FundListDTO> dtos = null;
+		MemberDAO dao = ss.getMapper(MemberDAO.class);
+		dtos = dao.getFundData(userId);
+		return dtos;
+	}
 
 }

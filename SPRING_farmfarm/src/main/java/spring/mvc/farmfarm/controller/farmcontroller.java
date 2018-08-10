@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -147,6 +148,7 @@ public class farmcontroller {
 		System.out.println("FundJoinPro");
 
 		mem_service.FundJoinPro(req, model);
+		mem_service.FundDonaJoinPro(req, model);
 
 		return "guest/FundJoinPro";
 	}
@@ -236,6 +238,22 @@ public class farmcontroller {
 		mem_service.AuctionProgressAjax(req, model);
 
 		return "guest/AuctionProgressAjax";
+	}
+
+	// 경매낙찰후 결제배송
+	@RequestMapping("AuctionPay")
+	public String AuctionPay(HttpServletRequest req, Model model) {
+		mem_service.AuctionPay(req, model);
+
+		return "guest/AuctionPay";
+	}
+
+	// 경매낙찰후 결제배송처리
+	@RequestMapping("AuctionPayPro")
+	public String AuctionPayPro(HttpServletRequest req, Model model) {
+		mem_service.AuctionPayPro(req, model);
+
+		return "guest/AuctionPayPro";
 	}
 
 	// 농부되기
@@ -726,8 +744,7 @@ public class farmcontroller {
 		return "guest/registerEmailConfirm";
 	}
 
-	
-	//카카오페이 결제
+	// 카카오페이 결제
 	@RequestMapping("kakao")
 	public String kakao(HttpServletRequest req, Model model) {
 		System.out.println("kakao");
@@ -735,4 +752,25 @@ public class farmcontroller {
 		return "guest/kakao";
 
 	}
+
+	// 회원 경매내역(진행중)
+	@RequestMapping("FundList_ing")
+	public String FundList_ing(HttpServletRequest req, Model model) {
+		System.out.println("FundList_ing");
+
+		mem_service.FundList(req, model);
+
+		return "guest/FundList_ing";
+	}
+
+	// 회원 경매내역(종료)
+	@RequestMapping("FundList_old")
+	public String FundList_old(HttpServletRequest req, Model model) {
+		System.out.println("FundList_old");
+
+		mem_service.FundList(req, model);
+
+		return "guest/FundList_old";
+	}
+
 }

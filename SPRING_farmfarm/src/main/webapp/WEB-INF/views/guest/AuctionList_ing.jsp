@@ -74,7 +74,7 @@ function AuctionProgress(num){
 						</c:if>
 						
 						<!-- 게시글이 없으면 -->
-						<c:if test="${cnt==0}">
+						<c:if test="${newCnt==0}">
 							<tr>
 								<td colspan="9" align="center">경매진행건이 없습니다.!!</td>
 							</tr>
@@ -85,7 +85,7 @@ function AuctionProgress(num){
 			<!-- 펀드 진행내역 끝 -->
 
 			<!-- 페이지 컨트롤 시작 -->
-			<c:if test="${cnt>0 }">
+			<c:if test="${newCnt>0 }">
 				<div class="clearfix"></div>
 				<ul class="pagination pull-right">
 					<c:if test="${startPage > pageBlock}">

@@ -21,8 +21,11 @@ import spring.mvc.farmfarm.dto.BecomeFarmerDTO;
 import spring.mvc.farmfarm.dto.DonateDTO;
 import spring.mvc.farmfarm.dto.DonateListDTO;
 import spring.mvc.farmfarm.dto.FundDTO;
+import spring.mvc.farmfarm.dto.FundListDTO;
 import spring.mvc.farmfarm.dto.MemberDTO;
+import spring.mvc.farmfarm.dto.OrderDTO;
 import spring.mvc.farmfarm.dto.RankingDTO;
+import spring.mvc.farmfarm.dto.ScheduleDTO;
 import spring.mvc.farmfarm.dto.SearchingDTO;
 import spring.mvc.farmfarm.persistence.MemberDAO;
 
@@ -31,6 +34,80 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	MemberDAO dao;
+
+	@Override
+	public void scheduleRun() {
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		ArrayList<ScheduleDTO> dtos = null;
+		Date day = null;
+		int joiner = 0, cnt = 0;
+		HashMap<String, Object> map = new HashMap<>();
+
+		// 경매,펀드 진행중인거 다가져옴
+		dtos = dao.getSchedule();
+		for (int i = 0; i < dtos.size(); i++) {
+			if (dtos.get(i).getAuc_no() != null) {// 해당데이터가 옥션인경우
+				System.out.println("auc");
+				try {
+					String dayAuc = format.format(dtos.get(i).getAuc_endDate());
+					Date dayAuction = format.parse(dayAuc);
+					String date2 = format.format(date);
+					Date today = format.parse(date2);
+					// 해당 데이터와 현재 날짜를 같은형식으로 바꿔서 비교함
+
+					cnt = today.compareTo(dayAuction);
+
+					if (cnt > 0 || cnt < 0) {
+
+					} else {
+						joiner = dao.getAuctionJoiner(dtos.get(i).getAuc_no());
+						map.put("auc_no", dtos.get(i).getAuc_no());
+						// 참여인원이 있는경우 낙찰
+						if (joiner > 0) {
+							map.put("auc_status", 4);
+							dao.scheduleUpdateAuc(map);
+
+							System.out.println("일치,낙찰");
+						}
+						// 참여인원이 없는경우 유찰
+						else {
+							map.put("auc_status", 3);
+							dao.scheduleUpdateAuc(map);
+
+							System.out.println("일치,유찰");
+						}
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			} else if (dtos.get(i).getFund_no() != null) {// 펀드인경우
+				System.out.println("fund");
+				try {
+					String dayFun = format.format(dtos.get(i).getFund_endDate());
+					Date dayFund = format.parse(dayFun);
+					String date2 = format.format(date);
+					Date today = format.parse(date2);
+					// 위와동일
+
+					cnt = today.compareTo(dayFund);
+
+					if (cnt > 0 || cnt < 0) {
+
+					} else {// 펀드는 종료날짜가되면 종료
+						dao.scheduleUpdateFund(dtos.get(i).getFund_no());
+						System.out.println("일치,펀드");
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
 
 	@Override
 	public void LoginPro(HttpServletRequest req, Model model) {
@@ -86,9 +163,10 @@ public class MemberServiceImpl implements MemberService {
 		String address = "";
 		String add1 = req.getParameter("add1");
 		String add2 = req.getParameter("add2");
+		String add3 = req.getParameter("address");
 		// null 처리가 될 경우 방지 체크
-		if (!add1.equals("") && !add2.equals("")) {
-			address = add1 + add2;
+		if (!add1.equals("") && !add2.equals("") && !add3.equals("")) {
+			address = add1 + "," + add2 + "," + add3;
 		}
 
 		dto.setMem_address(address);
@@ -450,13 +528,25 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void AuctionJoin(HttpServletRequest req, Model model) {
 		String auc_no = req.getParameter("auc_no");
+		String userId = (String) req.getSession().getAttribute("userId");
+
 		AuctionDTO dto = null;
 		dto = dao.getAuctionContent(auc_no);
 
 		ArrayList<DonateDTO> donateDtos = null;
 		donateDtos = dao.getDonateList();
 
+		OrderDTO orderDto = null;
+		// 기본주소 가져옴
+		orderDto = dao.getOrderData(userId);
+
+		String[] addrs = orderDto.getMem_address().split(",");
+		// split으로 잘라서 저장
+
+		orderDto.setAddr(addrs);
+		System.out.println(orderDto.getAddr());
 		model.addAttribute("dto", dto);
+		model.addAttribute("orderDto", orderDto);
 		model.addAttribute("donateDtos", donateDtos);
 
 	}
@@ -510,17 +600,11 @@ public class MemberServiceImpl implements MemberService {
 			// member테이블 mem_adv update
 			dao.updateAdv(map2);
 
-			if (check == null)
-				// check==null 즉 처음 입찰이면 join 테이블 insert
-				insertCnt = dao.auctionJoinInsert(map2);
-			else {
-				// check!=null 즉 여러번 입찰이면 join테이블 update, 그리고 update를 위해 join테이블의 키를 받아왔던 check를
-				// map에 추가
-				map2.put("join_no", check);
-				System.out.println(check);
-				System.out.println(nowPrice);
-				insertCnt = dao.auctionJoinUpdate(map2);
-			}
+			// 무조건업데이트
+			insertCnt = dao.auctionJoinInsert(map2);
+
+			// 배송정보 insert
+
 		}
 
 		model.addAttribute("judge", judge);
@@ -621,26 +705,41 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
-	// 펀드상품 상세보긴
-	@Override
-	public void FundProductsContentList(HttpServletRequest req, Model model) {
-		int pageNum = 0;
-		int number = 0;
-		String fund_no = req.getParameter("fund_no");
-		number = Integer.parseInt(req.getParameter("number"));
+	   // 펀드상품 상세보긴
+	   @Override
+	   public void FundProductsContentList(HttpServletRequest req, Model model) {
+	      int pageNum = 0;
+	      int number = 0;
+	      String fund_no = req.getParameter("fund_no");
+	      number = Integer.parseInt(req.getParameter("number"));
 
-		FundDTO dto = new FundDTO();
+	      FundDTO dto = new FundDTO();
+	      AuctionFarmerDTO dto2 = new AuctionFarmerDTO();
 
-		dto = dao.getFundArticle(fund_no);
+	      dto = dao.getFundArticle(fund_no);
 
-		System.out.println("fdddd" + dto.getFund_endDate());
+	      int farmkey = dto.getFarm_key();
+	      System.out.println("팜키~" + farmkey);
 
-		req.setAttribute("fund_endDate", dto.getFund_endDate());
-		// 상세페이지 조회
-		model.addAttribute("dto", dto);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("number", number);
-	}
+	      dto2 = dao.getAuctionFarmer(farmkey);
+
+	      int fcnt = dao.getAuctionFarmerFund(farmkey);
+	      int acnt = dao.getAuctionFarmerAuc(farmkey);
+
+	      System.out.println("fkey" + farmkey);
+	      System.out.println("acnt" + acnt + "fcnt" + fcnt);
+
+	      dto2.setFundCnt(fcnt);
+	      dto2.setAuctionCnt(acnt);
+	      System.out.println("fdddd" + dto.getFund_endDate());
+
+	      req.setAttribute("fund_endDate", dto.getFund_endDate());
+	      // 상세페이지 조회
+	      model.addAttribute("dto", dto);
+	      model.addAttribute("dto2", dto2);
+	      model.addAttribute("pageNum", pageNum);
+	      model.addAttribute("number", number);
+	   }
 
 	@Override
 	public void FundDonateJoin(HttpServletRequest req, Model model) {
@@ -842,18 +941,19 @@ public class MemberServiceImpl implements MemberService {
 		if (selectCnt > 0) {
 			dtos = dao.getAuctionData(userId);
 
-			Date currentTime = new Date();
-			int result = 0;
-			for (int i = 0; i < dtos.size(); i++) {
-				result = currentTime.compareTo(dtos.get(i).getAuc_endDate());
+			int status = 0;
 
-				if (result > 0) {
-					oldDtos.add(dtos.get(i));
-					oldCnt++;
-				} else {
+			for (int i = 0; i < dtos.size(); i++) {
+				status = dtos.get(i).getAuc_status();
+
+				if (status == 2) {
 					newDtos.add(dtos.get(i));
 					newCnt++;
+				} else if (status >= 3) {
+					oldDtos.add(dtos.get(i));
+					oldCnt++;
 				}
+
 			}
 
 		}
@@ -895,4 +995,148 @@ public class MemberServiceImpl implements MemberService {
 
 		model.addAttribute("dtos", dtos);
 	}
+
+	@Override
+	public void AuctionPay(HttpServletRequest req, Model model) {
+		String auc_no = req.getParameter("auc_no");
+		String userId = (String) req.getSession().getAttribute("userId");
+
+		AuctionDTO dto = null;
+		dto = dao.getAuctionContent(auc_no);
+
+		OrderDTO orderDto = null;
+		// 기본주소 가져옴
+		orderDto = dao.getOrderData(userId);
+
+		String[] addrs = orderDto.getMem_address().split(",");
+		// split으로 잘라서 저장
+
+		orderDto.setAddr(addrs);
+		System.out.println(orderDto.getAddr());
+		model.addAttribute("dto", dto);
+		model.addAttribute("orderDto", orderDto);
+
+	}
+
+	@Override
+	public void AuctionPayPro(HttpServletRequest req, Model model) {
+		String addr1 = req.getParameter("add1"); // 우편번호
+		String addr2 = req.getParameter("add2"); // 주소
+		String addr3 = req.getParameter("address"); // 상세주소
+		String userId = (String) req.getSession().getAttribute("userId");
+		String stock_no = req.getParameter("stock_no");
+
+	}
+
+	// 펀드 참여시 기부동시 참여
+	@Override
+	public void FundDonaJoinPro(HttpServletRequest req, Model model) {
+		String doForm_id = req.getParameter("doOrg_id");
+		String userId = (String) req.getSession().getAttribute("userId");
+		String donaPrice = req.getParameter("dona_price");
+		int insertCnt = 0, insertCnt1 = 0, sumPoint = 0, dona_price = 0;
+
+		System.out.println("dona_price:~~~~~~~~~~~" + dona_price);
+		System.out.println("doForm_id:~~~~~~~~~~~" + doForm_id);
+		System.out.println("userId:~~~~~~~~~~~" + userId);
+		// 회원의 총점수 가져오는 부분(guestAdvList메소드 부분을 긁어왔기에 다소복잡해보이기만함)
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", 1);
+		map.put("end", 5);
+		map.put("strId", userId);
+		ArrayList<AdvantageDTO> dtos = dao.getAdv(map);
+		model.addAttribute("dtos", dtos);// 큰바구니 : 게시글 목록 넘김
+
+		if (dtos.size() == 0)
+			sumPoint = 0;
+		else
+			sumPoint = dtos.get(0).getAdv_point();
+
+		if (donaPrice != "") {
+			dona_price = Integer.parseInt(donaPrice);
+			// map2는 실제로 사용하는 맵 이고 map은 sumPoint를 위해 사용한 map
+			Map<String, Object> map2 = new HashMap<String, Object>();
+
+			map2.put("doForm_id", doForm_id);
+			map2.put("userId", userId);
+			map2.put("dona_price", dona_price);
+			map2.put("sumPoint", sumPoint);
+			map2.put("adv_reason", 7);// 기부참여:
+			map2.put("adv_point", 10);// 기부참여시 포인트:10
+			// 현재입찰가격
+			// aucPrice = dao.getNowPrice(auc_no);
+			System.out.println("doForm_id~~~~~~" + doForm_id);
+			System.out.println("userId~~~~~~" + userId);
+			System.out.println("dona_price~~~~~~" + dona_price);
+
+			// member테이블 mem_adv update
+			dao.DonaupdateAdv(map2);
+
+			insertCnt1 = dao.DonaJoinInsert(map2);
+
+			System.out.println(dona_price);
+			insertCnt = dao.DonaJoinUpdate(map2);
+			model.addAttribute("insertCnt1", insertCnt1);
+
+			dao.DonaAdvUpdate(map2);
+		}
+
+		model.addAttribute("insertCnt", insertCnt);
+		model.addAttribute("doForm_id", doForm_id);
+
+	}
+
+	// 회원 펀드 참여내역
+	@Override
+	public void FundList(HttpServletRequest req, Model model) {
+		String userId = (String) req.getSession().getAttribute("userId");
+		ArrayList<FundListDTO> dtos = null;
+		ArrayList<FundListDTO> newDtos = new ArrayList<>();
+		ArrayList<FundListDTO> oldDtos = new ArrayList<>();
+		int selectCnt = 0, oldCnt = 0, newCnt = 0;
+
+		selectCnt = dao.getFundDataCnt(userId);
+
+		System.out.println("selectCnt~~~~~~~" + selectCnt);
+
+		if (selectCnt > 0) {
+			dtos = dao.getFundData(userId);
+
+			int status = 0;
+
+			for (int i = 0; i < dtos.size(); i++) {
+				status = dtos.get(i).getFund_status();
+
+				if (status == 2) {
+					newDtos.add(dtos.get(i));
+					newCnt++;
+
+				} else if (status >= 3) {
+					oldDtos.add(dtos.get(i));
+					oldCnt++;
+				}
+			}
+
+			/*
+			 * for (int i = 0; i < dtos.size(); i++) { result =
+			 * currentTime.compareTo(dtos.get(i).getFund_endDate());
+			 * 
+			 * if (result > 0) { oldDtos.add(dtos.get(i)); oldCnt++; } else {
+			 * newDtos.add(dtos.get(i)); newCnt++; }
+			 * 
+			 * 
+			 * }
+			 */
+		}
+
+		model.addAttribute("newCnt", newCnt);
+		System.out.println("newCnt~~~~~~~~~~~" + newCnt);
+		model.addAttribute("oldCnt", oldCnt);
+		System.out.println("oldCnt~~~~~~~~~~~" + oldCnt);
+		model.addAttribute("oldDtos", oldDtos);
+		System.out.println("oldDtos~~~~~~~~~~~" + oldDtos);
+		model.addAttribute("newDtos", newDtos);
+		System.out.println("newDtos~~~~~~~~~~~" + newDtos);
+	}
+
 }

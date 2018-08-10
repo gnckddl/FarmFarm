@@ -7,6 +7,18 @@
 function AuctionProgress(num){
 	window.open('AuctionProgress?auc_no='+num, 'auction_popup','top=100px, left=100px, height=600px, width=500px, scrollbars=yes');
 }
+
+function pay(num,status){
+	var auc_no=num;
+	if(status!=4){
+		alert("해당 경매가 낙찰 상태가 아닙니다.");
+		return false;
+	}
+	else{
+		window.open('AuctionPay?auc_no='+num, 'pay','top=100px, left=100px, height=600px, width=500px, scrollbars=yes');
+	}
+	
+}
 </script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -44,6 +56,7 @@ function AuctionProgress(num){
 							<th style="width: 10%">본인 참여 횟수</th>
 							<th style="width: 10%">입찰 내역 확인</th>
 							<th style="width: 10%">상태</th>
+							<th style="width: 10%">결제 및 배송</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -66,7 +79,30 @@ function AuctionProgress(num){
 									</td>
 									<td>
 										<button type="button" class="btn btn-round btn-warning">
-											<i> 진행중</i>
+											<i> 
+												<c:choose>
+												    <c:when test="${dto.auc_status==1 }">
+												        미등록
+												    </c:when>
+												    <c:when test="${dto.auc_status==2 }">
+												        진행중
+												    </c:when>
+												    <c:when test="${dto.auc_status==3 }">
+												        유찰
+												    </c:when>
+												    <c:when test="${dto.auc_status==4 }">
+												        낙찰
+												    </c:when>
+												    <c:otherwise>
+												        에러
+												    </c:otherwise>
+												</c:choose>
+											</i>
+										</button>
+									</td>
+									<td>
+										<button type="button" class="btn btn-round btn-warning" onclick="return pay('${dto.auc_no}','${dto.auc_status}');">
+											<i> 결제</i>
 										</button>
 									</td>
 								</tr>
@@ -74,7 +110,7 @@ function AuctionProgress(num){
 						</c:if>
 						
 						<!-- 게시글이 없으면 -->
-						<c:if test="${cnt==0}">
+						<c:if test="${oldCnt==0}">
 							<tr>
 								<td colspan="9" align="center">경매진행건이 없습니다.!!</td>
 							</tr>
@@ -85,7 +121,7 @@ function AuctionProgress(num){
 			<!-- 펀드 진행내역 끝 -->
 
 			<!-- 페이지 컨트롤 시작 -->
-			<c:if test="${cnt>0 }">
+			<c:if test="${oldCnt>0 }">
 				<div class="clearfix"></div>
 				<ul class="pagination pull-right">
 					<c:if test="${startPage > pageBlock}">
